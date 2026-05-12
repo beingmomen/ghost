@@ -1,0 +1,34 @@
+<script setup>
+defineProps({
+  image: {
+    type: Object,
+    required: true
+  },
+  index: {
+    type: Number,
+    required: true
+  }
+})
+</script>
+
+<template>
+  <div
+    class="bg-white dark:bg-neutral-800 p-2 flex flex-col drop-shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105 hover:rotate-0 hover:z-10 focus-within:scale-105 focus-within:rotate-0 focus-within:z-10"
+    :class="[
+      index % 2 === 0 ? '-rotate-5' : 'rotate-5',
+      index % 2 === 0 ? 'hover:-translate-x-4' : 'hover:translate-x-4'
+    ]"
+  >
+    <NuxtImg
+      :src="image.src"
+      :alt="image.alt"
+      width="128"
+      height="128"
+      loading="lazy"
+      class="size-24 sm:size-32 object-cover"
+    />
+    <span class="w-24 sm:w-32 text-xs text-black dark:text-white font-serif font-medium text-center mt-2">
+      {{ image.alt }}
+    </span>
+  </div>
+</template>

@@ -1,0 +1,39 @@
+# عبدالمؤمن الشطوري - Abdelmomen Elshatory
+
+> Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء
+
+## About
+Abdelmomen Elshatory (عبدالمؤمن الشطوري) is a frontend engineer with 5+ years of experience building modern, high-performance web applications with a focus on user experience. Available for freelance projects.
+
+## Skills
+- Vue.js, Nuxt.js, React, TypeScript
+- Tailwind CSS, Nuxt UI
+- Node.js, Express.js, MongoDB
+- Cloudinary, REST APIs
+- RTL/Arabic UI development
+
+## Key Pages
+- Home: https://beingmomen.com/
+- Projects: https://beingmomen.com/projects
+- Blog: https://beingmomen.com/blog
+- About: https://beingmomen.com/about
+- Contact: https://beingmomen.com/contact
+- SDLC Guide (Arabic): https://beingmomen.com/sdlc-ar
+- SDLC Guide (English): https://beingmomen.com/sdlc
+
+## Projects
+- Tiger Academy Dashboard (Nuxt 3, MongoDB, Prisma)
+- Golden Tiger Academy (Nuxt 3, Nuxt UI)
+- STREAMMAXY (JavaScript, jQuery, Bootstrap)
+- Dream TV Player (HTML, CSS, JavaScript)
+- Spider TV (HTML, CSS, JavaScript)
+
+## Contact
+- Email: abdelmomenelshatory@gmail.com
+- GitHub: https://github.com/beingmomen
+- LinkedIn: https://linkedin.com/in/beingmomen
+- Twitter: https://twitter.com/beingmomen
+- Website: https://beingmomen.com
+
+## Blog
+The blog covers web development topics, JavaScript, frontend engineering, and software engineering best practices. Blog posts are available at https://beingmomen.com/blog

@@ -1,0 +1,138 @@
+/* Typography styles for Tiptap Editor — supports light & dark mode */
+
+/* Base editor styles */
+.ProseMirror {
+  @apply text-gray-700 dark:text-gray-200;
+}
+
+/* Headings */
+.ProseMirror h1 {
+  @apply text-5xl font-bold leading-tight mt-8 mb-4 text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror h2 {
+  @apply text-4xl font-semibold leading-snug mt-7 mb-3.5 text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror h3 {
+  @apply text-3xl font-semibold leading-relaxed mt-6 mb-3 text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror h4 {
+  @apply text-2xl font-semibold leading-relaxed mt-5.5 mb-2.5 text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror h5 {
+  @apply text-xl font-semibold leading-relaxed mt-5 mb-2 text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror h6 {
+  @apply text-lg font-semibold leading-relaxed mt-4 mb-2 text-gray-900 dark:text-gray-50;
+}
+
+/* Paragraphs and basic text */
+.ProseMirror p {
+  @apply text-xl leading-9 my-4 text-gray-700 dark:text-gray-200;
+}
+
+/* Lists */
+.ProseMirror ul,
+.ProseMirror ol {
+  @apply my-4 pl-8 text-gray-700 dark:text-gray-200;
+}
+
+.ProseMirror li {
+  @apply my-2 leading-8;
+}
+
+.ProseMirror ul li {
+  @apply list-disc ms-10;
+}
+
+.ProseMirror ol li {
+  @apply list-decimal ms-10;
+}
+
+/* Blockquotes */
+.ProseMirror blockquote {
+  @apply border-gray-300 dark:border-gray-600 my-6 py-2 pl-4 italic text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-950 rounded-md p-5 border-s-4;
+}
+
+/* Code blocks */
+.ProseMirror pre {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-md p-4 my-4 font-mono text-sm overflow-x-auto text-blue-600 dark:text-sky-300;
+  direction: ltr;
+}
+
+.ProseMirror code {
+  @apply bg-gray-100 dark:bg-gray-800 py-0.5 px-1.5 rounded-sm font-mono text-sm text-blue-600 dark:text-sky-300;
+}
+
+/* Links */
+.ProseMirror a {
+  @apply text-blue-500 dark:text-sky-400 underline transition-colors duration-200;
+}
+
+.ProseMirror a:hover {
+  @apply text-blue-600 dark:text-sky-300;
+}
+
+/* Tables */
+.ProseMirror table {
+  @apply border-collapse my-4 w-full;
+}
+
+.ProseMirror th,
+.ProseMirror td {
+  @apply border border-gray-300 dark:border-gray-600 p-2 text-left;
+}
+
+.ProseMirror th {
+  @apply bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-50;
+}
+
+/* Horizontal Rule */
+.ProseMirror hr {
+  @apply border-0 border-t-2 border-gray-300 dark:border-gray-600 my-8;
+}
+
+/* Text Formatting */
+.ProseMirror strong {
+  @apply font-semibold text-gray-900 dark:text-gray-50;
+}
+
+.ProseMirror em {
+  @apply italic;
+}
+
+.ProseMirror s {
+  @apply line-through text-gray-500 dark:text-gray-400;
+}
+
+/* Task Lists */
+.ProseMirror ul[data-type="taskList"] {
+  @apply list-none p-0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  @apply flex items-start my-2;
+}
+
+.ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
+  @apply mt-2 mr-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600;
+}
+
+/* Images */
+.ProseMirror img {
+  @apply max-w-full max-h-100 my-4 rounded-md border border-gray-300 dark:border-gray-600 mx-auto;
+}
+
+/* Editor Focus */
+.ProseMirror:focus {
+  @apply outline-hidden;
+}
+
+/* Selection */
+.ProseMirror ::selection {
+  @apply bg-blue-400/30 text-gray-900 dark:text-gray-50;
+}
