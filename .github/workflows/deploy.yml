@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-website:
+    if: contains(github.event.commits[0].modified, 'apps/website')
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - run: cd apps/website && pnpm install && pnpm build
+      - run: pm2 restart website
+
+  deploy-dashboard:
+    if: contains(github.event.commits[0].modified, 'apps/dashboard')
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - run: cd apps/dashboard && pnpm install && pnpm build
+      - run: pm2 restart dashboard
+
+  deploy-backend:
+    if: contains(github.event.commits[0].modified, 'apps/backend')
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - run: cd apps/backend && pnpm install && pnpm build
+      - run: pm2 restart backend
