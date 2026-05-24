@@ -11,6 +11,7 @@ COPY apps/db/package.json ./apps/db/
 RUN pnpm install --frozen-lockfile --filter ./apps/client
 
 FROM deps AS builder
+ENV NODE_OPTIONS=--max-old-space-size=4096
 COPY apps/client/ ./apps/client/
 RUN pnpm --filter nuxt-ui-template-portfolio build
 

@@ -12,6 +12,7 @@ RUN pnpm install --frozen-lockfile --filter ./apps/db
 FROM deps AS builder
 ARG GIGET_AUTH
 ENV GIGET_AUTH=$GIGET_AUTH
+ENV NODE_OPTIONS=--max-old-space-size=4096
 COPY apps/db/ ./apps/db/
 RUN pnpm --filter my-starter-kit build
 
