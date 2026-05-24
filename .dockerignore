@@ -1,0 +1,10 @@
+**/node_modules
+**/.nuxt
+**/.output
+**/.git
+**/*.log
+**/dist
+**/coverage
+**/playwright-report
+**/.env
+**/.env.*
