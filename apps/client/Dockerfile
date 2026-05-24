@@ -2,6 +2,7 @@ FROM node:20-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.29.3 --activate
 
 FROM base AS deps
+RUN apk add --no-cache python3 make g++
 WORKDIR /app
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/client/package.json ./apps/client/
