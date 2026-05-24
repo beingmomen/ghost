@@ -5,26 +5,29 @@ on:
     branches: [main]
 
 jobs:
-  deploy-website:
-    if: contains(github.event.commits[0].modified, 'apps/website')
+  deploy-client:
+    if: contains(github.event.commits[0].modified, 'apps/client')
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-      - run: cd apps/website && pnpm install && pnpm build
-      - run: pm2 restart website
+      - run: pnpm install
+      - run: pnpm --filter client build
+      - run: pm2 restart client
 
-  deploy-dashboard:
-    if: contains(github.event.commits[0].modified, 'apps/dashboard')
+  deploy-db:
+    if: contains(github.event.commits[0].modified, 'apps/db')
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-      - run: cd apps/dashboard && pnpm install && pnpm build
-      - run: pm2 restart dashboard
+      - run: pnpm install
+      - run: pnpm --filter db build
+      - run: pm2 restart db
 
-  deploy-backend:
-    if: contains(github.event.commits[0].modified, 'apps/backend')
+  deploy-server:
+    if: contains(github.event.commits[0].modified, 'apps/server')
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-      - run: cd apps/backend && pnpm install && pnpm build
-      - run: pm2 restart backend
+      - run: pnpm install
+      - run: pnpm --filter server build
+      - run: pm2 restart server
