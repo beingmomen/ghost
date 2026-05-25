@@ -5,8 +5,28 @@ on:
     branches: [main]
 
 jobs:
+  detect-changes:
+    runs-on: self-hosted
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      db: ${{ steps.filter.outputs.db }}
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            client:
+              - 'apps/client/**'
+            db:
+              - 'apps/db/**'
+            server:
+              - 'apps/server/**'
+
   deploy-client:
-    if: contains(github.event.commits[0].modified, 'apps/client')
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.client == 'true' }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -15,7 +35,8 @@ jobs:
       - run: pm2 restart client
 
   deploy-db:
-    if: contains(github.event.commits[0].modified, 'apps/db')
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.db == 'true' }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -24,7 +45,8 @@ jobs:
       - run: pm2 restart db
 
   deploy-server:
-    if: contains(github.event.commits[0].modified, 'apps/server')
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.server == 'true' }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
