@@ -34,8 +34,7 @@ const faqRouter = require('./routes/faqRoutes');
 
 const app = express();
 
-// Configure trust proxy for serverless environments (Netlify)
-// Trust only the first proxy (Netlify's load balancer)
+// Trust the first reverse proxy (Coolify's Traefik) for correct client IP and protocol.
 app.set('trust proxy', 1);
 
 // Serve static files
