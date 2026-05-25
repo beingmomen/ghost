@@ -1,0 +1,61 @@
+name: Deploy via Coolify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      db: ${{ steps.filter.outputs.db }}
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            client:
+              - 'apps/client/**'
+              - 'pnpm-lock.yaml'
+            db:
+              - 'apps/db/**'
+              - 'pnpm-lock.yaml'
+            server:
+              - 'apps/server/**'
+              - 'pnpm-lock.yaml'
+
+  deploy-db:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.db == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify Deploy (elshatory-db)
+        run: |
+          curl -s -X GET \
+            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=hf5pu8txoa6tkkjqhzegjlrm&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+
+  deploy-client:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.client == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify Deploy (elshatory-web)
+        run: |
+          curl -s -X GET \
+            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=q6fhf875uc3gkeufyhm65t6e&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+
+  deploy-server:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.server == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify Deploy (elshatory-api)
+        run: |
+          curl -s -X GET \
+            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=u1180x2bduzvavpdq8suq4tm&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
