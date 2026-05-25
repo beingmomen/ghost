@@ -54,12 +54,9 @@ pnpm build          # Build for production
 pnpm preview        # Preview production build locally
 ```
 
-### PM2 Deployment
+## Deployment
 
-```bash
-pnpm build
-pm2 start ecosystem.config.cjs
-```
+Deployed to [elshatory-web.beingmomen.com](https://elshatory-web.beingmomen.com) via Coolify (Docker), triggered automatically by the root [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml) on pushes that touch `apps/client/**` or `pnpm-lock.yaml`.
 
 ## Linting
 

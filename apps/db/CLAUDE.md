@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Arabic RTL dashboard application built with Nuxt 4 + Vue 3 Composition API. Consumes an external REST API. Extends a shared base layer at `../my-base-layer` (or via GitHub) that provides auth, layouts, base components, and core composables.
 
-The app is deployed on multiple environments (demo + prod) using PM2 and GitHub Actions with branch-based CI/CD.
+Deployed via Coolify (Docker). Pushes to `main` that touch `apps/db/**` or `pnpm-lock.yaml` trigger an automatic redeploy via the root [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml).
 
 ## Commands
 
@@ -21,10 +21,9 @@ pnpm sync-deps        # Sync dependencies from base layer, then run pnpm install
 
 ### Development Workflow
 
-- **Branch**: Always work on `demo` or create feature branches off `demo`
-- **CI/CD**: Pushes to `demo` and `prod` branches trigger automatic builds and PM2 restarts
-- **Demo URL**: http://localhost:8888 (port 8888 in ecosystem.config.cjs)
-- **Prod URL**: http://localhost:6666 (port 6666 in ecosystem.config.cjs)
+- **Branch**: Work on feature branches off `main` and merge via PR.
+- **CI/CD**: Pushes to `main` trigger Coolify redeploys via the root workflow (only when watched paths change).
+- **Production URL**: https://elshatory-db.beingmomen.com
 
 ## Architecture
 

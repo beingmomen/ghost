@@ -243,9 +243,6 @@ importers:
       qs:
         specifier: ^6.15.0
         version: 6.15.2
-      serverless-http:
-        specifier: ^3.2.0
-        version: 3.2.0
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
@@ -7329,10 +7326,6 @@ packages:
   serve-static@2.2.1:
     resolution: {integrity: sha512-xRXBn0pPqQTVQiC8wyQrKs2MOlX24zQ0POGaj0kultvoOCstBQM5yvOhAVSUwOMjQtTvsPWoNCHfPGwaaQJhTw==}
     engines: {node: '>= 18'}
-
-  serverless-http@3.2.0:
-    resolution: {integrity: sha512-QvSyZXljRLIGqwcJ4xsKJXwkZnAVkse1OajepxfjkBXV0BMvRS5R546Z4kCBI8IygDzkQY0foNPC/rnipaE9pQ==}
-    engines: {node: '>=12.0'}
 
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
@@ -17582,8 +17575,6 @@ snapshots:
       send: 1.2.1
     transitivePeerDependencies:
       - supports-color
-
-  serverless-http@3.2.0: {}
 
   set-function-length@1.2.2:
     dependencies:

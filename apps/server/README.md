@@ -1,6 +1,6 @@
 # Express Project with MongoDB and Mongoose
 
-A robust Express.js backend API with MongoDB integration, featuring advanced authentication, image handling system, validation middleware, and comprehensive security implementations. Built with MVC architecture and ready for production deployment on Netlify or traditional servers.
+A robust Express.js backend API with MongoDB integration, featuring advanced authentication, image handling system, validation middleware, and comprehensive security implementations. Built with MVC architecture and deployed via Coolify (Docker).
 
 ## Recent Updates (v3.0.0)
 
@@ -26,19 +26,11 @@ A robust Express.js backend API with MongoDB integration, featuring advanced aut
 - ✅ **Package Metadata**: Updated author and version information
 - ✅ **Multer Version Update**: Upgraded to multer 2.0.2 for better stability
 
-### Netlify Serverless Deployment
-
-- ✅ **Fully configured for Netlify Functions** with optimized build process
-- ✅ **Automatic dependency installation** during deployment
-- ✅ **MongoDB connection pooling** for serverless environments
-- ✅ **Proper trust proxy configuration** for rate limiting behind load balancers
-- ✅ **External module optimization** (mongoose, express, sharp) for faster builds
-
 ### Security Enhancements
 
 - ✅ **Fixed trust proxy vulnerability**: Changed from `trust proxy: true` to `trust proxy: 1`
-- ✅ **Rate limiting compatibility**: Works correctly with Netlify's load balancer
-- ✅ **IP-based rate limiting**: Properly identifies client IPs in serverless environments
+- ✅ **Rate limiting compatibility**: Works correctly behind Coolify's Traefik proxy
+- ✅ **IP-based rate limiting**: Properly identifies client IPs via `X-Forwarded-For`
 
 ### Bug Fixes & Cleanup
 
@@ -60,8 +52,7 @@ A robust Express.js backend API with MongoDB integration, featuring advanced aut
 - **Error Handling**: Global error handler with custom error classes
 - **API Features**: Filtering, sorting, pagination, field limiting
 - **Code Quality**: ESLint and Prettier configuration
-- **CI/CD**: GitHub Actions workflow for automated deployment
-- **Serverless**: Netlify Functions support with optimized configuration
+- **CI/CD**: GitHub Actions + Coolify API for automated Docker redeploys
 - **Compression**: Response compression for better performance
 - **CORS**: Cross-Origin Resource Sharing support
 - **Logging**: Morgan HTTP request logger with enhanced formatting
@@ -135,12 +126,6 @@ npm run dev
 npm run start:prod
 ```
 
-**Netlify development:**
-
-```bash
-npm run n:dev
-```
-
 **Debug mode:**
 
 ```bash
@@ -180,10 +165,6 @@ express/
 │   ├── categoryModel.js         # Category schema
 │   ├── sectionModel.js          # Section schema
 │   └── userModel.js             # User schema with auth
-├── netlify/
-│   └── functions/
-│       ├── package.json         # Netlify function dependencies
-│       └── server.js            # Serverless function handler
 ├── public/
 │   └── images/
 │       ├── categories/          # Category images (local storage fallback)
@@ -208,7 +189,7 @@ express/
 ├── .eslintrc.json               # ESLint configuration
 ├── .nvmrc                       # Node version specification
 ├── app.js                       # Express app configuration
-├── netlify.toml                 # Netlify deployment configuration
+├── Dockerfile                   # Coolify build configuration
 ├── package.json                 # Project dependencies
 ├── README.md                    # Documentation
 └── server.js                    # Server entry point
@@ -255,7 +236,6 @@ express/
 
 - **@ngrok/ngrok**: ^1.4.1 - Secure tunneling for development
 - **ngrok**: ^5.0.0-beta.2 - Alternative ngrok package
-- **serverless-http**: ^3.2.0 - AWS Lambda and Netlify Functions wrapper
 - **connect-history-api-fallback**: ^2.0.0 - SPA routing support
 
 ### Dev Dependencies
@@ -275,7 +255,6 @@ npm start              # Start production server
 npm run dev            # Start development server with nodemon
 npm run start:prod     # Start production server with NODE_ENV=production
 npm run debug          # Start server with ndb debugger
-npm run n:dev          # Start Netlify functions dev server
 npm run build          # Build public assets
 npm run format         # Format code with Prettier
 npm run format:check   # Check code formatting
@@ -379,9 +358,8 @@ Comprehensive security implementation with production-ready configurations:
 - **JWT Authentication**: Secure token-based authentication
 - **Password Hashing**: Bcrypt with salt rounds
 - **Rate Limiting**: Prevent brute force attacks (100 req/hour per IP)
-  - Configured for serverless environments
-  - Proper trust proxy settings (`trust proxy: 1`)
-  - Validates real client IPs behind Netlify's load balancer
+  - `trust proxy: 1` so `X-Forwarded-For` from Coolify's Traefik is honored
+  - Real client IPs identified correctly behind the reverse proxy
 - **Helmet**: Security HTTP headers with Content Security Policy
   - XSS Protection
   - Frame Options (DENY)
@@ -393,17 +371,16 @@ Comprehensive security implementation with production-ready configurations:
 - **Data Sanitization**: NoSQL injection prevention with express-mongo-sanitize
 - **HPP Protection**: HTTP parameter pollution prevention
 - **Input Validation**: Express-validator middleware for request validation
-- **Proxy Security**: Correctly configured for Netlify and reverse proxy environments
+- **Proxy Security**: Correctly configured to trust Coolify's Traefik reverse proxy
 
 ### 8. CI/CD Pipeline
 
-GitHub Actions workflow (`.github/workflows/node.js.yml`) for:
+Root workflow [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml):
 
-- Automated deployment to demo/production environments
-- Self-hosted runners support
-- Environment-specific configuration
-- PM2 process management
-- pnpm package manager support
+- Triggered on push to `main` when `apps/server/**` or `pnpm-lock.yaml` changes
+- Runs on GitHub-hosted runners (Ubuntu)
+- Calls Coolify API to redeploy `elshatory-api` (UUID is wired in the workflow)
+- No self-hosted runner, no PM2 — Coolify rebuilds the Docker image and rolls it out
 
 ## Development
 
@@ -484,209 +461,70 @@ GET /api/v1/categories?page=2&limit=10
 
 ## Deployment
 
-### Netlify Functions (Recommended for Serverless)
+Deployed to [elshatory-api.beingmomen.com](https://elshatory-api.beingmomen.com) via Coolify on a self-hosted VPS. Coolify builds the Docker image from `apps/server/Dockerfile` and runs it behind Traefik (which terminates SSL via Let's Encrypt).
 
-The project is fully configured for serverless deployment on Netlify with optimized settings:
+### Automated Flow
 
-#### Configuration Files
+```
+git push → GitHub Actions detects apps/server/** change
+        → curl Coolify deploy API (UUID + bearer token)
+        → Coolify pulls repo, builds Dockerfile, swaps container
+```
 
-- **[netlify.toml](netlify.toml)**: Main configuration file with build settings
-- **[netlify/functions/server.js](netlify/functions/server.js)**: Serverless function handler
-- **[netlify/functions/package.json](netlify/functions/package.json)**: Function-specific dependencies
+Workflow lives at the monorepo root: [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml). It runs on GitHub-hosted Ubuntu runners — no self-hosted runner required.
 
-#### Deployment Steps
+### Required Environment Variables (set in Coolify dashboard)
 
-1. **Connect to Netlify**:
-   - Link your repository to Netlify via Git integration
-   - Or use Netlify CLI: `netlify deploy`
+```env
+NODE_ENV=production
+PORT=1234
+DATABASE_ATLAS=mongodb+srv://...      # MongoDB Atlas connection string
+JWT_SECRET=<64-byte hex>
+JWT_EXPIRES_IN=5h
+JWT_COOKIE_EXPIRES_IN=5
+EMAIL_FROM=noreply@yourdomain.com
+STAMP_MAIL=your@gmail.com
+STAMP_PASSWORD=<gmail app password>
+FRONTEND_URL=https://elshatory-web.beingmomen.com
+CLOUDINARY_CLOUD_NAME=<...>
+CLOUDINARY_API_KEY=<...>
+CLOUDINARY_API_SECRET=<...>
+CLOUDINARY_UPLOAD_PRESET=<...>
+APP_NAME=<...>
+MANAGER=<...>
+```
 
-2. **Environment Variables**:
-   Set these in Netlify Dashboard → Site Settings → Environment Variables:
+### Manual Redeploy
 
-   ```env
-   NODE_ENV=production
-   DATABASE_ATLAS=your_mongodb_atlas_connection_string
-   JWT_SECRET=your_jwt_secret_key_min_32_chars
-   JWT_EXPIRES_IN=90d
-   JWT_COOKIE_EXPIRES_IN=90
-   EMAIL_USERNAME=your_email_username
-   EMAIL_PASSWORD=your_email_password
-   EMAIL_HOST=your_email_host
-   EMAIL_PORT=your_email_port
-   EMAIL_FROM=noreply@yourdomain.com
-   FRONTEND_URL=https://your-frontend-url.com
-   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-   CLOUDINARY_API_KEY=your_cloudinary_api_key
-   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   CLOUDINARY_UPLOAD_PRESET=your_app_name
-   ```
+If GitHub Actions is unavailable, trigger a redeploy directly:
 
-3. **Build Settings** (automatically configured in [netlify.toml](netlify.toml)):
-   - Build command: `cd netlify/functions && npm install && cd ../..`
-   - Functions directory: `netlify/functions`
-   - Publish directory: `public`
-
-4. **Deploy**:
-
-   ```bash
-   # Production deployment
-   git push origin main
-
-   # Or manual deploy via CLI
-   netlify deploy --prod
-   ```
-
-#### How It Works
-
-- **Automatic Dependency Installation**: The build command installs dependencies in `netlify/functions/` before deployment
-- **Database Connection**: Uses MongoDB connection pooling optimized for serverless
-- **External Modules**: `mongoose`, `express`, and `sharp` are configured as external modules for faster builds
-- **Redirects**: All routes redirect to `/.netlify/functions/server`
-- **Memory**: Function memory set to 1024MB for handling image processing
-- **Timeout**: 10 seconds timeout for API requests
-
-#### Important Notes
-
-- **MongoDB Atlas**: Use MongoDB Atlas (cloud) instead of local MongoDB
-- **Cloudinary**: The project uses Cloudinary for image storage - images are stored in the cloud, not on Netlify's ephemeral file system
-- **Image Storage**: Cloudinary is already integrated and configured - no need for additional storage setup
-- **Environment Variables**: Never commit `.env` - use Netlify's environment variable management
-- **Cold Starts**: First request may be slower due to serverless cold starts
-- **Cloudinary Account**: Sign up for a free Cloudinary account at https://cloudinary.com to get your API credentials
-
-### Traditional Hosting (VPS/Cloud Instances)
-
-For traditional hosting on servers like DigitalOcean, AWS EC2, or VPS:
-
-1. **Set up MongoDB**:
-
-   ```bash
-   # Install MongoDB or use MongoDB Atlas
-   # Configure connection string in .env
-   ```
-
-2. **Configure environment variables**:
-
-   ```bash
-   # Create .env in project root
-   cp .env.example .env
-   # Edit with your values
-   ```
-
-3. **Install PM2 for process management**:
-
-   ```bash
-   npm install -g pm2
-   pm2 start server.js --name "express-api"
-   pm2 save
-   pm2 startup
-   ```
-
-4. **Set up Nginx as reverse proxy** (recommended):
-
-   ```nginx
-   server {
-       listen 80;
-       server_name your-domain.com;
-
-       location / {
-           proxy_pass http://localhost:1234;
-           proxy_http_version 1.1;
-           proxy_set_header Upgrade $http_upgrade;
-           proxy_set_header Connection 'upgrade';
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-           proxy_cache_bypass $http_upgrade;
-       }
-   }
-   ```
-
-### CI/CD with GitHub Actions
-
-The project includes a workflow for automated deployment to self-hosted servers:
-
-- **Demo Environment**: Pushes to `main` branch deploy automatically
-- **Production Environment**: Pushes to `prod` branch deploy to production
-- **Process Manager**: Uses PM2 for zero-downtime deployments
-- **Package Manager**: Configured for pnpm (can be changed to npm)
-
-#### Setup GitHub Secrets
-
-Configure these secrets in GitHub → Settings → Secrets:
-
-- **`ENV_DEMO`**: Demo environment variables (entire `.env` content)
-- **`ENV_PROD`**: Production environment variables (optional, for prod branch)
-
-#### Workflow Configuration
-
-See [.github/workflows/node.js.yml](.github/workflows/node.js.yml) for the complete CI/CD setup.
+```bash
+curl -X GET \
+  "https://coolify.beingmomen.com/api/v1/deploy?uuid=<APP_UUID>&force=false" \
+  -H "Authorization: Bearer $COOLIFY_ACCESS_TOKEN"
+```
 
 ## Troubleshooting
 
-### Netlify Deployment Issues
+### Coolify Deployment Issues
 
-#### "Cannot find module 'mongoose'" Error
+#### Deploy doesn't trigger after push
 
-**Problem**: Runtime error when calling API endpoints on Netlify.
+1. Verify the changed paths actually match `apps/server/**` or `pnpm-lock.yaml` in [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml)
+2. Check the workflow run on GitHub — if it ran and the curl step succeeded, the issue is downstream in Coolify
+3. View deployment logs in the Coolify dashboard for `elshatory-api`
 
-**Solution**: This is fixed in the latest version. The [netlify.toml](netlify.toml) includes a build command that installs dependencies:
+#### Build fails inside Coolify
 
-```toml
-[build]
-  command = "cd netlify/functions && npm install && cd ../.."
-```
-
-If you still encounter this:
-
-1. Verify `netlify/functions/package.json` exists with all dependencies
-2. Check Netlify build logs to ensure dependencies are installed
-3. Redeploy after clearing build cache
+- Confirm the Dockerfile path in the Coolify app matches `apps/server/Dockerfile`
+- Ensure all required env vars are set as **build-time** in Coolify (not only runtime) if the Dockerfile uses them at build
+- Check VPS RAM — Nuxt builds for `apps/client` / `apps/db` running in parallel can OOM the server
 
 #### Trust Proxy Rate Limiting Error
 
 **Problem**: `ERR_ERL_PERMISSIVE_TRUST_PROXY` validation error.
 
-**Solution**: Already fixed in [app.js:25](app.js#L25). The app uses `trust proxy: 1` instead of `true`:
-
-```javascript
-// Configure trust proxy for serverless environments (Netlify)
-// Trust only the first proxy (Netlify's load balancer)
-app.set('trust proxy', 1);
-```
-
-This configuration:
-
-- Trusts only Netlify's first proxy layer
-- Prevents IP spoofing attacks
-- Allows rate limiting to work correctly with real client IPs
-
-#### Function Timeout
-
-**Problem**: API requests timeout after 10 seconds.
-
-**Solutions**:
-
-- Optimize database queries (add indexes)
-- Reduce image processing time
-- Increase timeout in [netlify.toml](netlify.toml#L13):
-  ```toml
-  [functions.server]
-    timeout = 26  # Maximum allowed is 26 seconds
-  ```
-
-#### Cold Start Delays
-
-**Problem**: First request takes 3-5 seconds.
-
-**Expected Behavior**: Serverless functions "sleep" when inactive and "wake up" on first request.
-
-**Mitigation**:
-
-- Use Netlify's "Keep Functions Warm" feature (paid plans)
-- Implement a ping endpoint and use a cron job to keep function warm
-- Accept cold starts as normal serverless behavior
+**Solution**: `app.js` uses `trust proxy: 1` (not `true`) so only Coolify's Traefik proxy is trusted. Do not change this to `true` — it would allow IP spoofing via forged `X-Forwarded-For` headers.
 
 ### MongoDB Connection Issues
 
@@ -697,15 +535,14 @@ mongosh
 # Verify connection string in .env
 DATABASE=mongodb://localhost:27017/your-database
 
-# For MongoDB Atlas (Netlify deployment)
+# For MongoDB Atlas (production)
 DATABASE_ATLAS=mongodb+srv://username:<password>@cluster.mongodb.net/database
 ```
 
 **Common Issues**:
 
-- **IP Whitelist**: Add `0.0.0.0/0` to MongoDB Atlas IP whitelist for Netlify
-- **Connection Pooling**: The serverless handler reuses connections (see [netlify/functions/server.js](netlify/functions/server.js#L15))
-- **Timeout**: Increase `serverSelectionTimeoutMS` if deployment is slow
+- **IP Whitelist**: Whitelist the Coolify VPS IP (or `0.0.0.0/0` if static IP isn't fixed) in MongoDB Atlas
+- **Timeout**: Increase `serverSelectionTimeoutMS` if connection is slow on cold container starts
 
 ### Rate Limiting Issues
 
@@ -743,7 +580,7 @@ const limiter = rateLimit({
 - Ensure `public/images/` directories exist
 - Check file permissions (755 for directories, 644 for files)
 - Verify multer and sharp are installed correctly
-- **Netlify Note**: Local file uploads don't persist on serverless deployments
+- **Docker Note**: Files written to the local filesystem are lost on container rebuild — use Cloudinary in production
 
 ### Email Not Sending
 

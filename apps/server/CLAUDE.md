@@ -95,9 +95,9 @@ Mongoose schemas use:
 
 `APIFeatures` class chains `.filter()`, `.sort()`, `.limitFields()`, `.paginate()`, `.search()` onto a Mongoose query. Used in `handlerFactory.getAll`.
 
-### Serverless Support
+### Reverse Proxy Trust
 
-The app supports both traditional Node server (`server.js`) and Netlify Functions (`netlify/functions/server.js`). `app.js` sets `trust proxy: 1` for this reason.
+`app.js` sets `trust proxy: 1` so Express honors the `X-Forwarded-*` headers added by Coolify's Traefik proxy (correct client IP, HTTPS detection, rate limiting).
 
 ## Deployment
 
