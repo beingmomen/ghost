@@ -11,6 +11,14 @@ COPY apps/db/package.json ./apps/db/
 RUN pnpm install --frozen-lockfile --filter ./apps/client
 
 FROM deps AS builder
+ARG BASE_URL
+ARG SITE_URL
+ARG CLOUDINARY_CLOUD_NAME
+ARG CLOUDINARY_URL
+ENV BASE_URL=$BASE_URL
+ENV SITE_URL=$SITE_URL
+ENV CLOUDINARY_CLOUD_NAME=$CLOUDINARY_CLOUD_NAME
+ENV CLOUDINARY_URL=$CLOUDINARY_URL
 ENV NODE_OPTIONS=--max-old-space-size=4096
 COPY apps/client/ ./apps/client/
 RUN pnpm --filter nuxt-ui-template-portfolio build
@@ -20,4 +28,5 @@ WORKDIR /app
 COPY --from=builder /app/apps/client/.output ./.output
 EXPOSE 3000
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max-old-space-size=2048
 CMD ["node", ".output/server/index.mjs"]
