@@ -16,6 +16,8 @@ npm run format:check # Check formatting without changes
 
 No test framework is configured in this project.
 
+> **Note**: This app lives in a pnpm workspace. Run commands with `pnpm` (not `npm`) from the monorepo root using `pnpm dev:server`, or from `apps/server/` directly.
+
 ## Environment Setup
 
 Copy `.env` to the project root (not tracked by git). Required variables:
@@ -96,6 +98,13 @@ Mongoose schemas use:
 ### Serverless Support
 
 The app supports both traditional Node server (`server.js`) and Netlify Functions (`netlify/functions/server.js`). `app.js` sets `trust proxy: 1` for this reason.
+
+## Deployment
+
+Deployed via Coolify on `elshatory-api.beingmomen.com` using `apps/server/Dockerfile`.
+
+- Runs on port **1234** (set via `PORT` env var)
+- Auto-deploy triggers on: `apps/server/**` or `pnpm-lock.yaml` changes
 
 ## Adding a New Resource
 

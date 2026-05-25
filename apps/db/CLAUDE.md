@@ -144,34 +144,16 @@ staticPrefixes: ['/images']                // Static asset paths (backend origin
 - Allow arbitrary hostnames — always update `fileAllowedHosts` for new CDNs
 - Store user-provided URLs directly — always normalize via `normalizeAvatarSrc()` and validate
 
-## Deployment & Environments
+## Deployment
 
-### PM2 Configuration (`ecosystem.config.cjs`)
+Deployed via Coolify on `elshatory-db.beingmomen.com` using `apps/db/Dockerfile`.
 
-Two PM2 apps configured for different environments:
-- **`demo-db`** → Port 8888 (demo environment)
-- **`db`** → Port 6666 (production environment)
+**GIGET_AUTH**: The app extends a private GitHub base layer. `GIGET_AUTH` must be set as a **build-time** env var in Coolify so Nuxt can fetch the layer during `nuxt build`. Without it the build fails.
 
-Both run as `fork` mode with `NODE_ENV=production`.
+**Do NOT deploy simultaneously with `apps/client`** — concurrent Nuxt builds exhaust VPS RAM. Deploy sequentially.
 
-### CI/CD Workflow (`.github/workflows/node.js.yml`)
-
-**Triggers**: Pushes to `demo` or `prod` branches only (no auto-deploy on other branches).
-
-**Demo branch (`demo`)**:
-1. Checks out code
-2. Installs dependencies (`pnpm install`)
-3. Creates `.env` from `vars.ENV_DEMO` GitHub variable
-4. Builds project (`pnpm build`)
-5. Restarts PM2 app: `pm2 startOrRestart ecosystem.config.cjs --only demo-db --update-env`
-
-**Prod branch (`prod`)**:
-- Same flow, but restarts PM2 app: `pm2 startOrRestart ecosystem.config.cjs --only db --update-env`
-
-**Notes**:
-- Runs on self-hosted runners (tagged `[self-hosted, demo]` and `[self-hosted, prod]`)
-- Requires `vars.ENV_DEMO` and `vars.ENV_PROD` to be set in GitHub Actions secrets/variables
-- PM2 app names must match ecosystem.config.cjs exactly
+- Node heap at build: `NODE_OPTIONS=--max-old-space-size=4096`
+- Auto-deploy triggers on: `apps/db/**` or `pnpm-lock.yaml` changes
 
 ### Syncing Dependencies from Base Layer
 

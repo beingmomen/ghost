@@ -161,6 +161,13 @@ app/components/
 
 ## Deployment
 
-- PM2 config: `ecosystem.config.cjs`
-- Node version: `.nvmrc` (v24.13.0)
+Deployed via Coolify on `elshatory-web.beingmomen.com` using `apps/client/Dockerfile`.
+
+**Critical — build-time env vars**: `nuxt.config.ts` bakes `BASE_URL` into the CSP `connect-src` header at build time. If `BASE_URL` is set as runtime-only in Coolify, browser API calls will be blocked. Always set these as **build-time + runtime** in Coolify:
+- `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_URL`
+
+**Do NOT deploy simultaneously with `apps/db`** — concurrent Nuxt builds exhaust VPS RAM. Deploy sequentially.
+
 - Route rules: Static pages prerendered, blog uses SWR caching
+- Node heap at build: `NODE_OPTIONS=--max-old-space-size=4096`
+- Node heap at runtime: `NODE_OPTIONS=--max-old-space-size=2048`
