@@ -69,24 +69,6 @@ export const useSidebar = () => {
         to: '/testimonials'
       }
     ],
-    // الوظائف
-    [
-      {
-        label: 'بحث الوظائف',
-        icon: 'i-lucide-search',
-        to: '/job-search'
-      },
-      {
-        label: 'الوظائف',
-        icon: 'i-lucide-briefcase-business',
-        to: '/jobs'
-      },
-      {
-        label: 'الملف المهني',
-        icon: 'i-lucide-user-check',
-        to: '/career-profile'
-      }
-    ],
     // النظام
     [
       {

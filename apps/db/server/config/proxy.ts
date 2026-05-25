@@ -11,13 +11,7 @@ export const proxyConfig = {
     '/users',
     '/infos',
     '/experiences',
-    '/faqs',
-    '/career-profile',
-    '/job-sources',
-    '/job-search-runs',
-    '/jobs',
-    '/manual-jobs',
-    '/resume-drafts'
+    '/faqs'
   ],
   staticPrefixes: [
     '/images'
