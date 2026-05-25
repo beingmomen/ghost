@@ -39,6 +39,7 @@ jobs:
     if: needs.detect-changes.outputs.server == 'true'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy elshatory-api
         uses: ./.github/actions/coolify-deploy
         with:
@@ -54,6 +55,7 @@ jobs:
       (needs.deploy-server.result == 'success' || needs.deploy-server.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy elshatory-db
         uses: ./.github/actions/coolify-deploy
         with:
@@ -69,6 +71,7 @@ jobs:
       (needs.deploy-db.result == 'success' || needs.deploy-db.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy elshatory-web
         uses: ./.github/actions/coolify-deploy
         with:
