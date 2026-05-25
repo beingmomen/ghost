@@ -30,35 +30,48 @@ jobs:
               - 'apps/server/**'
               - 'pnpm-lock.yaml'
 
-  deploy-db:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.db == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Coolify Deploy (elshatory-db)
-        run: |
-          curl -s -X GET \
-            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=hf5pu8txoa6tkkjqhzegjlrm&force=false" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
-
-  deploy-client:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.client == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Coolify Deploy (elshatory-web)
-        run: |
-          curl -s -X GET \
-            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=q6fhf875uc3gkeufyhm65t6e&force=false" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+  # Order: server (lightweight Node) → db (Nuxt, heavy) → client (Nuxt, heavy)
+  # Each job waits for Coolify to finish before the next starts, so concurrent
+  # Nuxt builds never run on the VPS (each needs ~4GB RAM).
 
   deploy-server:
     needs: detect-changes
     if: needs.detect-changes.outputs.server == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Coolify Deploy (elshatory-api)
-        run: |
-          curl -s -X GET \
-            "${{ secrets.COOLIFY_BASE_URL }}/api/v1/deploy?uuid=u1180x2bduzvavpdq8suq4tm&force=false" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+      - name: Deploy elshatory-api
+        uses: ./.github/actions/coolify-deploy
+        with:
+          uuid: u1180x2bduzvavpdq8suq4tm
+          base_url: ${{ secrets.COOLIFY_BASE_URL }}
+          token: ${{ secrets.COOLIFY_TOKEN }}
+
+  deploy-db:
+    needs: [detect-changes, deploy-server]
+    if: |
+      always() &&
+      needs.detect-changes.outputs.db == 'true' &&
+      (needs.deploy-server.result == 'success' || needs.deploy-server.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy elshatory-db
+        uses: ./.github/actions/coolify-deploy
+        with:
+          uuid: hf5pu8txoa6tkkjqhzegjlrm
+          base_url: ${{ secrets.COOLIFY_BASE_URL }}
+          token: ${{ secrets.COOLIFY_TOKEN }}
+
+  deploy-client:
+    needs: [detect-changes, deploy-db]
+    if: |
+      always() &&
+      needs.detect-changes.outputs.client == 'true' &&
+      (needs.deploy-db.result == 'success' || needs.deploy-db.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy elshatory-web
+        uses: ./.github/actions/coolify-deploy
+        with:
+          uuid: q6fhf875uc3gkeufyhm65t6e
+          base_url: ${{ secrets.COOLIFY_BASE_URL }}
+          token: ${{ secrets.COOLIFY_TOKEN }}
