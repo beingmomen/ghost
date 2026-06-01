@@ -24,6 +24,9 @@ pnpm lint:fix     # Run ESLint with auto-fix
 Pages → Composables → useApiRequest → $api plugin → Backend API
 ```
 
+Inspect live content: `curl "$(grep ^BASE_URL apps/client/.env | cut -d= -f2-)/landing" | jq '.data'`
+(`BASE_URL` points to the local server — `pnpm dev:server` must be running).
+
 - `app/plugins/api.ts` — Creates `$api` helper with base URL from runtimeConfig
 - `app/composables/useApiRequest.js` — Generic HTTP request wrapper with error handling
 - `app/composables/useAPI.ts` — `useFetch` wrapper with `$api` client

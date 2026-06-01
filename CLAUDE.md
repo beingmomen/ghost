@@ -32,6 +32,10 @@ pnpm build:db
 > machine, prefer running fewer apps at a time. Ports come from each app's `.env`
 > (`PORT`), so `pnpm dev` may show different ports than the defaults above.
 
+> **Gotcha:** A crashed/leftover Nuxt session holds a dev lock — `pnpm dev` then fails
+> with "Another Nuxt dev is already running". Fix: `NUXT_IGNORE_LOCK=1 pnpm dev`, or kill
+> stale procs: `pkill -f "Beingmomen/apps/.*nuxt.mjs dev"`. Affects client + db (both Nuxt).
+
 ## Deployment
 
 Each app has its own Dockerfile and deploys independently via Coolify on push to `main`.
