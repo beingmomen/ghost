@@ -31,6 +31,7 @@ const landingRouter = require('./routes/landingRoutes');
 const buildProjectRouter = require('./routes/buildProjectRoutes');
 const experienceRouter = require('./routes/experienceRoutes');
 const faqRouter = require('./routes/faqRoutes');
+const roadmapRouter = require('./routes/roadmapRoutes');
 
 const app = express();
 
@@ -156,6 +157,7 @@ app.use('/api/v1/landing', landingRouter);
 app.use('/api/v1/build-project', buildProjectRouter);
 app.use('/api/v1/experiences', experienceRouter);
 app.use('/api/v1/faqs', faqRouter);
+app.use('/api/v1/roadmap', roadmapRouter);
 
 // Handle 404 for API routes
 app.all('/api/*', (req, res, next) => {

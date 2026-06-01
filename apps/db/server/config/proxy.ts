@@ -11,7 +11,8 @@ export const proxyConfig = {
     '/users',
     '/infos',
     '/experiences',
-    '/faqs'
+    '/faqs',
+    '/roadmap'
   ],
   staticPrefixes: [
     '/images'

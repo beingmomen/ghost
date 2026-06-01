@@ -54,6 +54,11 @@ export const useSidebar = () => {
         label: 'الأسئلة الشائعة',
         icon: 'i-lucide-help-circle',
         to: '/faqs'
+      },
+      {
+        label: 'مسار التعلم',
+        icon: 'i-lucide-trending-up',
+        to: '/learning-roadmap'
       }
     ],
     // الوارد

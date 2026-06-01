@@ -37,6 +37,16 @@ const {
   updateExperienceRules
 } = require('./experience.validator');
 const { createFaqRules, updateFaqRules } = require('./faq.validator');
+const {
+  createPhaseRules,
+  updatePhaseRules,
+  createWeekRules,
+  updateWeekRules,
+  createTaskRules,
+  updateTaskRules,
+  updateSettingsRules,
+  reorderRules
+} = require('./roadmap.validator');
 
 module.exports = {
   validate,
@@ -69,5 +79,13 @@ module.exports = {
   createExperienceRules,
   updateExperienceRules,
   createFaqRules,
-  updateFaqRules
+  updateFaqRules,
+  createPhaseRules,
+  updatePhaseRules,
+  createWeekRules,
+  updateWeekRules,
+  createTaskRules,
+  updateTaskRules,
+  updateSettingsRules,
+  reorderRules
 };
