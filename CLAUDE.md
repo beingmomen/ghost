@@ -38,14 +38,20 @@ pnpm build:db
 
 ## Deployment
 
-Each app has its own Dockerfile and deploys independently via Coolify on push to `main`.
+Each app has its own Dockerfile and deploys independently via Coolify's built-in
+**Auto Deploy** on push to `main`. A private GitHub App (`comfortable-capuchin-z122lc1l6`)
+sends the push webhook; Coolify filters by each app's watch_paths. No GitHub Actions.
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 **Auto-deploy triggers (watch_paths):**
 - `apps/client/**` or `pnpm-lock.yaml` → redeploys client
 - `apps/server/**` or `pnpm-lock.yaml` → redeploys server
 - `apps/db/**` or `pnpm-lock.yaml` → redeploys db
 
-**IMPORTANT — Deploy sequentially, never simultaneously.** Concurrent Nuxt builds exhaust VPS RAM (each needs ~4GB heap). If both client and db need redeploying, trigger one and wait for it to finish before triggering the other.
+**IMPORTANT — builds must never run concurrently.** Concurrent Nuxt builds exhaust
+VPS RAM (each needs ~4GB heap). This is enforced by the Coolify server setting
+`concurrent_builds = 1`, which queues builds one at a time even when one push touches
+multiple apps. Do NOT raise it.
 
 ### Dockerfiles
 
