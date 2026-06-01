@@ -8,6 +8,9 @@ const { data: agents } = await useAsyncData('agents-list', () => {
   return queryCollection('agents').order('created_at', 'DESC').all()
 })
 
+// أدوات الإدارة (إضافة/تحديد/حذف) تظهر في بيئة التطوير فقط
+const dev = import.meta.dev
+
 const activeCategory = ref('all')
 const selectedAgents = ref(new Set())
 
@@ -117,7 +120,10 @@ async function deleteSelected() {
         description: 'text-center'
       }"
     >
-      <template #links>
+      <template
+        v-if="dev"
+        #links
+      >
         <div class="flex justify-center">
           <UButton
             to="/agents/new"
@@ -154,7 +160,7 @@ async function deleteSelected() {
 
       <!-- Select All Bar -->
       <div
-        v-if="filteredAgents.length"
+        v-if="dev && filteredAgents.length"
         class="flex items-center justify-between mb-4"
       >
         <UButton
@@ -178,7 +184,10 @@ async function deleteSelected() {
           class="group relative"
         >
           <!-- Checkbox -->
-          <div class="absolute top-2 start-2 z-10 min-w-11 min-h-11 flex items-center justify-center">
+          <div
+            v-if="dev"
+            class="absolute top-2 start-2 z-10 min-w-11 min-h-11 flex items-center justify-center"
+          >
             <UCheckbox
               :model-value="selectedAgents.has(agent.path)"
               @update:model-value="toggleAgent(agent.path)"
@@ -194,7 +203,7 @@ async function deleteSelected() {
               class="h-full transition-all duration-200 hover:shadow-lg hover:border-primary/50 hover:ring-1 hover:ring-primary/20 focus-within:ring-2 focus-within:ring-primary"
               :class="{ 'ring-1 ring-primary/40 border-primary/50': selectedAgents.has(agent.path) }"
             >
-              <div class="space-y-3 ps-8">
+              <div :class="['space-y-3', { 'ps-8': dev }]">
                 <h3 class="text-lg font-semibold group-hover:text-primary transition-colors">
                   {{ agent.title }}
                 </h3>
@@ -227,6 +236,7 @@ async function deleteSelected() {
           لا توجد Agents
         </p>
         <UButton
+          v-if="dev"
           to="/agents/new"
           label="أضف أول Agent"
           variant="outline"
@@ -244,7 +254,7 @@ async function deleteSelected() {
         leave-to-class="opacity-0 translate-y-4"
       >
         <div
-          v-if="hasSelection"
+          v-if="dev && hasSelection"
           class="fixed bottom-6 start-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-3 rounded-full bg-elevated border border-default shadow-xl backdrop-blur-sm"
           aria-live="polite"
         >
@@ -264,6 +274,7 @@ async function deleteSelected() {
 
       <!-- Delete Confirmation Modal -->
       <UModal
+        v-if="dev"
         :open="showDeleteConfirm"
         @update:open="showDeleteConfirm = $event"
       >

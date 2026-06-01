@@ -126,6 +126,14 @@ Features:
 - Delete servers
 - Each server page includes: description, available tools, installation steps, usage examples
 
+## Documentation
+
+Project docs live under `docs/` (Arabic, RTL):
+
+- [`docs/WEBSITE_REVIEW_2026-06.md`](docs/WEBSITE_REVIEW_2026-06.md) — Visitor-experience review and the improvements implemented (technical-content dropdown, dev-only admin UIs, naming unification, dead-code removal, unified `pnpm dev`).
+- [`docs/IMPROVEMENTS.md`](docs/IMPROVEMENTS.md) — Earlier batch of improvements + architecture/conventions guide.
+- [`docs/STATIC_DATA_REPORT.md`](docs/STATIC_DATA_REPORT.md) — Inventory of all static (non-API) data.
+
 ## License
 
 All rights reserved.

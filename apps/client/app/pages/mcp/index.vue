@@ -8,6 +8,10 @@ const { data: servers } = await useAsyncData('mcp-servers', () => {
   return queryCollection('mcp').order('created_at', 'DESC').all()
 })
 
+// أدوات الإدارة (إضافة/حذف) تظهر في بيئة التطوير فقط.
+// التحديد وتحميل .mcp.json يبقيان متاحين للزوار.
+const dev = import.meta.dev
+
 const activeCategory = ref('all')
 const selectedServers = ref(new Set())
 
@@ -135,7 +139,10 @@ function downloadMcpJson() {
         description: 'text-center'
       }"
     >
-      <template #links>
+      <template
+        v-if="dev"
+        #links
+      >
         <div class="flex justify-center">
           <UButton
             to="/mcp/new"
@@ -250,6 +257,7 @@ function downloadMcpJson() {
           لا توجد خوادم
         </p>
         <UButton
+          v-if="dev"
           to="/mcp/new"
           label="أضف أول خادم"
           variant="outline"
@@ -281,6 +289,7 @@ function downloadMcpJson() {
             @click="downloadMcpJson"
           />
           <UButton
+            v-if="dev"
             icon="i-lucide-trash-2"
             label="حذف"
             size="sm"
@@ -293,6 +302,7 @@ function downloadMcpJson() {
 
       <!-- Delete Confirmation Modal -->
       <UModal
+        v-if="dev"
         :open="showDeleteConfirm"
         @update:open="showDeleteConfirm = $event"
       >

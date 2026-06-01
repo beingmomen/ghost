@@ -13,9 +13,13 @@ pnpm workspace monorepo — 3 apps deployed independently on Coolify via Docker.
 ## Commands
 
 ```bash
-# Dev
-pnpm dev:client     # port 3000
-pnpm dev:server     # port 1234
+# Dev — all 3 apps in one terminal (server → db → client), color-prefixed output.
+# Uses `concurrently` with -k so Ctrl+C (or any app crashing) stops all three.
+pnpm dev
+
+# Dev — individually
+pnpm dev:client     # port 3000 (overridable via apps/client/.env PORT)
+pnpm dev:server     # port 1234 (overridable via apps/server/.env PORT)
 pnpm dev:db         # port 9122
 
 # Build
@@ -23,6 +27,10 @@ pnpm build:client
 pnpm build:server
 pnpm build:db
 ```
+
+> **Note:** Running client + db together (both Nuxt) uses more RAM. On a constrained
+> machine, prefer running fewer apps at a time. Ports come from each app's `.env`
+> (`PORT`), so `pnpm dev` may show different ports than the defaults above.
 
 ## Deployment
 

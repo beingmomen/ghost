@@ -171,3 +171,13 @@ Deployed via Coolify on `elshatory-web.beingmomen.com` using `apps/client/Docker
 - Route rules: Static pages prerendered, blog uses SWR caching
 - Node heap at build: `NODE_OPTIONS=--max-old-space-size=4096`
 - Node heap at runtime: `NODE_OPTIONS=--max-old-space-size=2048`
+
+## Documentation
+
+In-repo docs under `docs/` (Arabic, RTL):
+
+- `docs/WEBSITE_REVIEW_2026-06.md` — Visitor-experience review + implemented improvements (technical-content dropdown, dev-only admin UIs, naming unification, dead-code removal, unified `pnpm dev`).
+- `docs/IMPROVEMENTS.md` — Earlier batch of 17 improvements + architecture/conventions guide.
+- `docs/STATIC_DATA_REPORT.md` — Inventory of all static (non-API) data in the app.
+
+**Dev-only admin UIs:** `agents/new`, `commands/new`, `mcp/new`, `skills/new` are gated by `app/middleware/dev-only.ts` (404 in production). The add/select/delete controls in the matching index pages are hidden via `import.meta.dev`. MCP keeps its select + "download .mcp.json" feature public; only delete is dev-only.

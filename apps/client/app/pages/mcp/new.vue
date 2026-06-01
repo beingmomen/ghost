@@ -1,6 +1,8 @@
 <script setup>
 import { z } from 'zod'
 
+definePageMeta({ middleware: 'dev-only' })
+
 useSeoMeta({
   title: 'إضافة خادم MCP',
   description: 'إضافة إعداد خادم MCP جديد'
