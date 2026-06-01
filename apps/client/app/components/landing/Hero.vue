@@ -129,6 +129,8 @@ const { global } = useAppConfig()
               :light="global.picture?.light"
               :dark="global.picture?.dark"
               :alt="global.picture?.alt"
+              loading="eager"
+              fetchpriority="high"
             />
           </div>
         </div>

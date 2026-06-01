@@ -40,7 +40,7 @@ useBreadcrumbSchema([{ name: 'تواصل معنا', path: '/contact' }])
 const schema = z.object({
   name: z.string({ error: 'يرجى كتابة اسمك' }).min(1, 'يرجى كتابة اسمك'),
   phone: z.string({ error: 'يرجى إدخال رقم التواصل' }).min(1, 'يرجى إدخال رقم التواصل').regex(/^[\d\s+\-()]{7,20}$/, 'يرجى إدخال رقم هاتف صحيح'),
-  email: z.string().email('يرجى إدخال عنوان بريد إلكتروني صالح').optional().or(z.literal('')),
+  email: z.email('يرجى إدخال عنوان بريد إلكتروني صالح').optional().or(z.literal('')),
   description: z.string({ error: 'يرجى كتابة رسالتك أو وصف مشروعك' }).min(1, 'يرجى كتابة رسالتك أو وصف مشروعك')
 })
 
@@ -245,6 +245,10 @@ const contactPills = [
                     v-model="state.phone"
                     leading-icon="i-lucide-phone"
                     placeholder="رقم الهاتف"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    dir="ltr"
                     class="w-full"
                     :disabled="loading"
                   />

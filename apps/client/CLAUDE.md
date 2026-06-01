@@ -15,8 +15,8 @@ pnpm lint:fix     # Run ESLint with auto-fix
 - **CSS**: Tailwind CSS v4 + Nuxt UI theme system
 - **Data**: Backend API (not Nuxt Content)
 - **Language**: Arabic RTL (dir="rtl", lang="ar")
-- **Font**: Tajawal (Arabic) + Space Grotesk (Latin)
-- **Theme**: Primary = blue, Neutral = neutral
+- **Font**: Tajawal (Arabic, self-hosted) + Rubik (display/headings, `font-display`)
+- **Theme**: Primary = amber, Neutral = stone (warm amber visual identity)
 
 ## Data Flow
 
@@ -130,7 +130,7 @@ app/components/
 
 ## Key Config Files
 
-- `app/app.config.ts` — UI colors (`primary: 'blue'`, `neutral: 'neutral'`), global config, footer links
+- `app/app.config.ts` — UI colors (`primary: 'amber'`, `neutral: 'stone'`), global config, footer links
 - `app/layouts/default.vue` — Default layout with AppHeader + AppFooter
 - `nuxt.config.ts` — Modules, runtimeConfig, routeRules, SEO settings
 

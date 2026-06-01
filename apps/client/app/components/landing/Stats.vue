@@ -61,11 +61,11 @@ onMounted(() => {
       ref="sectionRef"
       class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 border-y border-default py-12 px-4 sm:px-12 lg:px-16"
     >
-      <div class="flex flex-wrap items-stretch justify-around max-w-(--ui-container) mx-auto divide-x divide-default/50 rtl:divide-x-reverse">
+      <div class="grid grid-cols-2 lg:grid-cols-4 items-stretch max-w-(--ui-container) mx-auto gap-y-10 lg:gap-y-0 lg:divide-x lg:divide-default/50 rtl:divide-x-reverse">
         <div
           v-for="(stat, index) in stats"
           :key="stat.label"
-          class="flex-1 min-w-35 flex flex-col items-center gap-3 text-center group cursor-default animate-fade-in px-8 py-2"
+          class="flex flex-col items-center gap-3 text-center group cursor-default animate-fade-in px-4 sm:px-8 py-2"
           :style="`animation-delay: ${0.1 + index * 0.1}s`"
           :aria-label="`${stat.value} ${stat.label}`"
         >

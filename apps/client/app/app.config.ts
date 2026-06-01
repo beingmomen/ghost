@@ -65,7 +65,7 @@ export default defineAppConfig({
         container: 'py-18 sm:py-24 lg:py-32',
         title: 'font-display font-bold mx-auto max-w-xl text-pretty text-3xl sm:text-4xl lg:text-5xl',
         description:
-          'mt-2 text-md mx-auto max-w-2xl text-pretty sm:text-md text-muted'
+          'mt-2 text-base mx-auto max-w-2xl text-pretty sm:text-base text-muted'
       }
     },
     pageSection: {

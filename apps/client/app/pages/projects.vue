@@ -96,59 +96,61 @@ useHead({
         container: '!pt-0'
       }"
     >
-      <div
-        v-for="(project, index) in projects"
-        :key="project._id"
-      >
-        <UPageCard
-          :title="project.title"
-          :description="project.description"
-          :to="project.url"
-          orientation="horizontal"
-          variant="naked"
-          :reverse="index % 2 === 1"
-          class="group"
-          :ui="{
-            wrapper: 'max-sm:order-last'
-          }"
+      <div class="space-y-12 sm:space-y-16">
+        <div
+          v-for="(project, index) in projects"
+          :key="project._id"
         >
-          <template #leading>
-            <span class="text-base text-muted">
-              {{ project.tag }}
-            </span>
-          </template>
-          <template #footer>
-            <div class="flex flex-wrap gap-2 mb-3">
-              <UBadge
-                v-for="tag in project.tags"
-                :key="tag._id"
-                :label="tag.title"
-                color="primary"
-                variant="subtle"
-                size="xs"
-              />
-            </div>
-            <ULink
-              :to="project.url"
-              target="_blank"
-              class="text-base text-primary flex items-center"
-            >
-              عرض المشروع
-              <UIcon
-                name="i-lucide-arrow-left"
-                class="size-4 text-primary transition-all opacity-0 group-hover:-translate-x-1 group-hover:opacity-100"
-              />
-            </ULink>
-          </template>
-          <NuxtImg
-            :src="project.image"
-            :alt="project.altText || project.title"
-            width="400"
-            height="192"
-            loading="lazy"
-            class="object-cover w-full h-48 rounded-lg"
-          />
-        </UPageCard>
+          <UPageCard
+            :title="project.title"
+            :description="project.description"
+            :to="project.url"
+            orientation="horizontal"
+            variant="naked"
+            :reverse="index % 2 === 1"
+            class="group"
+            :ui="{
+              wrapper: 'max-sm:order-last'
+            }"
+          >
+            <template #leading>
+              <span class="text-base text-muted">
+                {{ project.tag }}
+              </span>
+            </template>
+            <template #footer>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <UBadge
+                  v-for="tag in project.tags"
+                  :key="tag._id"
+                  :label="tag.title"
+                  color="primary"
+                  variant="subtle"
+                  size="xs"
+                />
+              </div>
+              <ULink
+                :to="project.url"
+                target="_blank"
+                class="text-base text-primary flex items-center"
+              >
+                عرض المشروع
+                <UIcon
+                  name="i-lucide-arrow-left"
+                  class="size-4 text-primary transition-all opacity-0 group-hover:-translate-x-1 group-hover:opacity-100"
+                />
+              </ULink>
+            </template>
+            <NuxtImg
+              :src="project.image"
+              :alt="project.altText || project.title"
+              width="400"
+              height="192"
+              loading="lazy"
+              class="object-cover w-full h-48 rounded-lg"
+            />
+          </UPageCard>
+        </div>
       </div>
     </UPageSection>
   </UPage>
