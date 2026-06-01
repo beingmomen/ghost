@@ -30,8 +30,7 @@ Inspect live content: `curl "$(grep ^BASE_URL apps/client/.env | cut -d= -f2-)/l
 - `app/plugins/api.ts` — Creates `$api` helper with base URL from runtimeConfig
 - `app/composables/useApiRequest.js` — Generic HTTP request wrapper with error handling
 - `app/composables/useAPI.ts` — `useFetch` wrapper with `$api` client
-- `app/composables/useLanding.js` — Landing page data (hero, skills, services, etc.)
-- `app/composables/useBlog.js` — Blog list + single blog
+- Landing/blog data: fetched directly via `useAPI('/landing')` and `/api/blog`, shared across sections with `useNuxtData('landing')` (no dedicated composable)
 - `app/composables/useExperiences.js` — Work experiences data (static)
 - `app/composables/useBreadcrumbSchema.ts` — Breadcrumb structured data
 - `app/composables/useErrorHandler.js` — Toast-based error handling
@@ -50,15 +49,12 @@ app/components/
 ├── blog/              # Blog page components
 │   ├── BlogSidebar.vue
 │   ├── BlogSidebarLinks.vue
-│   ├── BlogSidebarSocial.vue
 │   └── BlogSidebarTableOfContents.vue
 ├── common/            # Social links
 │   ├── CommonSocialPart.vue
-│   ├── CommonSocialPartLink.vue
-│   └── SocialLink.vue
-├── form/              # File upload components
-│   ├── FileInput.vue
-│   └── TheCLDFile.vue
+│   └── CommonSocialPartLink.vue
+├── form/              # File upload component
+│   └── FileInput.vue
 ├── adr/               # ADR (Architecture Decision Records) components (8)
 ├── sdlc/              # SDLC English components (7)
 ├── sdlc-ar/           # SDLC Arabic components (7)
@@ -77,15 +73,16 @@ app/components/
 | `/blog/[slug]` | Single blog with sidebar + TOC |
 | `/about` | About page with polaroid gallery |
 | `/projects` | Projects grid |
-| `/contact` | Contact form (Joi validation) |
 | `/testimonial` | Testimonial form (Cloudinary upload) |
+| `/learning-roadmap` | Senior learning roadmap (live progress from API) |
+| `/contact` | Contact form (Zod validation) |
 | `/sdlc` | SDLC English page |
 | `/sdlc-ar` | SDLC Arabic page |
 | `/adr` | Architecture Decision Records |
-| `/agents` | Agents CRUD management |
-| `/commands` | Commands CRUD management |
-| `/mcp` | MCP servers CRUD management |
-| `/skills` | Skills CRUD management |
+| `/agents` | Agents — browse (add/delete dev-only via `dev-only` middleware) |
+| `/commands` | Commands — browse (add/delete dev-only) |
+| `/mcp` | MCP servers — browse + download `.mcp.json` (add/delete dev-only) |
+| `/skills` | Skills — browse (add/delete dev-only) |
 
 ## Modules
 
