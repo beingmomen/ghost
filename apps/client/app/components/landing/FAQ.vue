@@ -66,39 +66,43 @@ const ui = {
 </script>
 
 <template>
-  <UPageSection
+  <section
     v-if="items.length"
-    :title="faqData.title"
-    :description="faqData.description"
-    :ui="{
-      container: 'px-0 !pt-0 gap-4 sm:gap-4',
-      title: 'text-right text-xl sm:text-xl lg:text-2xl font-medium',
-      description: 'text-right mt-2 text-base sm:text-lg lg:text-base text-muted leading-relaxed'
-    }"
+    class="py-12 sm:py-16"
   >
-    <UTabs
-      :items="items"
-      orientation="horizontal"
-      :ui="ui"
-    >
-      <template #content="{ item }">
-        <UAccordion
-          trailing-icon="i-lucide-plus"
-          :items="item.questions"
-          :unmount-on-hide="false"
-          :ui="{
-            item: 'border-none',
-            trigger: 'mb-2 border-0 group px-4 transform-gpu rounded-lg bg-elevated/60 will-change-transform hover:bg-muted/50 text-base',
-            trailingIcon: 'group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-135 text-base text-muted'
-          }"
-        >
-          <template #body="{ item: _item }">
-            <p class="px-4 text-muted">
-              {{ _item.content }}
-            </p>
-          </template>
-        </UAccordion>
-      </template>
-    </UTabs>
-  </UPageSection>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <LandingSectionHeading
+        class="lg:col-span-4"
+        eyebrow="الأسئلة الشائعة"
+        title="ما الذي تودّ معرفته؟"
+        :description="faqData.description"
+      />
+
+      <UTabs
+        :items="items"
+        orientation="horizontal"
+        :ui="ui"
+        class="lg:col-span-8"
+      >
+        <template #content="{ item }">
+          <UAccordion
+            trailing-icon="i-lucide-plus"
+            :items="item.questions"
+            :unmount-on-hide="false"
+            :ui="{
+              item: 'border-none',
+              trigger: 'mb-2 border-0 group px-4 transform-gpu rounded-lg bg-elevated/60 will-change-transform hover:bg-muted/50 text-base',
+              trailingIcon: 'group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-135 text-base text-muted'
+            }"
+          >
+            <template #body="{ item: _item }">
+              <p class="px-4 text-muted">
+                {{ _item.content }}
+              </p>
+            </template>
+          </UAccordion>
+        </template>
+      </UTabs>
+    </div>
+  </section>
 </template>

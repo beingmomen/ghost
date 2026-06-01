@@ -7,6 +7,7 @@
 
 @theme {
   --font-sans: "Tajawal", sans-serif;
+  --font-display: "Rubik", "Tajawal", sans-serif;
 }
 
 @theme static {
@@ -31,21 +32,22 @@ body {
 :root {
   --ui-container: var(--container-6xl);
 
+  /* Dark ink on the warm amber highlight keeps selected text legible (WCAG). */
   ::selection {
-    color: #ffffff;
-    background-color: var(--color-primary-500);
+    color: var(--color-stone-950);
+    background-color: var(--color-primary-400);
   }
 }
 
 .dark {
   ::selection {
-    color: #ffffff;
-    background-color: var(--color-primary-600);
+    color: var(--color-stone-950);
+    background-color: var(--color-primary-500);
   }
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-linear-to-r from-primary-500 to-primary-300;
+  @apply bg-clip-text text-transparent bg-linear-to-r from-amber-500 to-orange-400;
 }
 
 /* Animation utilities */

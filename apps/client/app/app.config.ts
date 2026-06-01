@@ -41,15 +41,36 @@ export default defineAppConfig({
   },
   ui: {
     colors: {
-      primary: 'blue',
-      neutral: 'neutral'
+      primary: 'amber',
+      neutral: 'stone'
+    },
+    // Amber is a light hue, so the default `text-inverted` (white in light mode)
+    // fails WCAG on solid primary surfaces. Force dark ink — legible in both modes.
+    button: {
+      compoundVariants: [{
+        color: 'primary',
+        variant: 'solid',
+        class: 'text-stone-950 hover:text-stone-950'
+      }]
+    },
+    badge: {
+      compoundVariants: [{
+        color: 'primary',
+        variant: 'solid',
+        class: 'text-stone-950'
+      }]
     },
     pageHero: {
       slots: {
         container: 'py-18 sm:py-24 lg:py-32',
-        title: 'mx-auto max-w-xl text-pretty text-3xl sm:text-4xl lg:text-5xl',
+        title: 'font-display font-bold mx-auto max-w-xl text-pretty text-3xl sm:text-4xl lg:text-5xl',
         description:
           'mt-2 text-md mx-auto max-w-2xl text-pretty sm:text-md text-muted'
+      }
+    },
+    pageSection: {
+      slots: {
+        title: 'font-display'
       }
     }
   },
