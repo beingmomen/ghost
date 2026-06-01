@@ -1,4 +1,7 @@
+# syntax=docker/dockerfile:1
 FROM node:20-alpine
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
 RUN corepack enable && corepack prepare pnpm@10.29.3 --activate && \
     apk add --no-cache libc6-compat
 
@@ -7,7 +10,8 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/client/package.json ./apps/client/
 COPY apps/server/package.json ./apps/server/
 COPY apps/db/package.json ./apps/db/
-RUN pnpm install --frozen-lockfile --prod --filter ./apps/server
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile --prod --filter ./apps/server
 
 COPY apps/server/ ./apps/server/
 WORKDIR /app/apps/server
