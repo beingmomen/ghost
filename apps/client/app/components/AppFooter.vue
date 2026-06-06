@@ -9,11 +9,11 @@ const { footer, global } = useAppConfig()
     <!-- CTA Banner -->
     <div class="-mx-4 sm:-mx-12 lg:-mx-16 px-4 sm:px-12 lg:px-16">
       <div class="max-w-(--ui-container) mx-auto">
-        <div class="rounded-2xl border border-default/60 bg-muted/40 backdrop-blur-sm p-8 sm:p-12 text-center shadow-lg shadow-neutral-950/5">
+        <div class="rounded-2xl border border-default/60 bg-muted/40 p-8 sm:p-12 text-center">
           <span class="animate-fade-in">
             <h2 class="font-display text-2xl sm:text-3xl font-bold mb-3">
               هل لديك مشروع؟
-              <span class="text-gradient">لنعمل معاً</span>
+              <span class="text-amber">لنعمل معاً</span>
             </h2>
           </span>
 
@@ -53,7 +53,7 @@ const { footer, global } = useAppConfig()
           <!-- Column 1: Brand -->
           <div class="space-y-4">
             <div>
-              <h3 class="font-display text-lg font-bold text-gradient inline-block">
+              <h3 class="font-display text-lg font-bold text-amber inline-block">
                 {{ global.fullName }}
               </h3>
               <p class="text-base text-muted mt-1">

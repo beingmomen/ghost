@@ -104,7 +104,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
       <template #title>
         <span class="animate-fade-in animation-delay-300">
-          <span class="text-gradient">عبدالمؤمن الشطوري</span>
+          <span class="text-amber">عبدالمؤمن الشطوري</span>
         </span>
       </template>
 
@@ -178,7 +178,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             class="animate-fade-in"
             style="animation-delay: 0.45s"
           >
-            <blockquote class="border-r-4 border-primary pr-6 py-3 bg-primary/5 dark:bg-primary/10 rounded-l-xl">
+            <blockquote class="border border-primary/30 bg-primary/5 dark:bg-primary/10 p-5 rounded-xl">
               <p class="text-primary-600 dark:text-primary-400 text-base sm:text-lg font-medium leading-relaxed text-right">
                 "{{ page.story.quote }}"
               </p>
@@ -223,7 +223,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
                   class="size-5 text-primary"
                 />
               </div>
-              <span class="text-4xl sm:text-5xl font-bold text-gradient">
+              <span class="text-4xl sm:text-5xl font-bold text-amber">
                 {{ stat.value }}
               </span>
               <span class="text-base text-muted">

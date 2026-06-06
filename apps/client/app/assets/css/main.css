@@ -46,8 +46,13 @@ body {
   }
 }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-linear-to-r from-amber-500 to-orange-400;
+/* Solid brand-amber text. Replaces the previous amber→orange gradient utility
+   (a saturated AI tell). Kept as a single token so brand color stays in one place. */
+.text-amber {
+  color: var(--ui-color-primary-600);
+}
+.dark .text-amber {
+  color: var(--ui-color-primary-400);
 }
 
 /* Animation utilities */

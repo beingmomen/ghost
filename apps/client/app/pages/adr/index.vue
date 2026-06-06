@@ -21,7 +21,7 @@
 
       <template #title>
         <span class="animate-fade-in animation-delay-200">
-          القرارات <span class="text-gradient">المعمارية</span>
+          القرارات <span class="text-amber">المعمارية</span>
         </span>
       </template>
 

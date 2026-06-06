@@ -61,7 +61,7 @@ const { global } = useAppConfig()
           <h1
             class="hero-name animate-fade-in animation-delay-100 font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mt-6"
           >
-            <span class="text-gradient">{{ global.fullName }}</span>
+            <span class="text-amber">{{ global.fullName }}</span>
           </h1>
 
           <!-- Title -->

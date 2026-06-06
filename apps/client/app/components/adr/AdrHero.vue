@@ -32,7 +32,7 @@ defineProps({
         <span class="animate-fade-in animation-delay-200">
           {{ title }} <span
             v-if="highlight"
-            class="text-gradient"
+            class="text-amber"
           >{{ highlight }}</span>
         </span>
       </template>

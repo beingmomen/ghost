@@ -86,7 +86,7 @@ const contactPills = [
       description="سواء كان لديك مشروع جديد، سؤال تقني، أو فقط تريد التعارف — أنا هنا وأسعد دائماً بالتحدث"
       :ui="{
         title: 'text-center',
-        description: 'text-center text-gradient font-bold animate-fade-in animation-delay-300',
+        description: 'text-center text-amber font-bold animate-fade-in animation-delay-300',
         links: 'mt-4 flex-col justify-center items-center'
       }"
     >

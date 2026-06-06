@@ -55,7 +55,7 @@ defineProps({
 
       <template #title>
         <span class="animate-fade-in animation-delay-200">
-          {{ title }} <span class="text-gradient">{{ titleHighlight }}</span>
+          {{ title }} <span class="text-amber">{{ titleHighlight }}</span>
         </span>
       </template>
 

@@ -106,7 +106,7 @@ function resetForm() {
       :ui="{
         headline: 'flex items-center justify-center',
         title: 'text-center',
-        description: 'text-center text-gradient font-bold',
+        description: 'text-center text-amber font-bold',
         links: 'mt-4 flex-col justify-center items-center'
       }"
     >

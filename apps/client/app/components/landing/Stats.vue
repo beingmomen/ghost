@@ -77,7 +77,7 @@ onMounted(() => {
           </div>
           <span
             dir="ltr"
-            class="text-4xl sm:text-5xl font-bold text-gradient leading-none"
+            class="text-4xl sm:text-5xl font-bold text-amber leading-none"
           >
             {{ counters[index].display.value }}
           </span>
