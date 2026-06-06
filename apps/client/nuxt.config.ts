@@ -8,8 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
-    '@nuxt/content',
-    '@stefanobartoletti/nuxt-social-share',
+'@stefanobartoletti/nuxt-social-share',
     '@nuxtjs/seo'
   ],
   devtools: { enabled: process.env.NODE_ENV === 'development' },

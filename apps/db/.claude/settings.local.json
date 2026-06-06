@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.vue$\")",
+      "Bash(rtk ls:*)",
+      "Bash(rtk find:*)",
+      "Bash(rtk grep:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "nuxt-remote",
+    "nuxt-ui-remote",
+    "github"
+  ]
+}

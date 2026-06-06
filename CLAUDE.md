@@ -55,7 +55,7 @@ multiple apps. Do NOT raise it.
 
 ### Dockerfiles
 
-- `apps/client/Dockerfile` — requires `python3 make g++` for `better-sqlite3`
+- `apps/client/Dockerfile` — standard Node build (better-sqlite3 removed)
 - `apps/db/Dockerfile` — requires `GIGET_AUTH` build arg for GitHub base layer
 - `apps/server/Dockerfile` — standard Node build
 
@@ -65,8 +65,72 @@ multiple apps. Do NOT raise it.
 
 Required build-time vars for client: `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_URL`
 
+## Architecture Migration — Nuxt Content → Backend API
+
+### الوضع الحالي (تم تنفيذه جزئياً)
+
+`@nuxt/content` و `better-sqlite3` تمّ حذفهم من `apps/client`. كانا يُستخدمان لتخزين وعرض 4 collections كملفات Markdown محلية:
+- `agents` — إعدادات Claude Code agents
+- `skills` — Claude Code skills وslash commands
+- `commands` — Claude Code commands
+- `mcp` — MCP server configurations
+
+### المعمارية الجديدة المستهدفة
+
+```
+┌─────────────────────────────────────────────────────┐
+│  apps/client (Nuxt 4 — Frontend)                    │
+│  يقرأ البيانات من Backend API فقط                   │
+│  لا يعتمد على أي قاعدة بيانات محلية                 │
+└────────────────────┬────────────────────────────────┘
+                     │ HTTP (REST API)
+┌────────────────────▼────────────────────────────────┐
+│  apps/server (Express.js — Backend)                 │
+│  يوفر CRUD API لكل الـ collections                  │
+│  يخزن البيانات في MongoDB                           │
+└────────────────────┬────────────────────────────────┘
+                     │ Admin UI
+┌────────────────────▼────────────────────────────────┐
+│  apps/db (Nuxt 4 — Dashboard)                       │
+│  إدارة كاملة للبيانات عبر الـ Backend API           │
+└─────────────────────────────────────────────────────┘
+```
+
+### ما يحتاج migration في apps/client
+
+الصفحات التالية معطّلة مؤقتاً (تعرض empty state) حتى يكتمل الـ migration:
+
+| الصفحة | الحالة | المطلوب |
+|--------|--------|---------|
+| `/agents` | empty state | ربط بـ `GET /api/v1/agents` |
+| `/agents/[slug]` | 404 | ربط بـ `GET /api/v1/agents/:slug` |
+| `/skills` | empty state | ربط بـ `GET /api/v1/skills` |
+| `/skills/[slug]` | 404 | ربط بـ `GET /api/v1/skills/:slug` |
+| `/commands` | empty state | ربط بـ `GET /api/v1/commands` |
+| `/commands/[slug]` | 404 | ربط بـ `GET /api/v1/commands/:slug` |
+| `/mcp` | empty state | ربط بـ `GET /api/v1/mcp` |
+| `/mcp/[slug]` | 404 | ربط بـ `GET /api/v1/mcp/:slug` |
+
+### Server API routes في apps/client (تحتاج حذف أو تحويل)
+
+الملفات التالية كانت تكتب/تحذف ملفات Markdown وهي dev-only:
+- `server/api/agents.{post,delete}.ts`
+- `server/api/commands.{post,delete}.ts`
+- `server/api/mcp.{post,delete}.ts`
+- `server/api/skills.{post,delete}.ts`
+- `server/utils/markdown.ts`
+
+بعد الـ migration، هذه الـ routes ستُحذف وتُنقل وظيفتها إلى apps/db (Dashboard).
+
+### خطوات الـ migration المطلوبة
+
+1. **Backend (apps/server)**: إضافة models وroutes لـ agents، skills، commands، mcp
+2. **Dashboard (apps/db)**: إضافة modules لإدارة الـ collections الأربعة
+3. **Frontend (apps/client)**: استبدال `Promise.resolve([])` بـ `useAPI('/agents')` وما شابه
+4. حذف `server/api/{agents,skills,commands,mcp}.*.ts` و `server/utils/markdown.ts`
+
 ## Stack
 
-- **Runtime**: Node.js 20 + pnpm 10.29.3
+- **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10.29.3
 - **Proxy**: Traefik + Let's Encrypt (SSL auto-managed)
 - **Platform**: Coolify (self-hosted) at `coolify.beingmomen.com`

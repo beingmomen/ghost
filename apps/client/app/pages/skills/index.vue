@@ -4,9 +4,7 @@ useSeoMeta({
   description: 'Browse and manage Claude Code skills and slash commands'
 })
 
-const { data: items } = await useAsyncData('skills-list', () => {
-  return queryCollection('skills').order('created_at', 'DESC').all()
-})
+const { data: items } = await useAsyncData('skills-list', () => Promise.resolve([]))
 
 // أدوات الإدارة (إضافة/تحديد/حذف) تظهر في بيئة التطوير فقط
 const dev = import.meta.dev

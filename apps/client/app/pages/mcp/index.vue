@@ -4,9 +4,7 @@ useSeoMeta({
   description: 'Browse and manage MCP server configurations'
 })
 
-const { data: servers } = await useAsyncData('mcp-servers', () => {
-  return queryCollection('mcp').order('created_at', 'DESC').all()
-})
+const { data: servers } = await useAsyncData('mcp-servers', () => Promise.resolve([]))
 
 // أدوات الإدارة (إضافة/حذف) تظهر في بيئة التطوير فقط.
 // التحديد وتحميل .mcp.json يبقيان متاحين للزوار.

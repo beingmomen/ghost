@@ -4,9 +4,7 @@ useSeoMeta({
   description: 'Browse and manage Claude Code agent configurations'
 })
 
-const { data: agents } = await useAsyncData('agents-list', () => {
-  return queryCollection('agents').order('created_at', 'DESC').all()
-})
+const { data: agents } = await useAsyncData('agents-list', () => Promise.resolve([]))
 
 // أدوات الإدارة (إضافة/تحديد/حذف) تظهر في بيئة التطوير فقط
 const dev = import.meta.dev

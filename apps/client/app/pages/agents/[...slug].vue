@@ -2,9 +2,7 @@
 const route = useRoute()
 const toast = useToast()
 
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('agents').path(route.path).first()
-})
+const { data: page } = await useAsyncData(route.path, () => Promise.resolve(null))
 
 if (!page.value) {
   throw createError({
@@ -105,10 +103,7 @@ async function deleteAgent() {
           </div>
         </div>
 
-        <!-- Markdown Content -->
-        <div class="ProseMirror">
-          <ContentRenderer :value="page" />
-        </div>
+        <!-- TODO: migrate to backend API -->
       </div>
     </UPageSection>
 

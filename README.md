@@ -36,7 +36,7 @@ Each app deploys independently via Coolify on push to `main`. Auto-deploy trigge
 
 ## Stack
 
-- **Runtime**: Node.js 20 + pnpm 10
+- **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10
 - **Frontend**: Nuxt 4, Nuxt UI v4, Tailwind CSS v4
 - **Backend**: Express.js
 - **Proxy**: Traefik + Let's Encrypt (SSL)

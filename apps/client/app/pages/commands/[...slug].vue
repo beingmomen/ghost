@@ -2,9 +2,7 @@
 const route = useRoute()
 const toast = useToast()
 
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('commands').path(route.path).first()
-})
+const { data: page } = await useAsyncData(route.path, () => Promise.resolve(null))
 
 if (!page.value) {
   throw createError({
@@ -95,13 +93,7 @@ async function deleteItem() {
           </span>
         </div>
 
-        <!-- Markdown Content -->
-        <div
-          class="ProseMirror"
-          dir="ltr"
-        >
-          <ContentRenderer :value="page" />
-        </div>
+        <!-- TODO: migrate to backend API -->
       </div>
     </UPageSection>
 

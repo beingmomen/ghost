@@ -1,5 +1,8 @@
+const dns = require('dns');
 const mongoose = require('mongoose');
 const loadEnv = require('./utils/loadEnv');
+
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -12,7 +15,9 @@ const app = require('./app');
 
 const DB = process.env.DATABASE_ATLAS;
 
-mongoose.connect(DB).then(() => console.log('DB connection successful!'));
+mongoose
+  .connect(DB, { family: 4 })
+  .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 1234;
 const server = app.listen(port, () => {

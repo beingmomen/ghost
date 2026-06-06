@@ -104,7 +104,7 @@ base layer من GitHub الخاص أثناء البناء.
 
 ## الـ Stack الأساسي
 
-- **Runtime**: Node.js 20 + pnpm 10.29.3
+- **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10.29.3
 - **Proxy**: Traefik + Let's Encrypt (SSL تلقائي)
 - **Platform**: Coolify (مستضاف ذاتياً) على `coolify.beingmomen.com`
 
