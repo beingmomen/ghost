@@ -86,26 +86,23 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    // '/': { swr: 600 },
-    // '/about': { swr: 600 },
-    // '/projects': { swr: 600 }
-    // '/sdlc': { prerender: true },
-    // '/sdlc-ar': { prerender: true },
-    // '/adr': { prerender: true },
-    // '/adr/**': { prerender: true },
-    // '/blog': { swr: 600 },
-    // '/blog/**': { ssr: true },
-    // '/contact': { ssr: true },
-    // '/testimonial': { ssr: true },
-    // '/api/blog': { swr: 600 },
-    // '/mcp': { ssr: true },
-    // '/mcp/**': { ssr: true },
-    // '/agents': { ssr: true },
-    // '/agents/**': { ssr: true },
-    // '/skills': { ssr: true },
-    // '/skills/**': { ssr: true },
-    // '/commands': { ssr: true },
-    // '/commands/**': { ssr: true }
+    '/': { swr: 3600 },
+    '/about': { swr: 3600 },
+    '/projects': { swr: 3600 },
+    '/blog': { swr: 600 },
+    '/api/blog': { swr: 600 },
+    // SSR-only (dynamic/user-specific — no caching)
+    '/contact': { ssr: true },
+    '/testimonial': { ssr: true },
+    // Agents/skills/commands/mcp — migration in progress; SSR until connected to backend
+    '/mcp': { ssr: true },
+    '/mcp/**': { ssr: true },
+    '/agents': { ssr: true },
+    '/agents/**': { ssr: true },
+    '/skills': { ssr: true },
+    '/skills/**': { ssr: true },
+    '/commands': { ssr: true },
+    '/commands/**': { ssr: true }
   },
 
   devServer: {

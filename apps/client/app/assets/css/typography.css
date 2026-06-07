@@ -2,43 +2,43 @@
 
 /* Base editor styles */
 .ProseMirror {
-  @apply text-gray-700 dark:text-gray-200;
+  @apply text-stone-700 dark:text-stone-200;
 }
 
 /* Headings */
 .ProseMirror h1 {
-  @apply text-5xl font-bold leading-tight mt-8 mb-4 text-gray-900 dark:text-gray-50;
+  @apply text-5xl font-bold leading-tight mt-8 mb-4 text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror h2 {
-  @apply text-4xl font-semibold leading-snug mt-7 mb-3.5 text-gray-900 dark:text-gray-50;
+  @apply text-4xl font-semibold leading-snug mt-7 mb-3.5 text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror h3 {
-  @apply text-3xl font-semibold leading-relaxed mt-6 mb-3 text-gray-900 dark:text-gray-50;
+  @apply text-3xl font-semibold leading-relaxed mt-6 mb-3 text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror h4 {
-  @apply text-2xl font-semibold leading-relaxed mt-5.5 mb-2.5 text-gray-900 dark:text-gray-50;
+  @apply text-2xl font-semibold leading-relaxed mt-5.5 mb-2.5 text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror h5 {
-  @apply text-xl font-semibold leading-relaxed mt-5 mb-2 text-gray-900 dark:text-gray-50;
+  @apply text-xl font-semibold leading-relaxed mt-5 mb-2 text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror h6 {
-  @apply text-lg font-semibold leading-relaxed mt-4 mb-2 text-gray-900 dark:text-gray-50;
+  @apply text-lg font-semibold leading-relaxed mt-4 mb-2 text-stone-900 dark:text-stone-50;
 }
 
 /* Paragraphs and basic text */
 .ProseMirror p {
-  @apply text-xl leading-9 my-4 text-gray-700 dark:text-gray-200;
+  @apply text-xl leading-9 my-4 text-stone-700 dark:text-stone-200;
 }
 
 /* Lists */
 .ProseMirror ul,
 .ProseMirror ol {
-  @apply my-4 pl-8 text-gray-700 dark:text-gray-200;
+  @apply my-4 pl-8 text-stone-700 dark:text-stone-200;
 }
 
 .ProseMirror li {
@@ -53,19 +53,20 @@
   @apply list-decimal ms-10;
 }
 
-/* Blockquotes */
+/* Blockquotes — border-s-4 is an intentional editorial convention for ProseMirror
+   content rendering (scoped exception per DESIGN.md, not UI chrome). */
 .ProseMirror blockquote {
-  @apply border-gray-300 dark:border-gray-600 my-6 py-2 pl-4 italic text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-950 rounded-md p-5 border-s-4;
+  @apply border-stone-300 dark:border-stone-600 my-6 py-2 pl-4 italic text-stone-500 dark:text-stone-400 bg-stone-50 dark:bg-stone-950 rounded-md p-5 border-s-4;
 }
 
 /* Code blocks */
 .ProseMirror pre {
-  @apply bg-gray-100 dark:bg-gray-800 rounded-md p-4 my-4 font-mono text-sm overflow-x-auto text-blue-600 dark:text-sky-300;
+  @apply bg-stone-100 dark:bg-stone-800 rounded-md p-4 my-4 font-mono text-sm overflow-x-auto text-sky-600 dark:text-sky-300;
   direction: ltr;
 }
 
 .ProseMirror code {
-  @apply bg-gray-100 dark:bg-gray-800 py-0.5 px-1.5 rounded-sm font-mono text-sm text-blue-600 dark:text-sky-300;
+  @apply bg-stone-100 dark:bg-stone-800 py-0.5 px-1.5 rounded-sm font-mono text-sm text-sky-600 dark:text-sky-300;
 }
 
 /* Links */
@@ -84,21 +85,21 @@
 
 .ProseMirror th,
 .ProseMirror td {
-  @apply border border-gray-300 dark:border-gray-600 p-2 text-left;
+  @apply border border-stone-300 dark:border-stone-600 p-2 text-left;
 }
 
 .ProseMirror th {
-  @apply bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-50;
+  @apply bg-stone-100 dark:bg-stone-800 font-semibold text-stone-900 dark:text-stone-50;
 }
 
 /* Horizontal Rule */
 .ProseMirror hr {
-  @apply border-0 border-t-2 border-gray-300 dark:border-gray-600 my-8;
+  @apply border-0 border-t-2 border-stone-300 dark:border-stone-600 my-8;
 }
 
 /* Text Formatting */
 .ProseMirror strong {
-  @apply font-semibold text-gray-900 dark:text-gray-50;
+  @apply font-semibold text-stone-900 dark:text-stone-50;
 }
 
 .ProseMirror em {
@@ -106,7 +107,7 @@
 }
 
 .ProseMirror s {
-  @apply line-through text-gray-500 dark:text-gray-400;
+  @apply line-through text-stone-500 dark:text-stone-400;
 }
 
 /* Task Lists */
@@ -119,12 +120,12 @@
 }
 
 .ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
-  @apply mt-2 mr-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600;
+  @apply mt-2 mr-2 bg-stone-100 dark:bg-stone-800 border border-stone-300 dark:border-stone-600;
 }
 
 /* Images */
 .ProseMirror img {
-  @apply max-w-full max-h-100 my-4 rounded-md border border-gray-300 dark:border-gray-600 mx-auto;
+  @apply max-w-full max-h-100 my-4 rounded-md border border-stone-300 dark:border-stone-600 mx-auto;
 }
 
 /* Editor Focus */
@@ -132,7 +133,8 @@
   @apply outline-hidden;
 }
 
-/* Selection */
+/* Selection — aligned with brand amber palette (consistent with main.css global selection) */
 .ProseMirror ::selection {
-  @apply bg-blue-400/30 text-gray-900 dark:text-gray-50;
+  color: var(--color-stone-950);
+  background-color: color-mix(in oklab, var(--color-amber-400) 30%, transparent);
 }

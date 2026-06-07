@@ -15,7 +15,7 @@ const lang = ar.code
 const dir = ar.dir
 
 const colorMode = useColorMode()
-const color = computed(() => colorMode.value === 'dark' ? '#020618' : 'white')
+const color = computed(() => colorMode.value === 'dark' ? '#1c1917' : 'white')
 
 useHead({
   meta: [

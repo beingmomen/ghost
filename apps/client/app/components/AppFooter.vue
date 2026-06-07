@@ -10,38 +10,32 @@ const { footer, global } = useAppConfig()
     <div class="-mx-4 sm:-mx-12 lg:-mx-16 px-4 sm:px-12 lg:px-16">
       <div class="max-w-(--ui-container) mx-auto">
         <div class="rounded-2xl border border-default/60 bg-muted/40 p-8 sm:p-12 text-center">
-          <span class="animate-fade-in">
-            <h2 class="font-display text-2xl sm:text-3xl font-bold mb-3">
-              هل لديك مشروع؟
-              <span class="text-amber">لنعمل معاً</span>
-            </h2>
-          </span>
+          <h2 class="animate-fade-in font-display text-2xl sm:text-3xl font-bold mb-3">
+            هل لديك مشروع؟
+            <span class="text-amber">لنعمل معاً</span>
+          </h2>
 
-          <span class="animate-fade-in animation-delay-300">
-            <p class="text-base text-muted mb-6 max-w-lg mx-auto">
-              أنا متاح لمشاريع جديدة ومستعد لتحويل أفكارك إلى واقع رقمي مميز
-            </p>
-          </span>
+          <p class="animate-fade-in animation-delay-300 text-base text-muted mb-6 max-w-lg mx-auto">
+            أنا متاح لمشاريع جديدة ومستعد لتحويل أفكارك إلى واقع رقمي مميز
+          </p>
 
-          <span class="animate-fade-in animation-delay-500">
-            <div class="flex items-center justify-center gap-3">
-              <UButton
-                label="تواصل معي"
-                to="/contact"
-                color="primary"
-                size="md"
-              />
-              <UButton
-                label="احجز اجتماع"
-                :to="global.meetingLink"
-                target="_blank"
-                color="neutral"
-                variant="outline"
-                size="md"
-                icon="i-lucide-calendar"
-              />
-            </div>
-          </span>
+          <div class="animate-fade-in animation-delay-500 flex items-center justify-center gap-3">
+            <UButton
+              label="تواصل معي"
+              to="/contact"
+              color="primary"
+              size="md"
+            />
+            <UButton
+              label="احجز اجتماع"
+              :to="global.meetingLink"
+              target="_blank"
+              color="neutral"
+              variant="outline"
+              size="md"
+              icon="i-lucide-calendar"
+            />
+          </div>
         </div>
       </div>
     </div>

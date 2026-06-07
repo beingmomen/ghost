@@ -59,7 +59,7 @@ const { global } = useAppConfig()
 
           <!-- Name -->
           <h1
-            class="hero-name animate-fade-in animation-delay-100 font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mt-6"
+            class="hero-name animate-fade-in animation-delay-100 font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mt-6 text-balance"
           >
             <span class="text-amber">{{ global.fullName }}</span>
           </h1>
@@ -209,10 +209,12 @@ const { global } = useAppConfig()
   border-radius: 9999px;
   background: radial-gradient(
     circle,
-    color-mix(in oklab, var(--color-amber-400) 55%, transparent),
+    color-mix(in oklab, var(--color-amber-400) 40%, transparent),
     transparent 64%
   );
   filter: blur(44px);
+  /* will-change promotes to compositor thread — avoids jank on 6s infinite animation */
+  will-change: transform, opacity;
   animation: hero-glow-pulse 6s ease-in-out infinite;
 }
 
@@ -236,12 +238,12 @@ const { global } = useAppConfig()
 @keyframes hero-glow-pulse {
   0%,
   100% {
-    opacity: 0.55;
+    opacity: 0.28;
     transform: scale(1);
   }
   50% {
-    opacity: 0.85;
-    transform: scale(1.08);
+    opacity: 0.45;
+    transform: scale(1.05);
   }
 }
 

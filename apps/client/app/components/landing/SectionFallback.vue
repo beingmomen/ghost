@@ -14,6 +14,10 @@ defineProps({
     default: 'error',
     validator: v => ['error', 'empty'].includes(v)
   },
+  eyebrow: {
+    type: String,
+    default: ''
+  },
   title: {
     type: String,
     default: ''
@@ -60,6 +64,7 @@ const defaults = {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
       <LandingSectionHeading
         class="lg:col-span-4"
+        :eyebrow="eyebrow"
         :title="title || defaults[state].title"
         :description="message || defaults[state].message"
       />

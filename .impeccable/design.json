@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-07T00:00:00.000Z",
+  "title": "Design System: Elshatory Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "honey-light": {
+        "role": "primary",
+        "displayName": "ضوء العسل — Honey Light",
+        "canonical": "oklch(0.768 0.183 76)",
+        "tonalRamp": [
+          "oklch(0.28 0.10 60)",
+          "oklch(0.38 0.13 65)",
+          "oklch(0.44 0.14 63)",
+          "oklch(0.51 0.17 66)",
+          "oklch(0.58 0.19 73)",
+          "oklch(0.77 0.18 76)",
+          "oklch(0.85 0.15 82)",
+          "oklch(0.97 0.02 96)"
+        ]
+      },
+      "honey-warm": {
+        "role": "primary",
+        "displayName": "Honey Warm (atmospheric only)",
+        "canonical": "oklch(0.850 0.151 82)",
+        "tonalRamp": [
+          "oklch(0.28 0.10 60)",
+          "oklch(0.38 0.13 65)",
+          "oklch(0.44 0.14 63)",
+          "oklch(0.58 0.19 73)",
+          "oklch(0.68 0.20 75)",
+          "oklch(0.77 0.18 76)",
+          "oklch(0.85 0.15 82)",
+          "oklch(0.97 0.02 96)"
+        ]
+      },
+      "honey-deep": {
+        "role": "primary",
+        "displayName": "Honey Deep (text variant)",
+        "canonical": "oklch(0.576 0.190 73)",
+        "tonalRamp": [
+          "oklch(0.28 0.10 60)",
+          "oklch(0.38 0.13 65)",
+          "oklch(0.44 0.14 63)",
+          "oklch(0.51 0.17 66)",
+          "oklch(0.58 0.19 73)",
+          "oklch(0.68 0.20 75)",
+          "oklch(0.77 0.18 76)",
+          "oklch(0.85 0.15 82)"
+        ]
+      },
+      "ink-deep": {
+        "role": "neutral",
+        "displayName": "Ink Deep",
+        "canonical": "oklch(0.145 0.004 49)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "ink-medium": {
+        "role": "neutral",
+        "displayName": "Ink Medium",
+        "canonical": "oklch(0.344 0.010 40)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "stone-muted": {
+        "role": "neutral",
+        "displayName": "Stone Muted (text-muted)",
+        "canonical": "oklch(0.534 0.014 40)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "stone-subtle": {
+        "role": "neutral",
+        "displayName": "Stone Subtle (text-dimmed)",
+        "canonical": "oklch(0.670 0.011 53)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "surface-base": {
+        "role": "neutral",
+        "displayName": "Surface Base (page bg, light)",
+        "canonical": "oklch(0.984 0.001 47)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)",
+          "oklch(0.94 0.004 47)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "surface-elevated": {
+        "role": "neutral",
+        "displayName": "Surface Elevated",
+        "canonical": "oklch(0.938 0.004 47)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)",
+          "oklch(0.94 0.004 47)",
+          "oklch(0.98 0.001 47)"
+        ]
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Surface Dark (page bg, dark mode)",
+        "canonical": "oklch(0.216 0.006 55)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)"
+        ]
+      },
+      "surface-dark-elevated": {
+        "role": "neutral",
+        "displayName": "Surface Dark Elevated",
+        "canonical": "oklch(0.268 0.007 34)",
+        "tonalRamp": [
+          "oklch(0.14 0.004 49)",
+          "oklch(0.22 0.006 55)",
+          "oklch(0.27 0.007 34)",
+          "oklch(0.34 0.010 40)",
+          "oklch(0.43 0.011 40)",
+          "oklch(0.53 0.014 40)",
+          "oklch(0.67 0.011 53)",
+          "oklch(0.88 0.006 47)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero heading — the designer's name. One instance per page. font-display class (Rubik)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles and CTA headings. font-display class (Rubik)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All paragraph content in Arabic. 1.8 line-height is non-negotiable for Arabic readability."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation items, badge text, meta fields. No all-caps at this scale."
+      }
+    },
+    "shadows": [
+      {
+        "name": "amber-avatar-glow",
+        "value": "0 25px 50px -12px rgba(251,191,36,0.20)",
+        "purpose": "Hero photo — amber tint signals brand identity. Used once per page."
+      },
+      {
+        "name": "nav-surface-lift",
+        "value": "0 1px 2px rgba(0,0,0,0.05)",
+        "purpose": "Floating navigation pill. Signals stickiness over page content. Functional only."
+      },
+      {
+        "name": "polaroid-drop",
+        "value": "drop-shadow(0 25px 25px rgba(0,0,0,0.15))",
+        "purpose": "Polaroid gallery cards on the About page. Reinforces the physical-print metaphor."
+      }
+    ],
+    "motion": [
+      {
+        "name": "fade-in",
+        "value": "opacity 0 → 1, translateY 10px → 0, duration 0.6s, ease-out",
+        "purpose": "List item and content entrance. Stagger by 0.1s steps. Not for whole sections."
+      },
+      {
+        "name": "hero-glow-pulse",
+        "value": "opacity 0.55 → 0.85, scale 1 → 1.08, 6s ease-in-out infinite",
+        "purpose": "Avatar amber glow — slow breathing pulse. Reduced to none on prefers-reduced-motion."
+      },
+      {
+        "name": "avatar-frame-hover",
+        "value": "rotate(6deg) → rotate(0deg), 0.5s ease",
+        "purpose": "Hero avatar tilted frame straightens on hover. Tactile, not decorative."
+      },
+      {
+        "name": "availability-ping",
+        "value": "scale 1 → 1.8, opacity 0.75 → 0, 1.5s cubic-bezier(0,0,0.2,1) infinite",
+        "purpose": "Availability badge dot pulse — signals live status. Reduced to none on prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Amber-filled CTA. Stone-950 text required — white text fails contrast on amber-400.",
+      "html": "<button class=\"ds-btn-primary\" dir=\"rtl\">تواصل معي</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background-color: #fbbf24; color: #0c0a09; font-family: \"Tajawal\", sans-serif; font-size: 1.125rem; font-weight: 500; line-height: 1.625; padding: 12px 24px; border-radius: 0.5rem; border: none; cursor: pointer; transition: background-color 200ms ease-out; text-decoration: none; direction: rtl; } .ds-btn-primary:hover { background-color: #d97706; color: #0c0a09; } .ds-btn-primary:focus-visible { outline: 2px solid #fbbf24; outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Neutral Outline Button",
+      "kind": "button",
+      "refersTo": "button-neutral-outline",
+      "description": "Paired with primary for dual-CTA layouts (تواصل / احجز اجتماع).",
+      "html": "<button class=\"ds-btn-outline\" dir=\"rtl\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-left:6px\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\" ry=\"2\"/><line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"6\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"6\"/><line x1=\"3\" y1=\"10\" x2=\"21\" y2=\"10\"/></svg>احجز اجتماع</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; color: #44403c; font-family: \"Tajawal\", sans-serif; font-size: 1.125rem; font-weight: 500; line-height: 1.625; padding: 12px 24px; border-radius: 0.5rem; border: 1px solid #d6d3d1; cursor: pointer; transition: background-color 200ms ease-out, border-color 200ms ease-out; text-decoration: none; direction: rtl; } .ds-btn-outline:hover { background-color: #f5f5f4; border-color: #a8a29e; } .ds-btn-outline:focus-visible { outline: 2px solid #fbbf24; outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation Pill",
+      "kind": "nav",
+      "refersTo": "nav-pill",
+      "description": "Floating island nav, fixed at top, center-anchored. Rounded-full, bg-elevated/95.",
+      "html": "<nav class=\"ds-nav-pill\" dir=\"rtl\"><a href=\"#\" class=\"ds-nav-link ds-nav-link--active\">الرئيسية</a><a href=\"#\" class=\"ds-nav-link\">المشاريع</a><a href=\"#\" class=\"ds-nav-link\">المدونة</a><a href=\"#\" class=\"ds-nav-link\">تواصل</a></nav>",
+      "css": ".ds-nav-pill { display: inline-flex; align-items: center; gap: 4px; background-color: rgba(245,245,244,0.95); border: 1px solid #e7e5e4; border-radius: 9999px; padding: 6px 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); direction: rtl; } .ds-nav-link { display: inline-flex; align-items: center; padding: 4px 8px; font-family: \"Tajawal\", sans-serif; font-size: 1rem; font-weight: 500; color: #44403c; text-decoration: none; border-radius: 9999px; transition: color 150ms ease-out, background-color 150ms ease-out; } .ds-nav-link:hover { color: #0c0a09; background-color: rgba(0,0,0,0.04); } .ds-nav-link--active { color: #0c0a09; font-weight: 600; }"
+    },
+    {
+      "name": "Availability Badge",
+      "kind": "chip",
+      "refersTo": null,
+      "description": "Rounded-full badge with animated ping dot. Signals live availability status.",
+      "html": "<button class=\"ds-badge-available\" dir=\"rtl\"><span class=\"ds-badge-dot-wrapper\"><span class=\"ds-badge-dot-ping\"></span><span class=\"ds-badge-dot\"></span></span>متاح للمشاريع الجديدة</button>",
+      "css": ".ds-badge-available { display: inline-flex; align-items: center; gap: 8px; background-color: rgba(34,197,94,0.10); color: #15803d; font-family: \"Tajawal\", sans-serif; font-size: 0.875rem; font-weight: 500; padding: 4px 12px; border-radius: 9999px; border: none; cursor: pointer; direction: rtl; } .ds-badge-dot-wrapper { position: relative; display: flex; align-items: center; justify-content: center; width: 8px; height: 8px; flex-shrink: 0; } .ds-badge-dot-ping { position: absolute; inset: 0; border-radius: 9999px; background-color: #22c55e; opacity: 0.75; animation: ds-ping 1.5s cubic-bezier(0,0,0.2,1) infinite; } .ds-badge-dot { position: relative; width: 7.2px; height: 7.2px; border-radius: 9999px; background-color: #22c55e; transform: scale(0.9); } @keyframes ds-ping { 75%, 100% { transform: scale(1.8); opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-badge-dot-ping { animation: none; } }"
+    },
+    {
+      "name": "Footer CTA Block",
+      "kind": "card",
+      "refersTo": "footer-cta",
+      "description": "Contained invitation in the footer — soft bg-muted/40, rounded-2xl, dual-CTA inside.",
+      "html": "<div class=\"ds-footer-cta\" dir=\"rtl\"><h2 class=\"ds-footer-cta-heading\">هل لديك مشروع؟ <span class=\"ds-footer-cta-accent\">لنعمل معاً</span></h2><p class=\"ds-footer-cta-body\">أنا متاح لمشاريع جديدة ومستعد لتحويل أفكارك إلى واقع رقمي مميز.</p><div class=\"ds-footer-cta-actions\"><button class=\"ds-ftbtn-primary\">تواصل معي</button><button class=\"ds-ftbtn-outline\">احجز اجتماع</button></div></div>",
+      "css": ".ds-footer-cta { background-color: rgba(245,245,244,0.40); border: 1px solid rgba(231,229,228,0.60); border-radius: 1rem; padding: 2rem 3rem; text-align: center; direction: rtl; font-family: \"Tajawal\", sans-serif; } .ds-footer-cta-heading { font-family: \"Rubik\", \"Tajawal\", sans-serif; font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 700; color: #0c0a09; line-height: 1.3; margin: 0 0 0.75rem; } .ds-footer-cta-accent { color: #d97706; } .ds-footer-cta-body { font-size: 1.125rem; color: #78716c; line-height: 1.8; margin: 0 auto 1.5rem; max-width: 40ch; } .ds-footer-cta-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; } .ds-ftbtn-primary { display: inline-flex; align-items: center; background-color: #fbbf24; color: #0c0a09; font-family: \"Tajawal\", sans-serif; font-size: 1rem; font-weight: 500; padding: 10px 20px; border-radius: 0.5rem; border: none; cursor: pointer; transition: background-color 200ms ease-out; } .ds-ftbtn-primary:hover { background-color: #d97706; } .ds-ftbtn-outline { display: inline-flex; align-items: center; background-color: transparent; color: #44403c; font-family: \"Tajawal\", sans-serif; font-size: 1rem; font-weight: 500; padding: 10px 20px; border-radius: 0.5rem; border: 1px solid #d6d3d1; cursor: pointer; transition: background-color 200ms ease-out; } .ds-ftbtn-outline:hover { background-color: #f5f5f4; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "الحضور الهادئ — The Quiet Presence",
+    "overview": "A portfolio that earns trust through execution quality, not declaration. The visual system is confident without being loud — amber warmth set against a warm-stone canvas, generous Arabic line-heights that respect the letterform, minimal decorative noise. Every element serves evidence: evidence of craft, reliability, and five-plus years of deliberate frontend engineering.\n\nArabic-first is not a localization layer but the design foundation. Line-height begins at 1.8, base font size scales to 1.125rem, and Tajawal shapes every reading experience from the opening glyph. RTL is the grid direction, not a mirror.\n\nThis system explicitly rejects the SaaS gradient template, the \"passionate developer\" portfolio trope, and the 2026 cream/warm-neutral AI reflex.",
+    "keyCharacteristics": [
+      "Amber as mark, not as mood — appears on three brand moments per page, maximum",
+      "Arabic readability baked into the type scale, not retrofitted",
+      "Staggered motion with purpose — reveal sequences for list items, not uniform entrance reflex",
+      "Surfaces layered by tone (base / elevated / muted), shadows reserved for state"
+    ],
+    "rules": [
+      {
+        "name": "The Honey Signal Rule",
+        "body": "Amber appears on three brand moments maximum per screen: the designer's name, one focal CTA, one availability badge. Amber is a signature, not a fill color. If a fourth amber element appears, remove one.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stone Canvas Rule",
+        "body": "The warm-neutral danger zone (cream, sand, linen, parchment) is avoided. Stone-50 reads as near-white, not warm beige — its character comes from amber context, not from boosted background chroma.",
+        "section": "colors"
+      },
+      {
+        "name": "The Arabic Baseline Rule",
+        "body": "Body font size is 1.125rem. Line-height is 1.8. These are not adjustable defaults — Arabic letterforms fail readability at Latin-designed baselines.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two-Family Rule",
+        "body": "Rubik for headings and display; Tajawal for Arabic body. Monospace is scoped to blog content rendering only — not a global third family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces at rest carry no shadow. A new shadow is permitted only if it communicates a specific state (stickiness, hover) or belongs to an existing metaphor (polaroid).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do apply .text-amber only to the designer's name and one or two other focal brand moments per screen.",
+      "Do keep body line-height at 1.8 and base font size at 1.125rem everywhere Arabic text appears.",
+      "Do use rounded-full exclusively for pills (nav, availability badge) and rounded-sm (0.5rem) for interactive controls.",
+      "Do stagger animation-delay increments on list items to reflect reading order — 0.1s steps.",
+      "Do check contrast before any amber text on light surface. Honey Light (#fbbf24) fails 4.5:1 against white; use Honey Deep (#d97706) for body-scale text in light mode.",
+      "Do keep hero atmospheric amber (mesh, glow) at 14–30% opacity maximum."
+    ],
+    "donts": [
+      "Don't use gradient text (background-clip: text with gradient). .text-amber is the committed replacement.",
+      "Don't replicate the SaaS landing template: hero → stats block → icon-grid features → testimonials → CTA.",
+      "Don't use the 'passionate developer' portfolio structure: name in gradient, generic tagline, project card grid with hover-glow.",
+      "Don't use cream, sand, linen, or warm-tinted near-white as a page background.",
+      "Don't apply entrance animations to every section. The stagger pattern belongs to list items within a section.",
+      "Don't place border-left or border-right > 1px as a colored stripe on UI components.",
+      "Don't use glassmorphism decoratively.",
+      "Don't override the Arabic baseline: 1.125rem body and 1.8 line-height are non-negotiable."
+    ]
+  }
+}

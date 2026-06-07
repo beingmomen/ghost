@@ -134,3 +134,16 @@ Required build-time vars for client: `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_N
 - **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10.29.3
 - **Proxy**: Traefik + Let's Encrypt (SSL auto-managed)
 - **Platform**: Coolify (self-hosted) at `coolify.beingmomen.com`
+
+## Design Context
+
+Visual system documented in [`DESIGN.md`](DESIGN.md) (full spec) and [`.impeccable/design.json`](.impeccable/design.json) (machine-readable tokens + component snippets).
+
+**North Star:** "الحضور الهادئ" (The Quiet Presence) — trust through execution, not declaration.
+
+**Key rules for any agent touching `apps/client` UI:**
+- Primary color: amber (`#fbbf24`). Text-use variant: `#d97706` (light mode). Max 3 amber moments per screen.
+- Body: Tajawal 1.125rem / line-height 1.8 — Arabic baseline, non-negotiable.
+- Display: Rubik (`font-display` class). Two font families only.
+- Elevation: flat by default, shadow only for state (sticky nav, hover) or metaphor (polaroid).
+- **Absolute bans:** gradient text, side-stripe card borders, SaaS hero-metrics template, cream/warm-tinted body background.

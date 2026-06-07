@@ -46,7 +46,7 @@ const startViewTransition = (event) => {
 <template>
   <ClientOnly>
     <UButton
-      :aria-label="`Switch to ${nextTheme} mode`"
+      :aria-label="nextTheme === 'dark' ? 'التبديل إلى الوضع الليلي' : 'التبديل إلى الوضع النهاري'"
       :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
       color="neutral"
       variant="ghost"

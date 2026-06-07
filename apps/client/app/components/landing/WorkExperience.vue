@@ -41,7 +41,7 @@ const emit = defineEmits(['retry'])
             target="_blank"
             class="flex items-baseline justify-between gap-4 py-2 group"
           >
-            <span class="text-base text-dimmed whitespace-nowrap">
+            <span class="text-base text-muted whitespace-nowrap">
               {{ formatArabicDate(experience.startDate) }} – {{ formatArabicDate(experience.endDate) }}
             </span>
             <span class="text-base text-muted whitespace-nowrap">
