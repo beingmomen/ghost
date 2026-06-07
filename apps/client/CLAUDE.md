@@ -35,6 +35,27 @@ Inspect live content: `curl "$(grep ^BASE_URL apps/client/.env | cut -d= -f2-)/l
 - `app/composables/useBreadcrumbSchema.ts` — Breadcrumb structured data
 - `app/composables/useErrorHandler.js` — Toast-based error handling
 
+### Loading strategy — block navigation (deliberate, do NOT "fix")
+
+All landing data uses **SSR + block navigation** (`lazy: false`, Nuxt's default):
+`useAPI`/`useFetch` resolve on the **server**, and Nuxt holds the navigation (via Vue
+Suspense) until the data is ready. This is an intentional architectural choice:
+
+- **Aligns with the "الحضور الهادئ" north star** — the page appears complete and
+  composed, never flashing skeletons or popping content in.
+- **SSR ships full content** in the initial HTML (good for SEO). Sections are *never*
+  "silently absent" — they are already in the server-rendered HTML.
+- The **error** path is handled by `LandingSectionFallback` (retry + escape-hatch
+  links). The **empty** path renders nothing, by design.
+
+**Therefore do NOT add** skeletons, `lazy: true`, `useLazyFetch`, or per-section
+`pending`/loading states to landing sections. A review flagging *"no loading states"*
+or *"sections silently absent on slow connections"* is a **false positive** against
+this architecture — it assumes client-side fetching, which this app does not use for
+landing data. The only valid companion to block navigation is `<NuxtLoadingIndicator>`
+in `app.vue` (a thin top progress bar for internal navigation); its absence is **not**
+a defect.
+
 ## Component Organization
 
 ```
