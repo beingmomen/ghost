@@ -59,7 +59,7 @@ app/components/
 ├── sdlc/              # SDLC English components (7)
 ├── sdlc-ar/           # SDLC Arabic components (7)
 ├── AppHeader.vue      # Navigation header
-├── AppFooter.vue      # Footer
+├── AppFooter.vue      # Footer — includes a CTA banner ("هل لديك مشروع؟") on EVERY page before the links grid. Do NOT add a separate closing CTA to any page; it will duplicate this one.
 ├── ColorModeButton.vue # Dark/light toggle
 └── PolaroidItem.vue   # Polaroid image card
 ```

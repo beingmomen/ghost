@@ -6,7 +6,7 @@ const { footer, global } = useAppConfig()
 
 <template>
   <footer class="z-10 mt-16">
-    <!-- CTA Banner -->
+    <!-- CTA Banner — appears on every page. Do not add a separate closing CTA to individual pages. -->
     <div class="-mx-4 sm:-mx-12 lg:-mx-16 px-4 sm:px-12 lg:px-16">
       <div class="max-w-(--ui-container) mx-auto">
         <div class="rounded-2xl border border-default/60 bg-muted/40 p-8 sm:p-12 text-center">
