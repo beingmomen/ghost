@@ -2,6 +2,14 @@
 const { data } = useNuxtData('landing')
 const config = useRuntimeConfig()
 
+defineProps({
+  apiError: {
+    type: [Object, Error, null],
+    default: null
+  }
+})
+const emit = defineEmits(['retry'])
+
 const testimonials = computed(() => {
   const items = data.value?.testimonials || []
   return items.map(item => ({
@@ -19,7 +27,20 @@ const testimonials = computed(() => {
 </script>
 
 <template>
-  <UPageSection :ui="{ container: 'px-0 !pt-0' }">
+  <LandingSectionFallback
+    v-if="apiError"
+    state="error"
+    eyebrow="آراء العملاء"
+    title="ماذا قال عملاؤنا"
+    message="تعذّر جلب تقييمات العملاء من الخادم. حاول مرة أخرى أو تواصل معي مباشرة."
+    alt-action-label="تواصل معي"
+    alt-action-to="/contact"
+    @retry="emit('retry')"
+  />
+  <UPageSection
+    v-else
+    :ui="{ container: 'px-0 !pt-0' }"
+  >
     <UCarousel
       v-if="testimonials.length"
       v-slot="{ item }"

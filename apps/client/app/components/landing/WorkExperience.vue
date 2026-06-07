@@ -1,10 +1,24 @@
 <script setup>
 const experiences = useExperiences()
+defineProps({
+  apiError: {
+    type: [Object, Error, null],
+    default: null
+  }
+})
+const emit = defineEmits(['retry'])
 </script>
 
 <template>
+  <LandingSectionFallback
+    v-if="apiError"
+    state="error"
+    title="الخبرات العملية"
+    message="تعذّر جلب الخبرات من الخادم. حاول مرة أخرى لعرضها."
+    @retry="emit('retry')"
+  />
   <UPageSection
-    v-if="experiences.length"
+    v-else-if="experiences.length"
     title="الخبرات العملية"
     :ui="{
       container: '!p-0 gap-4 sm:gap-4',

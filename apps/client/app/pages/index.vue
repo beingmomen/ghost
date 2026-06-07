@@ -1,7 +1,7 @@
 <script setup>
 const config = useRuntimeConfig()
 
-await useAPI('/landing', {
+const { error: landingError, refresh: refreshLanding } = await useAPI('/landing', {
   key: 'landing',
   default: () => ({}),
   transform: response => response.data || {}
@@ -47,12 +47,21 @@ useSeoMeta({
 
     <UPageSection :ui="{ container: '!pt-0 lg:grid lg:grid-cols-2 lg:gap-8 *:min-w-0' }">
       <LandingAbout />
-      <LandingWorkExperience />
+      <LandingWorkExperience
+        :api-error="landingError"
+        @retry="refreshLanding()"
+      />
     </UPageSection>
 
     <LazyLandingStats />
     <LazyLandingBlog />
-    <LazyLandingTestimonials />
-    <LazyLandingFAQ />
+    <LazyLandingTestimonials
+      :api-error="landingError"
+      @retry="refreshLanding()"
+    />
+    <LazyLandingFAQ
+      :api-error="landingError"
+      @retry="refreshLanding()"
+    />
   </UPage>
 </template>

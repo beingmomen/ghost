@@ -1,6 +1,14 @@
 <script setup>
 const { data: landing } = useNuxtData('landing')
 
+defineProps({
+  apiError: {
+    type: [Object, Error, null],
+    default: null
+  }
+})
+const emit = defineEmits(['retry'])
+
 const faqData = computed(() => {
   const faqs = landing.value?.faqs || []
   // Group by category
@@ -66,8 +74,16 @@ const ui = {
 </script>
 
 <template>
+  <LandingSectionFallback
+    v-if="apiError"
+    state="error"
+    eyebrow="الأسئلة الشائعة"
+    title="ما الذي تودّ معرفته؟"
+    message="تعذّر جلب الأسئلة الشائعة من الخادم. حاول مرة أخرى بعد لحظات."
+    @retry="emit('retry')"
+  />
   <section
-    v-if="items.length"
+    v-else-if="items.length"
     class="py-12 sm:py-16"
   >
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

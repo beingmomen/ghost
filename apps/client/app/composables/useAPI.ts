@@ -1,10 +1,21 @@
 import type { UseFetchOptions } from 'nuxt/app'
 
+/**
+ * Thin wrapper around `useFetch` that:
+ *   - routes through the configured `$api` client (baseURL + headers)
+ *   - surfaces server errors as toasts (500 / 404 / generic 4xx)
+ *   - exposes `error` and `refresh` to the caller so each section can decide
+ *     whether to render a fallback, retry, or stay silent.
+ *
+ * Callers should branch on `error.value` (or `data.value?.length === 0`) and
+ * render `<LandingSectionFallback />` (or equivalent) instead of disappearing
+ * the section without context.
+ */
 export function useAPI<T>(
   url: string | (() => string),
   options?: UseFetchOptions<T>
 ) {
-  return useFetch(url, {
+  return useFetch<T>(url, {
     ...options,
     $fetch: useNuxtApp().$api,
     onResponseError({ response }) {
