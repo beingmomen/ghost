@@ -44,7 +44,7 @@ const testimonials = computed(() => {
       v-if="testimonials.length"
       v-slot="{ item }"
       :items="testimonials"
-      :autoplay="{ delay: 4000, stopOnMouseEnter: true, stopOnFocusIn: true }"
+      :autoplay="{ delay: 6000, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: true }"
       loop
       dots
       :ui="{
