@@ -65,11 +65,16 @@ useHead({
 })
 
 const ui = {
-  root: 'flex items-center gap-4 w-full',
-  list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
+  // Mobile: stack the category row above the panels so it gets full width.
+  // The old flex-row squeezed the list beside the content and forced truncation.
+  // Desktop (lg) keeps the side-by-side layout.
+  root: 'flex flex-col lg:flex-row lg:items-center gap-4 w-full',
+  // Scroll the category row horizontally instead of truncating labels when they
+  // overflow; min-w-0 lets the flex child become a scroll container.
+  list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0 min-w-0 overflow-x-auto',
   indicator: 'absolute top-[4px] duration-200 ease-out focus:outline-none rounded-lg bg-elevated/60',
-  trigger: 'px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted',
-  label: 'truncate'
+  trigger: 'shrink-0 px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted',
+  label: 'whitespace-nowrap'
 }
 </script>
 
