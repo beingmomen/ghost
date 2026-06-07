@@ -71,16 +71,15 @@ onMounted(() => {
         <div
           v-for="(stat, index) in stats"
           :key="stat.label"
-          class="flex flex-col items-center gap-3 text-center group cursor-default animate-fade-in px-4 sm:px-8 py-2"
+          class="flex flex-col items-center gap-2 text-center animate-fade-in px-4 sm:px-8 py-2"
           :style="`animation-delay: ${0.1 + index * 0.1}s`"
           :aria-label="`${stat.value} ${stat.label}`"
         >
-          <div class="size-14 rounded-xl flex items-center justify-center bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/15 group-hover:ring-primary/30 transition-all duration-300">
-            <UIcon
-              :name="stat.icon"
-              class="size-6 text-primary"
-            />
-          </div>
+          <UIcon
+            :name="stat.icon"
+            class="size-5 text-primary/40"
+            aria-hidden="true"
+          />
           <span
             dir="ltr"
             class="text-4xl sm:text-5xl font-bold text-amber leading-none transition-transform duration-200 inline-block"
