@@ -5,7 +5,8 @@ export default defineAppConfig({
     description:
       'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء مع التركيز على تجربة المستخدم.',
     links: [
-      { label: 'تواصل معي', to: '/contact', color: 'primary', size: 'md' }
+      { label: 'عرض أعمالي', to: '/projects', color: 'primary', trailingIcon: 'i-lucide-arrow-left' },
+      { label: 'تواصل معي', to: '/contact', color: 'neutral', variant: 'outline' }
     ],
     picture: {
       dark: 'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',

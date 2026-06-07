@@ -80,21 +80,14 @@ const { global } = useAppConfig()
 
           <!-- CTAs -->
           <div
-            v-if="global.links"
+            v-if="global.links?.length"
             class="animate-fade-in animation-delay-400 flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8"
           >
             <UButton
-              v-bind="global.links[0]"
+              v-for="link in global.links"
+              :key="link.to"
+              v-bind="link"
               size="lg"
-            />
-            <UButton
-              label="احجز اجتماع"
-              :to="global.meetingLink"
-              target="_blank"
-              color="neutral"
-              variant="outline"
-              size="lg"
-              icon="i-lucide-calendar"
             />
           </div>
 
