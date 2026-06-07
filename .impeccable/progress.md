@@ -11,5 +11,5 @@
 
 ## ملاحظات مفتوحة
 
-- **P3 copy**: `Stats.vue` يعرض "22 عملاء" بينما og:title يقول "+50 عميل" — قرار المستخدم أيهما صحيح
+- ~~**P3 copy**: `Stats.vue` يعرض "22 عملاء" بينما og:title يقول "+50 عميل"~~ ✓ مُغلق — تم توحيد الرقم على `+50 عميل`
 - **Migration**: صفحات agents/skills/commands/mcp تعرض empty state — تنتظر ربط الـ backend API
