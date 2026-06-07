@@ -29,7 +29,7 @@ exports.getLandingData = catchAsync(async (req, res, next) => {
       .lean(),
 
     Testimonial.find({ isConfirmed: true })
-      .select('name email description image -_id')
+      .select('name description image -_id')
       .sort('-createdAt')
       .limit(20)
       .lean(),

@@ -16,7 +16,6 @@ const testimonials = computed(() => {
     quote: item.description,
     author: {
       name: item.name,
-      description: item.email,
       avatar: {
         src: item.image?.trim() ? (item.image.startsWith('http') ? item.image : `${config.public.cloudinary.cloudinaryUrl}${item.image}`) : undefined,
         alt: item.name
