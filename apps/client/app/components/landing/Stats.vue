@@ -10,6 +10,7 @@ const stats = [
 
 function useCountUp(target, duration = 1800) {
   const current = ref(0)
+  const landed = ref(false)
   const hasPlus = target.startsWith('+')
   const numericValue = parseInt(target.replace('+', ''))
 
@@ -25,13 +26,18 @@ function useCountUp(target, duration = 1800) {
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 4)
       current.value = Math.round(eased * numericValue)
-      if (progress < 1) requestAnimationFrame(tick)
+      if (progress < 1) {
+        requestAnimationFrame(tick)
+      } else {
+        landed.value = true
+        setTimeout(() => { landed.value = false }, 500)
+      }
     }
     requestAnimationFrame(tick)
   }
 
   const display = computed(() => hasPlus ? `+${current.value}` : `${current.value}`)
-  return { display, start }
+  return { display, start, landed }
 }
 
 const counters = stats.map(s => useCountUp(s.value))
@@ -77,7 +83,8 @@ onMounted(() => {
           </div>
           <span
             dir="ltr"
-            class="text-4xl sm:text-5xl font-bold text-amber leading-none"
+            class="text-4xl sm:text-5xl font-bold text-amber leading-none transition-transform duration-200 inline-block"
+            :class="counters[index].landed.value ? 'scale-110' : 'scale-100'"
           >
             {{ counters[index].display.value }}
           </span>

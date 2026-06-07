@@ -7,7 +7,7 @@
 | `apps/client` | `audit` | ✓ مكتمل | 14→20/20 (Excellent) | 2026-06-07 |
 | `apps/client` | `polish` | ✓ مكتمل | contrast tokens، footer HTML، glow opacity، animate-fade-in، testimonials pause، SWR caching، theme-color، typography stone tokens، eyebrow prop، aria-label | 2026-06-07 |
 | `apps/client/app/pages/index.vue` | `critique` | ✓ مكتمل | 31/40 (Good) — P1×2: لا عينة أعمال، CTA hierarchy | 2026-06-07 |
-| `apps/client/app/pages/index.vue` | `delight` | – لم يبدأ | — | — |
+| `apps/client/app/pages/index.vue` | `delight` | ✓ مكتمل | console easter egg، stats landing flash، projects stagger | 2026-06-07 |
 
 ## ملاحظات مفتوحة
 

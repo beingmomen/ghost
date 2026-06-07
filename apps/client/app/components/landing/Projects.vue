@@ -46,12 +46,13 @@ const {
 
       <div class="lg:col-span-8 space-y-4">
         <NuxtLink
-          v-for="project in featuredProjects"
+          v-for="(project, i) in featuredProjects"
           :key="project._id"
           :to="project.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 hover:bg-elevated/60 hover:border-primary/30 transition-colors duration-300"
+          class="animate-fade-in group flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 hover:bg-elevated/60 hover:border-primary/30 transition-colors duration-300"
+          :style="`animation-delay: ${i * 0.12}s`"
         >
           <div class="flex-1 min-w-0 text-right">
             <p class="text-xs font-medium text-primary mb-1">{{ project.tag }}</p>
