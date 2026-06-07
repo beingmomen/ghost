@@ -54,6 +54,7 @@ useSeoMeta({
     </UPageSection>
 
     <LazyLandingStats />
+    <LazyLandingProjects />
     <LazyLandingBlog />
     <LazyLandingTestimonials
       :api-error="landingError"
