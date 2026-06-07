@@ -64,5 +64,6 @@ useSeoMeta({
       :api-error="landingError"
       @retry="refreshLanding()"
     />
+    <LazyLandingClosingCTA />
   </UPage>
 </template>
