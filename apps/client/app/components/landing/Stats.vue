@@ -3,9 +3,9 @@ import { ref, computed, onMounted } from 'vue'
 
 const stats = [
   { value: '+5', label: 'سنوات خبرة', icon: 'i-lucide-calendar-days' },
-  { value: '+10', label: 'مشروع منجز', icon: 'i-lucide-folder-check' },
-  { value: '3', label: 'شركات', icon: 'i-lucide-building-2' },
-  { value: '+50', label: 'عميل', icon: 'i-lucide-users' }
+  { value: '+10', label: 'مشروع سلّمته', icon: 'i-lucide-folder-check' },
+  { value: '3', label: 'شركات عملت بها', icon: 'i-lucide-building-2' },
+  { value: '+50', label: 'عميل تعاملت معه', icon: 'i-lucide-users' }
 ]
 
 function useCountUp(target, duration = 1800) {
