@@ -86,7 +86,7 @@ const contactPills = [
       description="سواء كان لديك مشروع جديد، سؤال تقني، أو فقط تريد التعارف — أنا هنا وأسعد دائماً بالتحدث"
       :ui="{
         title: 'text-center',
-        description: 'text-center text-amber font-bold animate-fade-in animation-delay-300',
+        description: 'text-center text-muted animate-fade-in animation-delay-300',
         links: 'mt-4 flex-col justify-center items-center'
       }"
     >
@@ -129,7 +129,7 @@ const contactPills = [
             :style="{ animationDelay: `${0.5 + index * 0.1}s` }"
           >
             <div
-              class="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/80 backdrop-blur-sm border border-default/50 shadow-sm"
+              class="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/80 border border-default/50"
             >
               <UIcon
                 :name="pill.icon"
@@ -145,13 +145,13 @@ const contactPills = [
     <!-- Two-Column Body -->
     <UPageSection
       :ui="{
-        container: '!pt-0 flex flex-col gap-8 *:min-w-0'
+        container: '!pt-0 grid grid-cols-1 lg:grid-cols-5 gap-8 items-start *:min-w-0'
       }"
     >
       <!-- Form Section -->
-      <div>
+      <div class="lg:col-span-3">
         <div
-          class="rounded-2xl border border-default/60 bg-muted/40 backdrop-blur-sm p-6 sm:p-8 shadow-lg shadow-neutral-950/5"
+          class="rounded-2xl border border-default/60 bg-muted/40 p-6 sm:p-8"
         >
           <p class="text-xs font-semibold text-primary mb-1">
             راسلني
@@ -308,7 +308,7 @@ const contactPills = [
       </div>
 
       <!-- Info Panel Section -->
-      <div>
+      <div class="lg:col-span-2">
         <div class="animate-fade-in animation-delay-200">
           <UCard
             variant="soft"
@@ -351,7 +351,7 @@ const contactPills = [
                 color="neutral"
                 variant="ghost"
                 square
-                class="opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity shrink-0"
+                class="shrink-0"
                 aria-label="نسخ البريد الإلكتروني"
                 @click="handleCopyEmail"
               />
