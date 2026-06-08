@@ -2,9 +2,10 @@
 const config = useRuntimeConfig()
 const { cloudinary } = config.public
 
-const { data: projects } = await useAPI('/projects', {
+const { data: projects, error: projectsError, refresh: refreshProjects } = await useAPI('/projects', {
   key: 'projects',
   query: { isActive: true },
+  default: () => [],
   transform: (response) => {
     return (response.data || []).map(project => ({
       ...project,
@@ -91,7 +92,25 @@ useHead({
         </div>
       </template>
     </UPageHero>
+    <LandingSectionFallback
+      v-if="projectsError"
+      state="error"
+      title="تعذّر تحميل المشاريع"
+      message="حدث خطأ أثناء جلب المشاريع من الخادم. حاول مرة أخرى بعد لحظات."
+      alt-action-label="تواصل معي"
+      alt-action-to="/contact"
+      @retry="refreshProjects()"
+    />
+    <LandingSectionFallback
+      v-else-if="!projects?.length"
+      state="empty"
+      title="لا توجد مشاريع منشورة حالياً"
+      message="يجري تجهيز أعمال جديدة. في الأثناء، يسعدني أن أسمع عن مشروعك."
+      alt-action-label="تواصل معي"
+      alt-action-to="/contact"
+    />
     <UPageSection
+      v-else
       :ui="{
         container: '!pt-0'
       }"
