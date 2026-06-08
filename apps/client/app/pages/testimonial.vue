@@ -245,7 +245,7 @@ function resetForm() {
         class="animate-fade-in animation-delay-200"
       >
         <div class="mx-auto w-full md:w-3/4 lg:w-2/3 bg-elevated/50 rounded-xl p-6 sm:p-8 lg:p-10">
-          <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
+          <p class="text-xs font-semibold text-primary mb-1">
             أضف تقييمك
           </p>
           <h2 class="text-xl sm:text-2xl font-bold text-highlighted mb-6">

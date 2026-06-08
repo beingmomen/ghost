@@ -153,7 +153,7 @@ const contactPills = [
         <div
           class="rounded-2xl border border-default/60 bg-muted/40 backdrop-blur-sm p-6 sm:p-8 shadow-lg shadow-neutral-950/5"
         >
-          <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
+          <p class="text-xs font-semibold text-primary mb-1">
             راسلني
           </p>
           <h2 class="text-xl sm:text-2xl font-bold text-highlighted mb-6">
@@ -314,7 +314,7 @@ const contactPills = [
             variant="soft"
           >
             <template #header>
-              <p class="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
+              <p class="text-xs font-semibold text-primary mb-1">
                 تواصل مباشرة
               </p>
               <h3 class="text-lg font-bold text-highlighted">
@@ -401,7 +401,7 @@ const contactPills = [
 
             <!-- Social Links -->
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-muted mb-4 text-center">
+              <p class="text-xs font-semibold text-muted mb-4 text-center">
                 تابعني على
               </p>
               <CommonSocialPart />

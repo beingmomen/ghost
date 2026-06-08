@@ -125,7 +125,7 @@ const metaItems = computed(() => [
               :name="metaItem.icon"
               class="size-3 text-muted"
             />
-            <div class="text-sm font-semibold text-muted uppercase tracking-wide">
+            <div class="text-sm font-semibold text-muted">
               {{ metaItem.label }}
             </div>
           </div>
