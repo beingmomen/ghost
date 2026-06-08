@@ -79,8 +79,7 @@ useHead({
         <div class="flex items-center gap-2">
           <UButton
             label="تواصل معي"
-            :to="global.meetingLink"
-            target="_blank"
+            to="/contact"
             color="primary"
           />
           <UButton
@@ -124,6 +123,7 @@ useHead({
             :title="project.title"
             :description="project.description"
             :to="project.url"
+            target="_blank"
             orientation="horizontal"
             variant="naked"
             :reverse="index % 2 === 1"
@@ -148,24 +148,21 @@ useHead({
                   size="xs"
                 />
               </div>
-              <ULink
-                :to="project.url"
-                target="_blank"
-                class="text-base text-primary flex items-center"
-              >
+              <span class="text-base text-primary inline-flex items-center gap-1">
                 عرض المشروع
                 <UIcon
                   name="i-lucide-arrow-left"
-                  class="size-4 text-primary transition-all opacity-0 group-hover:-translate-x-1 group-hover:opacity-100"
+                  class="size-4 transition-transform group-hover:-translate-x-1"
                 />
-              </ULink>
+              </span>
             </template>
             <NuxtImg
               :src="project.image"
               :alt="project.altText || project.title"
               width="400"
               height="192"
-              loading="lazy"
+              :loading="index === 0 ? 'eager' : 'lazy'"
+              :fetchpriority="index === 0 ? 'high' : 'auto'"
               class="object-cover w-full h-48 rounded-lg"
             />
           </UPageCard>
