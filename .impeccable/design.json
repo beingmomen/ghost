@@ -213,7 +213,7 @@
       },
       {
         "name": "hero-glow-pulse",
-        "value": "opacity 0.55 → 0.85, scale 1 → 1.08, 6s ease-in-out infinite",
+        "value": "opacity 0.28 → 0.45, scale 1 → 1.05, 6s ease-in-out infinite",
         "purpose": "Avatar amber glow — slow breathing pulse. Reduced to none on prefers-reduced-motion."
       },
       {
@@ -225,6 +225,28 @@
         "name": "availability-ping",
         "value": "scale 1 → 1.8, opacity 0.75 → 0, 1.5s cubic-bezier(0,0,0.2,1) infinite",
         "purpose": "Availability badge dot pulse — signals live status. Reduced to none on prefers-reduced-motion."
+      }
+    ],
+    "atmosphere": [
+      {
+        "name": "hero-mesh",
+        "value": "3 radial-gradients (amber/orange), roughly 14–30% opacity (18–30% light, 14–22% dark), z-index -3",
+        "purpose": "Primary hero atmosphere: brand color warmth. Honey Warm is atmospheric-only and lives here."
+      },
+      {
+        "name": "hero-grid",
+        "value": "radial dot pattern, 22px grid, stone dots ~38% light / 45% dark, masked with a radial-ellipse fade, z-index -2",
+        "purpose": "Engineering-precision texture (a grid system), not generic decoration. Monochrome stone, so it adds no amber moment and the Honey Signal Rule holds. Deliberate, not slop."
+      },
+      {
+        "name": "hero-grain",
+        "value": "fractalNoise SVG, opacity 0.04 light / 0.07 dark, mix-blend-mode soft-light, z-index -1",
+        "purpose": "Suppresses gradient banding and adds analog texture. Near-invisible by design."
+      },
+      {
+        "name": "hero-glow",
+        "value": "amber radial, blur 44px, inset -22%, pulses via the hero-glow-pulse motion",
+        "purpose": "Anchors the eye on the avatar photo. Static under prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -328,7 +350,8 @@
       "Don't apply entrance animations to every section. The stagger pattern belongs to list items within a section.",
       "Don't place border-left or border-right > 1px as a colored stripe on UI components.",
       "Don't use glassmorphism decoratively.",
-      "Don't override the Arabic baseline: 1.125rem body and 1.8 line-height are non-negotiable."
+      "Don't override the Arabic baseline: 1.125rem body and 1.8 line-height are non-negotiable.",
+      "Don't strip the hero's atmospheric layers (mesh / dot grid / film grain / glow) to make it 'quieter'. The four-layer stack is deliberate and restrained, not slop; each layer does a distinct job (see atmosphere)."
     ]
   }
 }

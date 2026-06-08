@@ -178,6 +178,17 @@ Direct and spacious. Amber primary makes the intent clear without urgency. Dark-
 
 White-framed photo cards (`bg-white dark:bg-neutral-800`), uniform 0.5rem padding, `drop-shadow-2xl`, alternating ±5° tilt by index. On hover: straightens to 0°, scales to 1.05, shifts laterally (−4px or +4px by index). Physical-print sensation in CSS. Used exclusively on the About page.
 
+### Hero Atmosphere (Signature Composition)
+
+The hero background layers four atmospheric effects, each doing a distinct job. This is a deliberate, restrained composition, not decorative excess; a review should not flag the layer count as clutter.
+
+- **Amber Mesh** (`.hero-mesh`, z-index -3): three radial gradients in amber/orange, roughly 14–30% opacity (18–30% light, 14–22% dark). Carries brand warmth and color. The primary atmosphere.
+- **Dot Grid** (`.hero-grid`, z-index -2): a stone radial-dot pattern (22px, ~38% light / 45% dark dot opacity) masked with a radial ellipse so it concentrates near the top and fades to the edges. Reads as engineering precision (a grid system), not generic decoration. Monochrome stone, so it adds no amber moment and the Honey Signal Rule still holds.
+- **Film Grain** (`.hero-grain`, z-index -1): a fractal-noise SVG at 0.04 (light) / 0.07 (dark) opacity, `mix-blend-mode: soft-light`. Suppresses gradient banding and adds analog texture. Near-invisible by design.
+- **Avatar Glow** (`.hero-glow`): an amber radial blurred 44px, pulsing 0.28 to 0.45 opacity over 6s on the compositor thread. Anchors the eye on the photo. Static under `prefers-reduced-motion`.
+
+**Why four layers is intentional.** Each layer occupies a different visual register: mesh is color, grid is structure, grain is texture, glow is focus. They stack rather than compete, and the execution stays restrained (low opacities, a fade mask, a monochrome grid). The result is on-theme for a frontend engineer. Stripping layers to chase a "quieter" reflex flattens the hero without improving it.
+
 ### Inputs / Fields
 
 - **Style:** Nuxt UI UInput, stone-neutral, `rounded-sm` radius, visible stroke border.
@@ -202,6 +213,7 @@ White-framed photo cards (`bg-white dark:bg-neutral-800`), uniform 0.5rem paddin
 - **Don't** use the "passionate developer" structure: name in gradient, generic tagline, project card grid with hover-glow. These are listed anti-references in PRODUCT.md.
 - **Don't** use cream, sand, linen, or any warm-tinted near-white as a page background. The stone ramp at chroma ≈ 0 is the canvas. Adding warmth to the background itself is the 2026 AI reflex.
 - **Don't** apply entrance animations to every section. The fade-in pattern belongs to list items within a section. Sections themselves appear at rest.
+- **Don't** strip the hero's atmospheric layers (mesh / dot grid / film grain / glow) to make it "quieter". The four-layer stack is a deliberate, restrained composition (see Hero Atmosphere), not slop; each layer does a distinct job.
 - **Don't** place `border-left` or `border-right` greater than 1px as a colored stripe on UI components. The ProseMirror blockquote border is scoped to blog-content rendering only, not a precedent for UI chrome.
 - **Don't** use glassmorphism decoratively. The nav's `bg-elevated/95` is functional (readability over the hero background), not an aesthetic choice.
 - **Don't** override the Arabic baseline: 1.125rem body and 1.8 line-height are non-negotiable. Any deviation requires a documented accessibility justification.
