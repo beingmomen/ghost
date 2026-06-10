@@ -340,7 +340,7 @@ const contactPills = [
                   <p class="text-xs text-muted mb-0.5">
                     البريد الإلكتروني
                   </p>
-                  <p class="text-base font-medium text-highlighted truncate">
+                  <p class="text-sm font-medium text-highlighted break-all">
                     {{ global.email }}
                   </p>
                 </div>
