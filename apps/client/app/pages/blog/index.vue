@@ -1,7 +1,7 @@
 <script setup>
 const { cloudinary } = useRuntimeConfig().public
 
-const { data, status } = await useFetch('/api/blog', {
+const { data, status, refresh } = await useFetch('/api/blog', {
   key: 'blogs',
   default: () => [],
   transform: blogs => blogs.map(blog => ({
@@ -52,6 +52,29 @@ useSeoMeta({
 })
 
 useBreadcrumbSchema([{ name: 'المدونة', path: '/blog' }])
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        'name': 'المدونة - عبدالمؤمن الشطوري',
+        'description': pageDescription,
+        'url': `${config.public.siteUrl}/blog`,
+        'blogPost': (posts.value || []).map(post => ({
+          '@type': 'BlogPosting',
+          'headline': post.title,
+          'description': post.description,
+          'image': post.image?.src,
+          'datePublished': post.date,
+          'url': `${config.public.siteUrl}${post.path}`
+        }))
+      })
+    }
+  ]
+})
 </script>
 
 <template>
@@ -66,25 +89,7 @@ useBreadcrumbSchema([{ name: 'المدونة', path: '/blog' }])
     />
 
     <UPageSection :ui="{ container: '!pt-0' }">
-      <div
-        v-if="status === 'pending'"
-        class="space-y-8"
-      >
-        <div
-          v-for="i in 3"
-          :key="i"
-          class="md:grid md:grid-cols-2 gap-8"
-        >
-          <USkeleton class="h-48 rounded-lg" />
-          <div class="space-y-4 mt-4 md:mt-0">
-            <USkeleton class="h-6 w-3/4" />
-            <USkeleton class="h-4 w-full" />
-            <USkeleton class="h-4 w-2/3" />
-          </div>
-        </div>
-      </div>
-
-      <template v-else-if="posts.length">
+      <template v-if="posts.length">
         <UBlogPosts orientation="vertical">
           <UBlogPost
             v-for="(post, index) in paginatedPosts"
@@ -114,6 +119,26 @@ useBreadcrumbSchema([{ name: 'المدونة', path: '/blog' }])
           />
         </div>
       </template>
+
+      <div
+        v-else-if="status === 'error'"
+        class="text-center py-12"
+      >
+        <UIcon
+          name="i-lucide-cloud-off"
+          class="size-12 text-muted mx-auto mb-4"
+        />
+        <p class="text-muted mb-4">
+          تعذّر تحميل المقالات. حاول مرة أخرى بعد لحظات.
+        </p>
+        <UButton
+          label="حاول مرة أخرى"
+          icon="i-lucide-refresh-cw"
+          color="primary"
+          variant="soft"
+          @click="refresh()"
+        />
+      </div>
 
       <div
         v-else
