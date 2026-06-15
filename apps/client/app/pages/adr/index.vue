@@ -151,7 +151,7 @@ const adrs = [
     subtitle: 'Multi-Mode Architecture',
     description: 'بنية تدعم أوضاع تشغيل متعددة (خاص، حكومي، مختلط) تُحدد في وقت التشغيل — مع فصل كامل بالملفات بدون أي شروط في الكود.',
     topics: ['Runtime Switching', 'File Separation', 'Orchestrator Pattern', 'Zero Conditionals'],
-    sections: 14,
+    sections: 12,
     readTime: '15 دقيقة قراءة'
   }
 ]
