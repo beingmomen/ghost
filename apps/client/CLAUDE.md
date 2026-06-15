@@ -124,9 +124,10 @@ app/components/
 ## Styling
 
 - **Tailwind v4** with `@theme static` for custom colors in `app/assets/css/main.css`
-- `.text-gradient` utility class for gradient text
-- SDLC glassmorphism and aurora animation styles (scoped in SDLC components)
+- `.text-amber` utility for solid brand-amber text (the old gradient-text utility was removed — gradient text is banned, see DESIGN.md)
 - Typography styles in `app/assets/css/typography.css` (Tiptap/ProseMirror)
+- **Error/empty states:** API-driven sections render `LandingSectionFallback` (retry + escape-hatch) instead of a silent gap — see the block-navigation note under Data Flow.
+- **Never build Tailwind classes dynamically** (`` `bg-${color}` ``) — they get purged. Use a static class map (`AdrFlowDiagram` `COLOR_CLASSES`, `SdlcDecisions` `nodeStyles`). See DESIGN.md.
 
 ## RTL
 

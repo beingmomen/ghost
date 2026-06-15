@@ -209,6 +209,7 @@ The hero background layers four atmospheric effects, each doing a distinct job. 
 ### Don't:
 
 - **Don't** use gradient text (`background-clip: text` with a gradient fill). `.text-amber` is the committed replacement. The gradient pattern is an absolute ban and a primary AI tell.
+- **Don't** build Tailwind color classes dynamically (`` `bg-${color}` ``, `` `text-${color}` ``). Tailwind only emits classes it finds as complete literal strings, so a constructed class is purged from the production build and the color silently fails (works in dev, breaks in prod). Use a static map of full class strings — see `AdrFlowDiagram` `COLOR_CLASSES` and `SdlcDecisions` `nodeStyles`.
 - **Don't** replicate the SaaS landing template: hero → stats block (big numbers, small labels) → icon-grid features → testimonials → CTA. The evidence on this portfolio comes from content (projects, work history, blog posts), not from metric widgets.
 - **Don't** use the "passionate developer" structure: name in gradient, generic tagline, project card grid with hover-glow. These are listed anti-references in PRODUCT.md.
 - **Don't** use cream, sand, linen, or any warm-tinted near-white as a page background. The stone ramp at chroma ≈ 0 is the canvas. Adding warmth to the background itself is the 2026 AI reflex.
