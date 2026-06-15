@@ -269,6 +269,34 @@ useBreadcrumbSchema([
   { name: 'إدارة البيانات العامة', path: '/adr/global-data' }
 ])
 
+const config = useRuntimeConfig()
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        'headline': 'إدارة البيانات العامة — useGlobal Composable',
+        'description': 'قرار معماري: نمط composable مركزي يوفر وصولاً موحداً لبيانات الجلسة عبر computed، بدون نسخ أو مزامنة يدوية.',
+        'url': `${config.public.siteUrl}/adr/global-data`,
+        'inLanguage': 'ar',
+        'author': {
+          '@type': 'Person',
+          'name': 'عبدالمؤمن الشطوري',
+          'url': config.public.siteUrl
+        },
+        'publisher': {
+          '@type': 'Person',
+          'name': 'عبدالمؤمن الشطوري',
+          'url': config.public.siteUrl
+        }
+      })
+    }
+  ]
+})
+
 const tocSections = [
   { id: 'overview', label: 'نظرة عامة' },
   { id: 'architecture', label: 'مسار تدفق البيانات' },

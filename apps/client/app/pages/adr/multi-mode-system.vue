@@ -479,6 +479,34 @@ useBreadcrumbSchema([
   { name: 'نظام الأوضاع المتعددة', path: '/adr/multi-mode-system' }
 ])
 
+const config = useRuntimeConfig()
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        'headline': 'نظام الأوضاع المتعددة — Multi-Mode Architecture',
+        'description': 'قرار معماري: بنية أوضاع تشغيل متعددة تُحدد runtime مع فصل كامل بالملفات، بدون شروط في الكود.',
+        'url': `${config.public.siteUrl}/adr/multi-mode-system`,
+        'inLanguage': 'ar',
+        'author': {
+          '@type': 'Person',
+          'name': 'عبدالمؤمن الشطوري',
+          'url': config.public.siteUrl
+        },
+        'publisher': {
+          '@type': 'Person',
+          'name': 'عبدالمؤمن الشطوري',
+          'url': config.public.siteUrl
+        }
+      })
+    }
+  ]
+})
+
 const tocSections = [
   { id: 'overview', label: 'نظرة عامة' },
   { id: 'mode-detection', label: 'كشف النظام' },

@@ -29,7 +29,7 @@ defineProps({
     <pre
       class="p-4 overflow-x-auto text-sm leading-relaxed"
       dir="ltr"
-      style="direction: ltr; text-align: left;"
+      style="text-align: left;"
     ><code>{{ code }}</code></pre>
   </div>
 </template>

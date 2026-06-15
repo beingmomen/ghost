@@ -52,7 +52,7 @@ defineProps({
       <pre
         class="p-3 text-xs leading-relaxed overflow-x-auto"
         dir="ltr"
-        style="direction: ltr; text-align: left;"
+        style="text-align: left;"
       ><code>{{ example }}</code></pre>
     </div>
   </div>

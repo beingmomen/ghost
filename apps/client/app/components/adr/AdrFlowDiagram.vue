@@ -7,6 +7,18 @@ defineProps({
   },
   direction: { type: String, default: 'vertical' }
 })
+
+// Static class map — Tailwind only emits classes it finds as complete literal
+// strings, so colors must not be built dynamically (`bg-${color}` would be purged).
+const COLOR_CLASSES = {
+  primary: { bg: 'bg-primary/10', text: 'text-primary' },
+  success: { bg: 'bg-success/10', text: 'text-success' },
+  warning: { bg: 'bg-warning/10', text: 'text-warning' },
+  error: { bg: 'bg-error/10', text: 'text-error' },
+  info: { bg: 'bg-info/10', text: 'text-info' },
+  secondary: { bg: 'bg-secondary/10', text: 'text-secondary' }
+}
+const colorOf = c => COLOR_CLASSES[c] || COLOR_CLASSES.primary
 </script>
 
 <template>
@@ -24,12 +36,12 @@ defineProps({
           <div class="flex items-center gap-3">
             <div
               class="size-8 rounded-xl flex items-center justify-center shrink-0"
-              :class="step.color ? `bg-${step.color}/10` : 'bg-primary/10'"
+              :class="colorOf(step.color).bg"
             >
               <UIcon
                 :name="step.icon || 'i-lucide-circle-dot'"
                 class="size-4"
-                :class="step.color ? `text-${step.color}` : 'text-primary'"
+                :class="colorOf(step.color).text"
               />
             </div>
             <div class="flex-1 min-w-0">
