@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+    <h3 class="text-lg font-semibold text-highlighted">
       محتويات المقال
     </h3>
 
@@ -12,7 +12,7 @@
         v-for="item in table"
         :key="item.id"
         :variant="activeHeading === item.id ? 'soft' : 'ghost'"
-        :color="activeHeading === item.id ? 'primary' : 'gray'"
+        :color="activeHeading === item.id ? 'primary' : 'neutral'"
         :class="[
           'w-full justify-start text-right',
           `toc-level-${item.level}`,
@@ -34,7 +34,7 @@
 
 <script setup>
 const singleBlog = inject('singleBlog', ref({}))
-const table = computed(() => singleBlog.value.tableOfContents)
+const table = computed(() => singleBlog.value.tableOfContents || [])
 
 const activeHeading = ref('')
 

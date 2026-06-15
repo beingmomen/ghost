@@ -3,6 +3,7 @@ import DOMPurify from 'isomorphic-dompurify'
 
 const route = useRoute()
 const config = useRuntimeConfig()
+const { global } = useAppConfig()
 
 const { data: singleBlog } = await useAPI(`/blogs/slug/${route.params.slug}`, {
   key: `blog-${route.params.slug}`,
@@ -11,6 +12,12 @@ const { data: singleBlog } = await useAPI(`/blogs/slug/${route.params.slug}`, {
 })
 
 provide('singleBlog', singleBlog)
+
+// Return a real 404 (not a soft 200) when the slug doesn't resolve, so search
+// engines don't index the "not found" screen. The inline UI below still renders.
+if (import.meta.server && !singleBlog.value?.title) {
+  setResponseStatus(useRequestEvent(), 404)
+}
 
 const sanitizedContent = computed(() =>
   singleBlog.value?.content ? DOMPurify.sanitize(singleBlog.value.content) : ''
@@ -143,6 +150,10 @@ useBreadcrumbSchema([
             v-if="singleBlog.image"
             :src="blogImage"
             :alt="singleBlog.title"
+            width="1200"
+            height="400"
+            loading="eager"
+            fetchpriority="high"
             class="rounded-lg w-full h-75 object-cover object-center"
           />
           <h1 class="text-4xl text-center font-medium max-w-3xl mx-auto mt-4">
@@ -157,11 +168,11 @@ useBreadcrumbSchema([
               color="neutral"
               variant="outline"
               class="justify-center items-center text-center"
-              name="عبدالمؤمن الشطوري"
-              description="Frontend Engineer"
+              :name="global.fullName"
+              :description="global.title"
               :avatar="{
-                src: 'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
-                alt: 'عبدالمؤمن الشطوري'
+                src: global.picture?.light,
+                alt: global.picture?.alt
               }"
             />
           </div>
