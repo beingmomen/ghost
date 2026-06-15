@@ -1,0 +1,58 @@
+<script setup>
+// Shared testimonials carousel for the landing section and the /testimonial page.
+// Owns the item mapping (so a client's email is never mapped into the visible
+// author) and the autoplay pacing in one place, so the two call sites can't drift.
+const props = defineProps({
+  items: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const { cloudinary } = useRuntimeConfig().public
+
+const testimonials = computed(() =>
+  (props.items || []).map(item => ({
+    quote: item.description,
+    author: {
+      name: item.name,
+      avatar: {
+        src: item.image?.trim()
+          ? (item.image.startsWith('http') ? item.image : `${cloudinary.cloudinaryUrl}${item.image}`)
+          : undefined,
+        alt: item.name
+      }
+    }
+  }))
+)
+</script>
+
+<template>
+  <UCarousel
+    v-if="testimonials.length"
+    v-slot="{ item }"
+    :items="testimonials"
+    :autoplay="{ delay: 6000, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: true }"
+    loop
+    dots
+    :ui="{
+      viewport: '-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 max-w-(--ui-container)'
+    }"
+  >
+    <UPageCTA
+      :description="item.quote"
+      variant="naked"
+      class="rounded-none"
+      :ui="{
+        container: 'sm:py-12 lg:py-12 sm:gap-8',
+        description: '!text-base text-balance before:content-[open-quote] before:text-5xl lg:before:text-7xl before:inline-block before:text-dimmed before:absolute before:-mr-6 lg:before:-mr-10 before:-mt-2 lg:before:-mt-4 after:content-[close-quote] after:text-5xl lg:after:text-7xl after:inline-block after:text-dimmed after:absolute after:mt-1 lg:after:mt-0 after:mr-1 lg:after:mr-2'
+      }"
+    >
+      <UUser
+        v-bind="item.author"
+        size="xl"
+        class="justify-center"
+      />
+    </UPageCTA>
+  </UCarousel>
+</template>
