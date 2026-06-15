@@ -19,7 +19,6 @@ const testimonials = computed(() => {
     quote: item.description,
     author: {
       name: item.name,
-      description: item.email,
       avatar: {
         src: item.image?.trim() ? (item.image.startsWith('http') ? item.image : `${config.public.cloudinary.cloudinaryUrl}${item.image}`) : undefined,
         alt: item.name
@@ -177,7 +176,7 @@ function resetForm() {
         <UCarousel
           v-slot="{ item }"
           :items="testimonials"
-          :autoplay="{ delay: 4000 }"
+          :autoplay="{ delay: 6000, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: true }"
           loop
           dots
           :ui="{
