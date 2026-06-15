@@ -29,10 +29,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-100">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-zap"
-                class="size-4 text-primary"
+                class="size-5 text-primary"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerA.title }}</span>
@@ -54,10 +54,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-200">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-list"
-                class="size-4 text-primary"
+                class="size-5 text-primary"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerB.title }}</span>
@@ -87,10 +87,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-300">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-brain"
-                class="size-4 text-primary"
+                class="size-5 text-primary"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerC.title }}</span>

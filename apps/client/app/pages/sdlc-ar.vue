@@ -40,11 +40,32 @@ useSeoMeta({
 
 useBreadcrumbSchema([{ name: 'دورة حياة تطوير البرمجيات', path: '/sdlc-ar' }])
 
+const config = useRuntimeConfig()
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        'headline': 'دورة حياة تطوير البرمجيات — دليل المعماري',
+        'description': 'إطار بصري معرفي للمفكرين النظاميين — يحوّل نظرية SDLC إلى نموذج ذهني تفاعلي للتحليل والتصميم كائني التوجه.',
+        'author': {
+          '@type': 'Person',
+          'name': 'عبدالمؤمن الشطوري'
+        },
+        'url': `${config.public.siteUrl}/sdlc-ar`,
+        'inLanguage': 'ar'
+      })
+    }
+  ]
+})
+
 const phases = [
   {
     id: 'analysis',
     num: '01',
-    color: 'cyan',
     title: 'التحليل',
     tagline: 'الفهم الدقيق للمشكلة قبل الشروع في حلها',
     layerA: {
@@ -82,7 +103,6 @@ const phases = [
   {
     id: 'design',
     num: '02',
-    color: 'violet',
     title: 'التصميم',
     tagline: 'ترجمة المتطلبات إلى مخططات هندسية معمارية',
     layerA: {
@@ -120,7 +140,6 @@ const phases = [
   {
     id: 'development',
     num: '03',
-    color: 'emerald',
     title: 'التطوير',
     tagline: 'تحويل التصاميم المعمارية إلى كود برمجي فعّال ومُختبَر',
     layerA: {
@@ -158,7 +177,6 @@ const phases = [
   {
     id: 'testing',
     num: '04',
-    color: 'amber',
     title: 'الاختبار',
     tagline: 'التحقق الصارم من استيفاء كل سلوك لمتطلباته المقررة',
     layerA: {
@@ -196,7 +214,6 @@ const phases = [
   {
     id: 'deployment',
     num: '05',
-    color: 'orange',
     title: 'النشر والإطلاق',
     tagline: 'نقل النظام إلى بيئة الإنتاج الحية بأمان وموثوقية',
     layerA: {
@@ -234,7 +251,6 @@ const phases = [
   {
     id: 'maintenance',
     num: '06',
-    color: 'pink',
     title: 'الصيانة والتطوير',
     tagline: 'استدامة النظام، ترقيته، وتحسينه المستمر',
     layerA: {
