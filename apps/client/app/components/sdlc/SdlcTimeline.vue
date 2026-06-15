@@ -77,10 +77,14 @@ function openModal(role, phase) {
             <li
               v-for="role in phaseRoles[phase.id]"
               :key="role"
-              class="text-base text-muted hover:text-primary cursor-pointer transition-colors duration-200"
-              @click="openModal(role, phase)"
             >
-              {{ role }}
+              <button
+                type="button"
+                class="text-base text-start text-muted hover:text-primary cursor-pointer transition-colors duration-200"
+                @click="openModal(role, phase)"
+              >
+                {{ role }}
+              </button>
             </li>
           </ul>
         </div>
