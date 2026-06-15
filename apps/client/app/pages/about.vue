@@ -268,12 +268,10 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
               <span class="font-semibold text-base text-right text-highlighted">
                 {{ category.title }}
               </span>
-              <div class="size-10 rounded-xl bg-primary/10 dark:bg-primary/15 group-hover:bg-primary/20 transition-colors duration-300 shrink-0 flex items-center justify-center">
-                <UIcon
-                  :name="category.icon"
-                  class="size-5 text-primary"
-                />
-              </div>
+              <UIcon
+                :name="category.icon"
+                class="size-6 text-primary/60 shrink-0"
+              />
             </div>
 
             <USeparator />
@@ -341,7 +339,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
               <!-- Mobile left-border accent -->
               <div
-                class="sm:hidden absolute right-0 top-0 bottom-0 w-0.5 rounded-full"
+                class="sm:hidden absolute right-0 top-0 bottom-0 w-px"
                 :class="exp.endDate === 'الحالي' ? 'bg-primary' : 'bg-default'"
               />
 
