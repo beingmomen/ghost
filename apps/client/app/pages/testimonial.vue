@@ -105,8 +105,7 @@ function resetForm() {
       :ui="{
         headline: 'flex items-center justify-center',
         title: 'text-center',
-        description: 'text-center text-amber font-bold',
-        links: 'mt-4 flex-col justify-center items-center'
+        description: 'text-center text-muted'
       }"
     >
       <template #headline>
@@ -132,33 +131,6 @@ function resetForm() {
         </span>
       </template>
 
-      <template #links>
-        <span class="animate-fade-in animation-delay-600">
-          <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-base text-muted">
-            <span class="flex items-center gap-2">
-              <UIcon
-                name="i-lucide-users"
-                class="size-5 text-primary"
-              />
-              عملاء سعداء
-            </span>
-            <span class="flex items-center gap-2">
-              <UIcon
-                name="i-lucide-star"
-                class="size-5 text-primary"
-              />
-              تقييم ممتاز
-            </span>
-            <span class="flex items-center gap-2">
-              <UIcon
-                name="i-lucide-shield-check"
-                class="size-5 text-primary"
-              />
-              موثوق ومعتمد
-            </span>
-          </div>
-        </span>
-      </template>
     </UPageHero>
 
     <!-- Section 2: Testimonials Carousel -->
@@ -286,6 +258,9 @@ function resetForm() {
                   v-model="state.email"
                   icon="i-lucide-mail"
                   placeholder="بريدك الإلكتروني"
+                  type="email"
+                  inputmode="email"
+                  autocomplete="email"
                   class="w-full"
                   :disabled="loading"
                 />
