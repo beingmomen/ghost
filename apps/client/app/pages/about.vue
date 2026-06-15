@@ -2,13 +2,13 @@
 const { global } = useAppConfig()
 const config = useRuntimeConfig()
 
-const { data: infoData } = await useAPI('/infos', {
+const { data: infoData, error: infoError, refresh: refreshInfo } = await useAPI('/infos', {
   key: 'about-info',
   default: () => ({}),
   transform: response => response.data?.[0] || {}
 })
 
-const { data: experiences } = await useAPI('/experiences/all', {
+const { data: experiences, error: expError, refresh: refreshExp } = await useAPI('/experiences/all', {
   key: 'about-experiences',
   default: () => [],
   transform: response => Array.isArray(response) ? response : (response?.data || [])
@@ -149,8 +149,19 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
       </template>
     </UPageHero>
 
+    <LandingSectionFallback
+      v-if="infoError || expError"
+      state="error"
+      title="تعذّر تحميل بعض المحتوى"
+      message="حدث خطأ أثناء جلب بيانات الصفحة. حاول مرة أخرى بعد لحظات."
+      alt-action-label="تواصل معي"
+      alt-action-to="/contact"
+      @retry="refreshInfo(); refreshExp()"
+    />
+
     <!-- ========== SECTION 2: STORY ========== -->
     <UPageSection
+      v-if="page.story.paragraphs.length || page.story.quote || page.images.length"
       :ui="{
         container: '!pt-0'
       }"
@@ -175,6 +186,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
           </div>
 
           <div
+            v-if="page.story.quote"
             class="animate-fade-in"
             style="animation-delay: 0.45s"
           >
@@ -204,6 +216,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
     <!-- ========== SECTION 3: STATS ========== -->
     <UPageSection
+      v-if="page.stats.length"
       :ui="{
         container: 'px-0'
       }"
@@ -216,17 +229,16 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             class="animate-fade-in"
             :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
           >
-            <div class="flex flex-col items-center gap-2 text-center group">
-              <div class="p-3 rounded-2xl bg-primary/10 dark:bg-primary/15 group-hover:bg-primary/20 transition-colors duration-300">
-                <UIcon
-                  :name="stat.icon"
-                  class="size-5 text-primary"
-                />
-              </div>
-              <span class="text-4xl sm:text-5xl font-bold text-amber">
+            <div class="flex flex-col items-center gap-2 text-center">
+              <UIcon
+                :name="stat.icon"
+                class="size-5 text-primary/40"
+                aria-hidden="true"
+              />
+              <span class="text-4xl sm:text-5xl font-bold text-amber leading-none">
                 {{ stat.value }}
               </span>
-              <span class="text-base text-muted">
+              <span class="text-sm text-muted leading-snug">
                 {{ stat.label }}
               </span>
             </div>
@@ -237,6 +249,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
     <!-- ========== SECTION 4: SKILLS ========== -->
     <UPageSection
+      v-if="page.skills.length"
       title="المهارات التقنية"
       :ui="{
         container: '!pt-0',
@@ -295,6 +308,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
     <!-- ========== SECTION 5: WORK EXPERIENCE ========== -->
     <UPageSection
+      v-if="experiences.length"
       title="الخبرات العملية"
       :ui="{
         title: 'text-right text-xl sm:text-2xl font-medium'
