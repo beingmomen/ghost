@@ -12,7 +12,7 @@ defineProps({
     <div class="flex items-center gap-2 px-5 py-3 border-b border-default/60 bg-elevated/20">
       <UIcon
         :name="icon"
-        class="size-4 text-primary"
+        class="size-4 text-muted"
       />
       <span class="text-base font-semibold">{{ title }}</span>
     </div>
@@ -23,7 +23,7 @@ defineProps({
             <th
               v-for="header in headers"
               :key="header"
-              class="px-4 py-3 text-right font-semibold text-primary bg-primary/5"
+              class="px-4 py-3 text-right font-semibold"
             >
               {{ header }}
             </th>

@@ -14,7 +14,7 @@ defineProps({
     <div class="flex items-center gap-2 px-5 py-3 border-b border-default/60 bg-elevated/20">
       <UIcon
         name="i-lucide-folder-open"
-        class="size-4 text-primary"
+        class="size-4 text-muted"
       />
       <span class="text-base font-semibold">{{ title }}</span>
     </div>
@@ -25,7 +25,7 @@ defineProps({
         class="flex items-start gap-4 px-5 py-3 hover:bg-elevated/40 transition-colors"
       >
         <code
-          class="text-xs font-mono text-primary bg-primary/5 px-2 py-1 rounded shrink-0"
+          class="text-xs font-mono text-highlighted bg-elevated/60 px-2 py-1 rounded shrink-0"
           dir="ltr"
         >{{ file.path }}</code>
         <span class="text-base text-muted">{{ file.description }}</span>

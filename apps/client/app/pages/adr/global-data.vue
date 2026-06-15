@@ -14,6 +14,28 @@
           <AdrTableOfContents :sections="tocSections" />
         </div>
 
+        <!-- Mobile TOC (collapsed) -->
+        <details class="lg:hidden mb-6 rounded-xl border border-default/60 bg-elevated/30 p-4 group">
+          <summary class="flex items-center justify-between cursor-pointer text-base font-semibold list-none">
+            <span>الفهرس</span>
+            <UIcon
+              name="i-lucide-chevron-down"
+              class="size-4 text-muted transition-transform duration-200 group-open:rotate-180"
+            />
+          </summary>
+          <nav class="mt-3 space-y-1 text-right">
+            <a
+              v-for="section in tocSections"
+              :key="`m-${section.id}`"
+              :href="`#${section.id}`"
+              class="flex items-center justify-end gap-2 px-2 py-1.5 rounded-lg text-base text-muted hover:text-highlighted hover:bg-elevated/60 transition-colors"
+            >
+              <span class="size-1.5 rounded-full bg-muted/40 shrink-0" />
+              {{ section.label }}
+            </a>
+          </nav>
+        </details>
+
         <!-- Main Content -->
         <div class="min-w-0 space-y-0">
           <!-- Overview -->

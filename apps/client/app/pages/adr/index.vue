@@ -141,7 +141,7 @@ const adrs = [
     subtitle: 'useGlobal Composable',
     description: 'نمط composable مركزي يوفر وصولاً موحداً لبيانات الجلسة (بيانات المستخدم + lookup lists) في أي مكان بالتطبيق — بدون نسخ البيانات أو مزامنة يدوية.',
     topics: ['Computed Reactivity', 'Session Management', 'Single Source of Truth', 'API Design'],
-    sections: 10,
+    sections: 9,
     readTime: '8 دقائق قراءة'
   },
   {

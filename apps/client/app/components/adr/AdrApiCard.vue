@@ -12,7 +12,7 @@ defineProps({
   <div class="animate-fade-in rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
     <div class="flex items-center gap-2 mb-2">
       <code
-        class="text-base font-bold font-mono text-primary"
+        class="text-base font-bold font-mono text-highlighted"
         dir="ltr"
       >{{ name }}</code>
       <UBadge
@@ -52,7 +52,6 @@ defineProps({
       <pre
         class="p-3 text-xs leading-relaxed overflow-x-auto"
         dir="ltr"
-        style="text-align: left;"
       ><code>{{ example }}</code></pre>
     </div>
   </div>

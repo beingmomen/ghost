@@ -35,12 +35,10 @@ defineProps({
         v-else-if="icon"
         class="flex items-center gap-2"
       >
-        <div class="size-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-          <UIcon
-            :name="icon"
-            class="size-4 text-primary"
-          />
-        </div>
+        <UIcon
+          :name="icon"
+          class="size-5 text-primary"
+        />
       </div>
     </template>
 

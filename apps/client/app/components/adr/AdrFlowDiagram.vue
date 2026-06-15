@@ -34,16 +34,11 @@ const colorOf = c => COLOR_CLASSES[c] || COLOR_CLASSES.primary
       >
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-4 hover:bg-elevated/60 transition-colors duration-300">
           <div class="flex items-center gap-3">
-            <div
-              class="size-8 rounded-xl flex items-center justify-center shrink-0"
-              :class="colorOf(step.color).bg"
-            >
-              <UIcon
-                :name="step.icon || 'i-lucide-circle-dot'"
-                class="size-4"
-                :class="colorOf(step.color).text"
-              />
-            </div>
+            <UIcon
+              :name="step.icon || 'i-lucide-circle-dot'"
+              class="size-5"
+              :class="colorOf(step.color).text"
+            />
             <div class="flex-1 min-w-0">
               <div class="text-base font-semibold">
                 {{ step.title }}
