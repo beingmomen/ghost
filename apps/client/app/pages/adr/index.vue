@@ -69,34 +69,32 @@
             <USeparator class="mb-4" />
 
             <div class="flex flex-wrap gap-2">
-              <UButton
+              <UBadge
                 v-for="topic in adr.topics"
                 :key="topic"
                 :label="topic"
                 color="neutral"
                 variant="subtle"
                 size="sm"
-                class="cursor-default rounded-full"
+                class="rounded-full"
               />
             </div>
 
-            <div class="flex items-center gap-3 mt-4">
-              <UButton
-                :label="`${adr.sections} قسم`"
-                leading-icon="i-lucide-layers"
-                color="neutral"
-                variant="ghost"
-                size="sm"
-                class="cursor-default"
-              />
-              <UButton
-                :label="adr.readTime"
-                leading-icon="i-lucide-clock"
-                color="neutral"
-                variant="ghost"
-                size="sm"
-                class="cursor-default"
-              />
+            <div class="flex items-center gap-4 mt-4 text-sm text-muted">
+              <span class="flex items-center gap-1.5">
+                <UIcon
+                  name="i-lucide-layers"
+                  class="size-4"
+                />
+                {{ adr.sections }} قسم
+              </span>
+              <span class="flex items-center gap-1.5">
+                <UIcon
+                  name="i-lucide-clock"
+                  class="size-4"
+                />
+                {{ adr.readTime }}
+              </span>
             </div>
           </NuxtLink>
         </div>
