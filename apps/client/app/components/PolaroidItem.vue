@@ -27,7 +27,7 @@ defineProps({
       loading="lazy"
       class="size-24 sm:size-32 object-cover"
     />
-    <span class="w-24 sm:w-32 text-xs text-black dark:text-white font-serif font-medium text-center mt-2">
+    <span class="w-24 sm:w-32 text-xs text-black dark:text-white font-display font-medium text-center mt-2">
       {{ image.alt }}
     </span>
   </div>

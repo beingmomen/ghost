@@ -190,8 +190,8 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             class="animate-fade-in"
             style="animation-delay: 0.45s"
           >
-            <blockquote class="border border-primary/30 bg-primary/5 dark:bg-primary/10 p-5 rounded-xl">
-              <p class="text-primary-600 dark:text-primary-400 text-base sm:text-lg font-medium leading-relaxed text-right">
+            <blockquote class="border border-default bg-elevated/40 p-5 rounded-xl">
+              <p class="text-muted text-base sm:text-lg font-medium leading-relaxed text-right">
                 "{{ page.story.quote }}"
               </p>
             </blockquote>
@@ -232,10 +232,10 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             <div class="flex flex-col items-center gap-2 text-center">
               <UIcon
                 :name="stat.icon"
-                class="size-5 text-primary/40"
+                class="size-5 text-muted"
                 aria-hidden="true"
               />
-              <span class="text-4xl sm:text-5xl font-bold text-amber leading-none">
+              <span class="text-4xl sm:text-5xl font-bold text-highlighted leading-none">
                 {{ stat.value }}
               </span>
               <span class="text-sm text-muted leading-snug">
@@ -347,7 +347,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
               <div
                 class="flex-1 rounded-xl border p-4 sm:p-5 mr-4 sm:mr-0 transition-all duration-300 hover:shadow-md"
                 :class="exp.endDate === 'الحالي'
-                  ? 'border-primary/30 bg-primary/5'
+                  ? 'border-default bg-elevated/40'
                   : 'border-default bg-elevated/40'"
               >
                 <div class="flex items-start justify-between flex-wrap gap-2 mb-3">
