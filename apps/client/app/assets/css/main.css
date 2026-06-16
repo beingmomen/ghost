@@ -1,13 +1,13 @@
 /* Tajawal – Self-hosted */
-@import "./fonts.css";
+@import './fonts.css';
 
-@import "tailwindcss";
-@import "./typography.css";
-@import "@nuxt/ui";
+@import 'tailwindcss';
+@import './typography.css';
+@import '@nuxt/ui';
 
 @theme {
-  --font-sans: "Tajawal", sans-serif;
-  --font-display: "Rubik", "Tajawal", sans-serif;
+  --font-sans: 'Tajawal', sans-serif;
+  --font-display: 'Rubik', 'Tajawal', sans-serif;
 }
 
 @theme static {
@@ -66,6 +66,16 @@ body {
   color: var(--ui-color-primary-600);
 }
 .dark .text-amber {
+  color: var(--ui-color-primary-400);
+}
+
+/* Contrast-safe amber hover — uses primary-600 (4.5:1 on stone-50) in light mode,
+   primary-400 in dark mode. Replaces `hover:text-primary` which resolves to
+   primary-500 and fails WCAG AA. */
+.hover\:text-amber:hover {
+  color: var(--ui-color-primary-600);
+}
+.dark .hover\:text-amber:hover {
   color: var(--ui-color-primary-400);
 }
 

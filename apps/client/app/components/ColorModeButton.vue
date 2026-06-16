@@ -51,7 +51,7 @@ const startViewTransition = (event) => {
       color="neutral"
       variant="ghost"
       size="sm"
-      class="rounded-full"
+      class="rounded-full size-11"
       @click="startViewTransition"
     />
     <template #fallback>

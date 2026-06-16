@@ -18,7 +18,7 @@ defineProps({
       color="neutral"
       class="bg-elevated/95 rounded-full px-2 sm:px-4 border border-default shadow-sm"
       :ui="{
-        link: 'px-2 py-1',
+        link: 'px-3 py-2 sm:px-4 sm:py-2',
         linkLeadingIcon: 'hidden'
       }"
     >
