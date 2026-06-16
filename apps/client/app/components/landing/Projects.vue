@@ -83,7 +83,8 @@ const {
               :alt="project.altText || project.title"
               width="96"
               height="64"
-              loading="lazy"
+              :loading="i === 0 ? 'eager' : 'lazy'"
+              :fetchpriority="i === 0 ? 'high' : 'auto'"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
