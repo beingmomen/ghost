@@ -319,13 +319,10 @@ app/
 └── utils/               # أدوات مساعدة (links, clipboard)
 
 server/
-├── api/                 # نقاط API (blog proxy, upload, CRUD)
+├── api/                 # نقاط API (blog proxy, upload, sitemap)
 ├── routes/              # Server routes (RSS feed)
 ├── og-image/            # قوالب OG image
 └── plugins/             # إضافات الـ server
-
-content/                 # ملفات Markdown (Nuxt Content)
-└── mcp/                 # أدلة MCP servers
 ```
 
 ### قاعدة: أين أضع الملف الجديد؟

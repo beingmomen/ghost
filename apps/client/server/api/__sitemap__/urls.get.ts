@@ -11,11 +11,7 @@ export default defineEventHandler(async () => {
     { loc: '/learning-roadmap', changefreq: 'weekly', priority: 0.6 },
     { loc: '/adr', changefreq: 'monthly', priority: 0.6 },
     { loc: '/sdlc', changefreq: 'monthly', priority: 0.5 },
-    { loc: '/sdlc-ar', changefreq: 'monthly', priority: 0.5 },
-    { loc: '/mcp', changefreq: 'weekly', priority: 0.5 },
-    { loc: '/agents', changefreq: 'weekly', priority: 0.5 },
-    { loc: '/skills', changefreq: 'weekly', priority: 0.5 },
-    { loc: '/commands', changefreq: 'weekly', priority: 0.5 }
+    { loc: '/sdlc-ar', changefreq: 'monthly', priority: 0.5 }
   ]
 
   try {

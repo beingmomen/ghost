@@ -166,18 +166,7 @@ contactPills = [
 
 ---
 
-## 14. صفحات إدارة الأدوات — فلاتر التصنيف
-
-| الصفحة | الفئات |
-|-------|-------|
-| `/agents` | all, explore, plan, frontend, vue, design, architecture, testing, other |
-| `/skills` | all, git, code, ui, seo, testing, deployment, other |
-| `/mcp` | all, frontend, backend, devops, ai, database, other |
-| `/commands` | لا فئات — قائمة مباشرة |
-
----
-
-## 15. `nuxt.config.ts` — SEO Metadata الأساسية
+## 14. `nuxt.config.ts` — SEO Metadata الأساسية
 
 ```
 title:          'عبدالمؤمن الشطوري | Frontend Engineer'

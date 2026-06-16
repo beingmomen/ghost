@@ -93,16 +93,7 @@ export default defineNuxtConfig({
     '/api/blog': { swr: 600 },
     // SSR-only (dynamic/user-specific — no caching)
     '/contact': { ssr: true },
-    '/testimonial': { ssr: true },
-    // Agents/skills/commands/mcp — migration in progress; SSR until connected to backend
-    '/mcp': { ssr: true },
-    '/mcp/**': { ssr: true },
-    '/agents': { ssr: true },
-    '/agents/**': { ssr: true },
-    '/skills': { ssr: true },
-    '/skills/**': { ssr: true },
-    '/commands': { ssr: true },
-    '/commands/**': { ssr: true }
+    '/testimonial': { ssr: true }
   },
 
   devServer: {
@@ -133,9 +124,6 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    optimizeDeps: {
-      exclude: ['@nuxtjs/mdc']
-    },
     build: {
       cssCodeSplit: true,
       rollupOptions: {

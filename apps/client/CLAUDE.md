@@ -100,10 +100,6 @@ app/components/
 | `/sdlc` | SDLC English page |
 | `/sdlc-ar` | SDLC Arabic page |
 | `/adr` | Architecture Decision Records |
-| `/agents` | Agents — browse (add/delete dev-only via `dev-only` middleware) |
-| `/commands` | Commands — browse (add/delete dev-only) |
-| `/mcp` | MCP servers — browse + download `.mcp.json` (add/delete dev-only) |
-| `/skills` | Skills — browse (add/delete dev-only) |
 
 ## Modules
 
@@ -172,10 +168,6 @@ app/components/
 ## Server Routes
 
 - `server/api/blog.get.js` — Proxy blog API + generates RSS feed
-- `server/api/agents.{post,delete}.ts` — Agents CRUD
-- `server/api/commands.{post,delete}.ts` — Commands CRUD
-- `server/api/mcp.{post,delete}.ts` — MCP servers CRUD
-- `server/api/skills.{post,delete}.ts` — Skills CRUD
 - `server/api/upload.post.ts` — File upload endpoint
 - `server/api/__sitemap__/urls.get.ts` — Dynamic sitemap URLs
 - `server/og-image/OgImageArabic.vue` — Arabic OG image template
@@ -198,8 +190,5 @@ Deployed via Coolify on `elshatory-web.beingmomen.com` using `apps/client/Docker
 
 In-repo docs under `docs/` (Arabic, RTL):
 
-- `docs/WEBSITE_REVIEW_2026-06.md` — Visitor-experience review + implemented improvements (technical-content dropdown, dev-only admin UIs, naming unification, dead-code removal, unified `pnpm dev`).
 - `docs/IMPROVEMENTS.md` — Earlier batch of 17 improvements + architecture/conventions guide.
 - `docs/STATIC_DATA_REPORT.md` — Inventory of all static (non-API) data in the app.
-
-**Dev-only admin UIs:** `agents/new`, `commands/new`, `mcp/new`, `skills/new` are gated by `app/middleware/dev-only.ts` (404 in production). The add/select/delete controls in the matching index pages are hidden via `import.meta.dev`. MCP keeps its select + "download .mcp.json" feature public; only delete is dev-only.

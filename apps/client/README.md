@@ -9,7 +9,7 @@ Personal portfolio website for **Abdelmomen Elshatory** (عبدالمؤمن ال
 - **Framework:** Nuxt 4.3 + Vue 3
 - **UI:** Nuxt UI 4 (125+ components)
 - **Styling:** Tailwind CSS v4
-- **Content:** @nuxt/content (MCP server guides)
+- **Content:** Backend API (MongoDB) + blog proxy + static landing sections
 - **Animation:** Motion V (Vue motion library)
 - **Images:** Cloudinary via @nuxt/image
 - **Fonts:** Tajawal (Arabic) + Space Grotesk (Latin)
@@ -79,9 +79,6 @@ pnpm typecheck      # Run type checking
 | `/testimonial` | Testimonial submission form with Cloudinary upload |
 | `/sdlc` | SDLC Visual Framework (English) |
 | `/sdlc-ar` | SDLC Visual Framework (Arabic) |
-| `/mcp` | MCP Servers manager (browse, add, delete, download `.mcp.json`) |
-| `/mcp/new` | Add new MCP server |
-| `/mcp/[slug]` | MCP server details and documentation |
 
 ## Project Structure
 
@@ -100,10 +97,9 @@ app/
 ├── pages/               # File-based routing
 ├── plugins/             # $api helper plugin
 └── utils/               # Clipboard, navigation links
-content/
-└── mcp/                 # MCP server markdown guides (Nuxt Content)
+content/                 # (removed — content now served from backend API)
 server/
-├── api/                 # Blog proxy, MCP CRUD, sitemap URLs
+├── api/                 # Blog proxy, sitemap URLs
 ├── og-image/            # Arabic OG image template
 └── plugins/             # EPIPE error handler
 ```
@@ -112,25 +108,12 @@ server/
 
 ```
 Pages → Composables → useApiRequest → $api plugin → Backend API
-MCP Pages → Nuxt Content → queryCollection('mcp') → content/mcp/*.md
 ```
-
-## MCP Servers
-
-The `/mcp` section is a built-in manager for Claude Code MCP server configurations. It uses `@nuxt/content` to store server guides as markdown files in `content/mcp/`.
-
-Features:
-- Browse servers by category (Frontend, Backend, DevOps, AI, Other)
-- Select multiple servers and download a combined `.mcp.json`
-- Add new servers via form
-- Delete servers
-- Each server page includes: description, available tools, installation steps, usage examples
 
 ## Documentation
 
 Project docs live under `docs/` (Arabic, RTL):
 
-- [`docs/WEBSITE_REVIEW_2026-06.md`](docs/WEBSITE_REVIEW_2026-06.md) — Visitor-experience review and the improvements implemented (technical-content dropdown, dev-only admin UIs, naming unification, dead-code removal, unified `pnpm dev`).
 - [`docs/IMPROVEMENTS.md`](docs/IMPROVEMENTS.md) — Earlier batch of improvements + architecture/conventions guide.
 - [`docs/STATIC_DATA_REPORT.md`](docs/STATIC_DATA_REPORT.md) — Inventory of all static (non-API) data.
 

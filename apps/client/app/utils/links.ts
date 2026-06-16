@@ -59,36 +59,13 @@ export const guideLinks: NavigationMenuItem[] = [{
   to: '/sdlc-ar'
 }]
 
-// Claude Code AI tooling.
-export const aiToolLinks: NavigationMenuItem[] = [{
-  label: 'MCP Servers',
-  description: 'إعدادات خوادم MCP',
-  icon: 'i-lucide-server',
-  to: '/mcp'
-}, {
-  label: 'Agents',
-  description: 'إعدادات وكلاء Claude Code',
-  icon: 'i-lucide-bot',
-  to: '/agents'
-}, {
-  label: 'Skills',
-  description: 'مهارات وأوامر مخصّصة',
-  icon: 'i-lucide-zap',
-  to: '/skills'
-}, {
-  label: 'Commands',
-  description: 'أوامر Claude Code',
-  icon: 'i-lucide-terminal',
-  to: '/commands'
-}]
-
 // Header navigation — primary pages, a technical-content dropdown, then secondary pages.
 export const navLinks: NavigationMenuItem[] = [
   ...primaryLinks,
   {
     label: 'محتوى تقني',
     icon: 'i-lucide-layers',
-    children: [...guideLinks, ...aiToolLinks]
+    children: [...guideLinks]
   },
   ...secondaryLinks
 ]
@@ -98,10 +75,6 @@ export const footerGroups = [{
   title: 'روابط سريعة',
   icon: 'i-lucide-link',
   links: [...primaryLinks, ...secondaryLinks]
-}, {
-  title: 'أدوات AI',
-  icon: 'i-lucide-sparkles',
-  links: aiToolLinks
 }, {
   title: 'أدلة تقنية',
   icon: 'i-lucide-book-open',
