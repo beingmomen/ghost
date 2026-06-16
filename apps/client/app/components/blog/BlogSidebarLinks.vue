@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+    <h3 class="text-lg font-semibold text-highlighted">
       المصادر
     </h3>
 
@@ -15,7 +15,7 @@
         :label="link.title"
         size="xl"
         trailing-icon="i-lucide-arrow-up-left"
-        class="uppercase py-1"
+        class="py-1"
         :ui="{
           trailingIcon: 'mb-3 size-4'
         }"
