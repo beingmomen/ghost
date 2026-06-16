@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ middleware: 'dev-only' })
+
 useSeoMeta({
   title: 'Agents Manager',
   description: 'Browse and manage Claude Code agent configurations'
@@ -80,6 +82,7 @@ async function deleteSelected() {
 
   const selected = agents.value.filter(a => selectedAgents.value.has(a.path))
   let successCount = 0
+  let failureCount = 0
 
   for (const agent of selected) {
     const slug = agent.path.replace('/agents/', '')
@@ -90,21 +93,32 @@ async function deleteSelected() {
       })
       successCount++
     } catch {
-      // continue deleting others
+      failureCount++
     }
   }
 
-  toast.add({
-    title: `تم حذف ${successCount} Agent`,
-    color: 'success',
-    icon: 'i-lucide-check-circle'
-  })
+  if (successCount > 0) {
+    toast.add({
+      title: `تم حذف ${successCount} Agent`,
+      description: failureCount > 0 ? `فشل حذف ${failureCount} Agent` : undefined,
+      color: failureCount > 0 ? 'warning' : 'success',
+      icon: failureCount > 0 ? 'i-lucide-alert-triangle' : 'i-lucide-check-circle'
+    })
+  } else if (failureCount > 0) {
+    toast.add({
+      title: `فشل حذف ${failureCount} Agent`,
+      color: 'error',
+      icon: 'i-lucide-alert-circle'
+    })
+  }
 
   selectedAgents.value = new Set()
   showDeleteConfirm.value = false
   deletingSelected.value = false
 
-  refreshNuxtData('agents-list')
+  if (successCount > 0) {
+    refreshNuxtData('agents-list')
+  }
 }
 </script>
 
@@ -162,7 +176,7 @@ async function deleteSelected() {
         class="flex items-center justify-between mb-4"
       >
         <UButton
-          :label="allFilteredSelected ? 'إلغاء تحديد الكل' : 'تحديد الكل'"
+          :label="allFilteredSelected ? 'إلغاء تحديد المعروض' : 'تحديد المعروض'"
           :icon="allFilteredSelected ? 'i-lucide-square-check' : 'i-lucide-square'"
           variant="ghost"
           color="neutral"

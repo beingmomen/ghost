@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ middleware: 'dev-only' })
+
 const route = useRoute()
 const toast = useToast()
 
