@@ -124,6 +124,7 @@ useHead({
             :description="project.description"
             :to="project.url"
             target="_blank"
+            rel="noopener noreferrer"
             orientation="horizontal"
             variant="naked"
             :reverse="index % 2 === 1"
@@ -138,7 +139,7 @@ useHead({
               </span>
             </template>
             <template #footer>
-              <div class="flex flex-wrap gap-2 mb-3">
+              <div class="flex flex-wrap gap-2">
                 <UBadge
                   v-for="tag in project.tags"
                   :key="tag._id"
@@ -148,13 +149,6 @@ useHead({
                   size="xs"
                 />
               </div>
-              <span class="text-base text-primary inline-flex items-center gap-1">
-                عرض المشروع
-                <UIcon
-                  name="i-lucide-arrow-left"
-                  class="size-4 transition-transform group-hover:-translate-x-1"
-                />
-              </span>
             </template>
             <NuxtImg
               :src="project.image"
