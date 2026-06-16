@@ -42,17 +42,17 @@
         >
           <NuxtLink
             :to="`/adr/${adr.slug}`"
-            class="group block rounded-2xl border border-default/60 bg-elevated/30 p-6 hover:bg-elevated/60 hover:border-primary/30 transition-all duration-300 h-full"
+            class="group block rounded-2xl border border-default/60 bg-elevated/30 p-6 hover:bg-elevated/60 hover:border-default transition-all duration-300 h-full"
           >
             <div class="flex items-center gap-4 mb-4">
-              <div class="size-14 rounded-xl flex items-center justify-center bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/15 group-hover:ring-primary/30 transition-all duration-300 shrink-0">
+              <div class="size-14 rounded-xl flex items-center justify-center bg-muted group-hover:bg-muted transition-all duration-300 shrink-0">
                 <UIcon
                   :name="adr.icon"
-                  class="size-7 text-primary"
+                  class="size-7 text-muted"
                 />
               </div>
               <div class="flex-1 min-w-0">
-                <h2 class="text-lg font-bold mb-1 group-hover:text-primary transition-colors">{{ adr.title }}</h2>
+                <h2 class="text-lg font-bold mb-1 group-hover:text-highlighted transition-colors">{{ adr.title }}</h2>
                 <code
                   class="text-xs font-mono text-muted"
                   dir="ltr"
@@ -60,7 +60,7 @@
               </div>
               <UIcon
                 name="i-lucide-arrow-left"
-                class="size-5 text-muted group-hover:text-primary transition-colors shrink-0"
+                class="size-5 text-muted group-hover:text-highlighted transition-colors shrink-0"
               />
             </div>
 

@@ -330,10 +330,10 @@ const contactPills = [
               class="flex items-center justify-between gap-3 p-3 rounded-xl bg-default/60 border border-default/40 group"
             >
               <div class="flex items-center gap-3 min-w-0">
-                <div class="size-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <div class="size-9 rounded-lg bg-muted flex items-center justify-center shrink-0">
                   <UIcon
                     name="i-lucide-mail"
-                    class="size-4 text-primary"
+                    class="size-4 text-muted"
                   />
                 </div>
                 <div class="min-w-0">

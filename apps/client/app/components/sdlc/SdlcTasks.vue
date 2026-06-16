@@ -41,7 +41,7 @@ const tasks = [
         :style="{ animationDelay: `${0.1 + index * 0.12}s` }"
       >
         <div class="flex gap-4 items-start">
-          <div class="flex items-center justify-center size-10 rounded-full bg-primary/10 text-primary text-sm font-bold shrink-0">
+          <div class="flex items-center justify-center size-10 rounded-full bg-muted text-highlighted text-sm font-bold shrink-0">
             {{ index + 1 }}
           </div>
           <div class="flex-1 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 hover:bg-elevated/60 transition-colors duration-300">

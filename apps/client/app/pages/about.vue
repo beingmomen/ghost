@@ -263,14 +263,14 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
           class="animate-fade-in"
           :style="{ animationDelay: `${0.2 + cIndex * 0.15}s` }"
         >
-          <div class="rounded-2xl border border-default bg-elevated/40 p-5 sm:p-6 space-y-4 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group">
+          <div class="rounded-2xl border border-default bg-elevated/40 p-5 sm:p-6 space-y-4 hover:border-default hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-end gap-3">
               <span class="font-semibold text-base text-right text-highlighted">
                 {{ category.title }}
               </span>
               <UIcon
                 :name="category.icon"
-                class="size-6 text-primary/60 shrink-0"
+                class="size-6 text-muted shrink-0"
               />
             </div>
 
@@ -285,7 +285,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
               >
                 <UBadge
                   :label="skill.name"
-                  color="primary"
+                  color="neutral"
                   variant="subtle"
                   size="sm"
                   class="gap-1.5 cursor-default select-none"
@@ -355,7 +355,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
                     <ULink
                       :to="exp.companySiteUrl"
                       target="_blank"
-                      class="font-semibold text-base text-highlighted hover:text-primary transition-colors duration-200 inline-flex items-center gap-1.5"
+                      class="font-semibold text-base text-highlighted hover:text-highlighted transition-colors duration-200 inline-flex items-center gap-1.5"
                     >
                       {{ exp.company }}
                       <UIcon
@@ -402,7 +402,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
                   >
                     <UIcon
                       name="i-lucide-circle-check"
-                      class="size-3.5 text-primary/50 mt-1 shrink-0"
+                      class="size-3.5 text-muted mt-1 shrink-0"
                     />
                     <span>{{ resp }}</span>
                   </li>

@@ -22,12 +22,12 @@
             title="نظرة عامة"
             icon="i-lucide-eye"
           >
-            <div class="rounded-xl border border-primary/30 bg-primary/5 p-5 mb-4">
+            <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 mb-4">
               <div class="flex items-start gap-3">
-                <div class="size-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <div class="size-9 rounded-xl bg-muted flex items-center justify-center shrink-0">
                   <UIcon
                     name="i-lucide-lightbulb"
-                    class="size-5 text-primary"
+                    class="size-5 text-muted"
                   />
                 </div>
                 <div>
@@ -52,7 +52,7 @@
                   <div class="flex items-center gap-2 mb-2">
                     <UIcon
                       :name="impact.icon"
-                      class="size-4 text-primary"
+                      class="size-4 text-muted"
                     />
                     <span class="text-base font-semibold">{{ impact.title }}</span>
                   </div>
@@ -111,10 +111,10 @@
             <div class="space-y-4">
               <div class="rounded-xl border border-default/60 bg-elevated/30 p-5">
                 <div class="flex items-center gap-2 mb-3">
-                  <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
                     <UIcon
                       name="i-lucide-repeat"
-                      class="size-4 text-primary"
+                      class="size-4 text-muted"
                     />
                   </div>
                   <div>
@@ -146,10 +146,10 @@
 
               <div class="rounded-xl border border-default/60 bg-elevated/30 p-5">
                 <div class="flex items-center gap-2 mb-3">
-                  <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
                     <UIcon
                       name="i-lucide-eye"
-                      class="size-4 text-primary"
+                      class="size-4 text-muted"
                     />
                   </div>
                   <div>
@@ -315,7 +315,7 @@
                 class="animate-fade-in"
                 :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
               >
-                <div class="rounded-xl border border-primary/30 bg-primary/5 p-4 hover:bg-primary/10 transition-colors duration-300">
+                <div class="rounded-xl border border-default/60 bg-elevated/30 p-4 hover:bg-elevated/60 transition-colors duration-300">
                   <div class="flex items-center gap-2 mb-2">
                     <UBadge
                       :label="`${index + 1}`"

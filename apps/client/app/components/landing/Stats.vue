@@ -77,7 +77,7 @@ onMounted(() => {
         >
           <UIcon
             :name="stat.icon"
-            class="size-5 text-primary/40"
+            class="size-5 text-muted"
             aria-hidden="true"
           />
           <span

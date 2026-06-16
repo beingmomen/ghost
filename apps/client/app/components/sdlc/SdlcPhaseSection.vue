@@ -29,10 +29,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-100">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-zap"
-                class="size-4 text-primary"
+                class="size-4 text-muted"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerA.title }}</span>
@@ -40,8 +40,8 @@ const metaItems = computed(() => [
           <p class="text-base text-muted leading-relaxed mb-4">
             {{ phase.layerA.body }}
           </p>
-          <div class="rounded-lg bg-primary/5 border border-primary/20 p-3">
-            <div class="text-sm font-semibold text-primary mb-1">
+          <div class="rounded-lg bg-elevated/50 border border-default/60 p-3">
+            <div class="text-sm font-semibold text-highlighted mb-1">
               Key Output
             </div>
             <div class="text-base">
@@ -54,10 +54,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-200">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-list"
-                class="size-4 text-primary"
+                class="size-4 text-muted"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerB.title }}</span>
@@ -70,7 +70,7 @@ const metaItems = computed(() => [
             >
               <UIcon
                 name="i-lucide-circle-check"
-                class="size-3.5 text-primary/50 mt-0.5 shrink-0"
+                class="size-3.5 text-muted mt-0.5 shrink-0"
               />
               <span>
                 <template v-if="item.includes(' — ')">
@@ -87,10 +87,10 @@ const metaItems = computed(() => [
       <div class="animate-fade-in animation-delay-300">
         <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 hover:bg-elevated/60 transition-colors duration-300 h-full">
           <div class="flex items-center gap-2 mb-3">
-            <div class="size-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
               <UIcon
                 name="i-lucide-brain"
-                class="size-4 text-primary"
+                class="size-4 text-muted"
               />
             </div>
             <span class="text-base font-semibold">{{ phase.layerC.title }}</span>

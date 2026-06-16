@@ -74,7 +74,7 @@ const colorOf = c => COLOR_CLASSES[c] || COLOR_CLASSES.primary
       >
         <UIcon
           name="i-lucide-arrow-down"
-          class="size-5 text-primary/40"
+          class="size-5 text-muted"
         />
       </div>
     </div>
