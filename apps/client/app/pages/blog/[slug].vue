@@ -178,6 +178,11 @@ useBreadcrumbSchema([
           </div>
         </div>
         <UPageBody>
+          <BlogSidebarTableOfContents
+            collapsible
+            class="mb-6"
+          />
+
           <!-- eslint-disable vue/no-v-html -->
           <article v-html="sanitizedContent" />
           <!-- eslint-enable vue/no-v-html -->

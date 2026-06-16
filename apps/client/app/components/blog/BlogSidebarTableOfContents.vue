@@ -1,5 +1,44 @@
 <template>
-  <div>
+  <details
+    v-if="collapsible && table.length"
+    class="lg:hidden rounded-xl border border-default/60 bg-elevated/30 p-4 group"
+  >
+    <summary class="flex items-center justify-between cursor-pointer text-base font-semibold list-none">
+      <span>محتويات المقال</span>
+      <UIcon
+        name="i-lucide-chevron-down"
+        class="size-4 text-muted transition-transform duration-200 group-open:rotate-180"
+      />
+    </summary>
+
+    <nav
+      aria-label="جدول المحتويات"
+      class="toc-navigation space-y-1 mt-3"
+    >
+      <UButton
+        v-for="item in table"
+        :key="`m-${item.id}`"
+        :variant="activeHeading === item.id ? 'soft' : 'ghost'"
+        :color="activeHeading === item.id ? 'primary' : 'neutral'"
+        :class="[
+          'w-full justify-start text-right',
+          `toc-level-${item.level}`,
+          {
+            'font-semibold': activeHeading === item.id,
+            'ps-0': item.level === 2,
+            'ps-4': item.level === 3,
+            'ps-8': item.level === 4
+          }
+        ]"
+        :size="item.level === 2 ? 'xl' : 'lg'"
+        @click="scrollToHeading(item.id)"
+      >
+        {{ item.text }}
+      </UButton>
+    </nav>
+  </details>
+
+  <div v-else-if="table.length">
     <h3 class="text-lg font-semibold text-highlighted">
       محتويات المقال
     </h3>
@@ -33,6 +72,13 @@
 </template>
 
 <script setup>
+defineProps({
+  collapsible: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const singleBlog = inject('singleBlog', ref({}))
 const table = computed(() => singleBlog.value.tableOfContents || [])
 
