@@ -8,10 +8,26 @@ const props = defineProps({
 const currentIndex = computed(() =>
   LEVEL_LADDER.findIndex(l => l.value === props.stats.currentLevel)
 )
+
+const hasStats = computed(() =>
+  typeof props.stats?.totalTasks === 'number' && props.stats.totalTasks > 0
+)
+
+const safeStats = computed(() => ({
+  overallPercent: props.stats?.overallPercent ?? 0,
+  doneTasks: props.stats?.doneTasks ?? 0,
+  totalTasks: props.stats?.totalTasks ?? 0,
+  weeksRemainingToSenior: props.stats?.weeksRemainingToSenior ?? 0,
+  hoursRemainingToSenior: props.stats?.hoursRemainingToSenior ?? 0,
+  progressToNextPercent: props.stats?.progressToNextPercent ?? 0
+}))
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div
+    v-if="hasStats"
+    class="space-y-8"
+  >
     <!-- Level + overall progress -->
     <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex flex-col items-center gap-2 sm:items-start">
@@ -28,26 +44,26 @@ const currentIndex = computed(() =>
       <!-- Progress ring -->
       <div class="flex flex-col items-center gap-1">
         <div class="text-4xl font-bold text-primary">
-          {{ stats.overallPercent }}%
+          {{ safeStats.overallPercent }}%
         </div>
         <span class="text-sm text-muted">
-          {{ stats.doneTasks }} / {{ stats.totalTasks }} مهمة
+          {{ safeStats.doneTasks }} / {{ safeStats.totalTasks }} مهمة
         </span>
       </div>
 
       <div class="flex flex-col items-center gap-1 sm:items-end">
         <span class="text-sm text-muted">المدة المتبقية لـ Senior</span>
         <span class="text-lg font-semibold">
-          ~{{ stats.weeksRemainingToSenior }} أسبوع
+          ~{{ safeStats.weeksRemainingToSenior }} أسبوع
         </span>
         <span class="text-sm text-dimmed">
-          ≈ {{ stats.hoursRemainingToSenior }} ساعة
+          ≈ {{ safeStats.hoursRemainingToSenior }} ساعة
         </span>
       </div>
     </div>
 
     <UProgress
-      :model-value="stats.overallPercent"
+      :model-value="safeStats.overallPercent"
       :max="100"
       color="primary"
       size="lg"
@@ -86,10 +102,10 @@ const currentIndex = computed(() =>
       >
         <div class="flex items-center justify-between text-sm text-muted">
           <span>التقدّم نحو {{ levelLabel(stats.nextMilestone) }}</span>
-          <span>{{ stats.progressToNextPercent }}%</span>
+          <span>{{ safeStats.progressToNextPercent }}%</span>
         </div>
         <UProgress
-          :model-value="stats.progressToNextPercent"
+          :model-value="safeStats.progressToNextPercent"
           :max="100"
           :color="levelColor(stats.nextMilestone)"
           size="sm"

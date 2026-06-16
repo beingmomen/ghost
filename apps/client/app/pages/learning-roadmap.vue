@@ -52,6 +52,9 @@ useBreadcrumbSchema([{ name: 'مسار التعلم', path: '/learning-roadmap' 
       state="error"
       title="تعذّر تحميل المسار"
       message="حدث خطأ أثناء جلب بيانات المسار. حاول مرة أخرى بعد لحظات."
+      retry-label="حاول مرة أخرى"
+      alt-action-label="تواصل معي"
+      alt-action-to="/contact"
       @retry="refreshRoadmap()"
     />
 

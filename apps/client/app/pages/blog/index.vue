@@ -1,7 +1,7 @@
 <script setup>
 const { cloudinary } = useRuntimeConfig().public
 
-const { data, status, refresh } = await useFetch('/api/blog', {
+const { data, error, refresh } = await useFetch('/api/blog', {
   key: 'blogs',
   default: () => [],
   transform: blogs => blogs.map(blog => ({
@@ -89,7 +89,18 @@ useHead({
     />
 
     <UPageSection :ui="{ container: '!pt-0' }">
-      <template v-if="posts.length">
+      <LandingSectionFallback
+        v-if="error"
+        state="error"
+        title="تعذّر تحميل المقالات"
+        message="حدث خطأ أثناء جلب المقالات من الخادم. حاول مرة أخرى بعد لحظات."
+        retry-label="حاول مرة أخرى"
+        alt-action-label="تواصل معي"
+        alt-action-to="/contact"
+        @retry="refresh()"
+      />
+
+      <template v-else-if="posts.length">
         <UBlogPosts orientation="vertical">
           <UBlogPost
             v-for="(post, index) in paginatedPosts"
@@ -120,38 +131,14 @@ useHead({
         </div>
       </template>
 
-      <div
-        v-else-if="status === 'error'"
-        class="text-center py-12"
-      >
-        <UIcon
-          name="i-lucide-cloud-off"
-          class="size-12 text-muted mx-auto mb-4"
-        />
-        <p class="text-muted mb-4">
-          تعذّر تحميل المقالات. حاول مرة أخرى بعد لحظات.
-        </p>
-        <UButton
-          label="حاول مرة أخرى"
-          icon="i-lucide-refresh-cw"
-          color="primary"
-          variant="soft"
-          @click="refresh()"
-        />
-      </div>
-
-      <div
+      <LandingSectionFallback
         v-else
-        class="text-center py-12"
-      >
-        <UIcon
-          name="i-lucide-file-text"
-          class="size-12 text-muted mx-auto mb-4"
-        />
-        <p class="text-muted">
-          لا توجد مقالات حالياً
-        </p>
-      </div>
+        state="empty"
+        title="لا توجد مقالات"
+        message="لم يتم نشر أي مقالات حتى الآن. عد لاحقاً أو تواصل معي."
+        alt-action-label="تواصل معي"
+        alt-action-to="/contact"
+      />
     </UPageSection>
   </UPage>
 </template>
