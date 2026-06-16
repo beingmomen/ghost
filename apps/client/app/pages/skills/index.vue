@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ middleware: 'dev-only' })
+
 useSeoMeta({
   title: 'Skills Manager',
   description: 'Browse and manage Claude Code skills and slash commands'
@@ -78,6 +80,7 @@ async function deleteSelected() {
 
   const selected = items.value.filter(s => selectedItems.value.has(s.path))
   let successCount = 0
+  let failureCount = 0
 
   for (const item of selected) {
     const slug = item.path.replace('/skills/', '')
@@ -88,21 +91,32 @@ async function deleteSelected() {
       })
       successCount++
     } catch {
-      // continue deleting others
+      failureCount++
     }
   }
 
-  toast.add({
-    title: `تم حذف ${successCount} Skill`,
-    color: 'success',
-    icon: 'i-lucide-check-circle'
-  })
+  if (successCount > 0) {
+    toast.add({
+      title: `تم حذف ${successCount} Skill`,
+      description: failureCount > 0 ? `فشل حذف ${failureCount} Skill` : undefined,
+      color: failureCount > 0 ? 'warning' : 'success',
+      icon: failureCount > 0 ? 'i-lucide-alert-triangle' : 'i-lucide-check-circle'
+    })
+  } else if (failureCount > 0) {
+    toast.add({
+      title: `فشل حذف ${failureCount} Skill`,
+      color: 'error',
+      icon: 'i-lucide-alert-circle'
+    })
+  }
 
   selectedItems.value = new Set()
   showDeleteConfirm.value = false
   deletingSelected.value = false
 
-  refreshNuxtData('skills-list')
+  if (successCount > 0) {
+    refreshNuxtData('skills-list')
+  }
 }
 </script>
 
@@ -160,7 +174,7 @@ async function deleteSelected() {
         class="flex items-center justify-between mb-4"
       >
         <UButton
-          :label="allFilteredSelected ? 'إلغاء تحديد الكل' : 'تحديد الكل'"
+          :label="allFilteredSelected ? 'إلغاء تحديد المعروض' : 'تحديد المعروض'"
           :icon="allFilteredSelected ? 'i-lucide-square-check' : 'i-lucide-square'"
           variant="ghost"
           color="neutral"

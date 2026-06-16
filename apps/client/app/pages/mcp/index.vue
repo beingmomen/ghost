@@ -77,6 +77,7 @@ async function deleteSelected() {
 
   const selected = servers.value.filter(s => selectedServers.value.has(s.path))
   let successCount = 0
+  let failureCount = 0
 
   for (const server of selected) {
     const slug = server.path.replace('/mcp/', '')
@@ -87,21 +88,32 @@ async function deleteSelected() {
       })
       successCount++
     } catch {
-      // continue deleting others
+      failureCount++
     }
   }
 
-  toast.add({
-    title: `تم حذف ${successCount} خادم`,
-    color: 'success',
-    icon: 'i-lucide-check-circle'
-  })
+  if (successCount > 0) {
+    toast.add({
+      title: `تم حذف ${successCount} خادم`,
+      description: failureCount > 0 ? `فشل حذف ${failureCount} خادم` : undefined,
+      color: failureCount > 0 ? 'warning' : 'success',
+      icon: failureCount > 0 ? 'i-lucide-alert-triangle' : 'i-lucide-check-circle'
+    })
+  } else if (failureCount > 0) {
+    toast.add({
+      title: `فشل حذف ${failureCount} خادم`,
+      color: 'error',
+      icon: 'i-lucide-alert-circle'
+    })
+  }
 
   selectedServers.value = new Set()
   showDeleteConfirm.value = false
   deletingSelected.value = false
 
-  refreshNuxtData('mcp-servers')
+  if (successCount > 0) {
+    refreshNuxtData('mcp-servers')
+  }
 }
 
 function downloadMcpJson() {
@@ -181,7 +193,7 @@ function downloadMcpJson() {
         class="flex items-center justify-between mb-4"
       >
         <UButton
-          :label="allFilteredSelected ? 'إلغاء تحديد الكل' : 'تحديد الكل'"
+          :label="allFilteredSelected ? 'إلغاء تحديد المعروض' : 'تحديد المعروض'"
           :icon="allFilteredSelected ? 'i-lucide-square-check' : 'i-lucide-square'"
           variant="ghost"
           color="neutral"

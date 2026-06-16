@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ middleware: 'dev-only' })
+
 useSeoMeta({
   title: 'Commands Manager',
   description: 'Browse and manage Claude Code commands'
@@ -48,6 +50,7 @@ async function deleteSelected() {
 
   const selected = items.value.filter(s => selectedItems.value.has(s.path))
   let successCount = 0
+  let failureCount = 0
 
   for (const item of selected) {
     const slug = item.path.replace('/commands/', '')
@@ -58,21 +61,32 @@ async function deleteSelected() {
       })
       successCount++
     } catch {
-      // continue deleting others
+      failureCount++
     }
   }
 
-  toast.add({
-    title: `تم حذف ${successCount} أمر`,
-    color: 'success',
-    icon: 'i-lucide-check-circle'
-  })
+  if (successCount > 0) {
+    toast.add({
+      title: `تم حذف ${successCount} أمر`,
+      description: failureCount > 0 ? `فشل حذف ${failureCount} أمر` : undefined,
+      color: failureCount > 0 ? 'warning' : 'success',
+      icon: failureCount > 0 ? 'i-lucide-alert-triangle' : 'i-lucide-check-circle'
+    })
+  } else if (failureCount > 0) {
+    toast.add({
+      title: `فشل حذف ${failureCount} أمر`,
+      color: 'error',
+      icon: 'i-lucide-alert-circle'
+    })
+  }
 
   selectedItems.value = new Set()
   showDeleteConfirm.value = false
   deletingSelected.value = false
 
-  refreshNuxtData('commands-list')
+  if (successCount > 0) {
+    refreshNuxtData('commands-list')
+  }
 }
 </script>
 
@@ -112,7 +126,7 @@ async function deleteSelected() {
         class="flex items-center justify-between mb-4"
       >
         <UButton
-          :label="allSelected ? 'إلغاء تحديد الكل' : 'تحديد الكل'"
+          :label="allSelected ? 'إلغاء تحديد المعروض' : 'تحديد المعروض'"
           :icon="allSelected ? 'i-lucide-square-check' : 'i-lucide-square'"
           variant="ghost"
           color="neutral"
