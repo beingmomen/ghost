@@ -1,60 +1,14 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-
-const stats = [
-  { value: '+5', label: 'سنوات خبرة', icon: 'i-lucide-calendar-days' },
-  { value: '+10', label: 'مشروع سلّمته', icon: 'i-lucide-folder-check' },
-  { value: '3', label: 'شركات عملت بها', icon: 'i-lucide-building-2' },
-  { value: '+50', label: 'عميل تعاملت معه', icon: 'i-lucide-users' }
-]
-
-function useCountUp(target, duration = 1800) {
-  const current = ref(0)
-  const landed = ref(false)
-  const hasPlus = target.startsWith('+')
-  const numericValue = parseInt(target.replace('+', ''))
-
-  function start() {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) {
-      current.value = numericValue
-      return
-    }
-    const startTime = performance.now()
-    function tick(now) {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 4)
-      current.value = Math.round(eased * numericValue)
-      if (progress < 1) {
-        requestAnimationFrame(tick)
-      } else {
-        landed.value = true
-        setTimeout(() => { landed.value = false }, 500)
-      }
-    }
-    requestAnimationFrame(tick)
-  }
-
-  const display = computed(() => hasPlus ? `+${current.value}` : `${current.value}`)
-  return { display, start, landed }
-}
-
-const counters = stats.map(s => useCountUp(s.value))
-const sectionRef = ref(null)
-
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        counters.forEach(c => c.start())
-        observer.disconnect()
-      }
-    },
-    { threshold: 0.3 }
-  )
-  if (sectionRef.value) observer.observe(sectionRef.value)
-})
+// Credibility line — the four real figures woven into one first-person sentence,
+// replacing the banned hero-metric grid (DESIGN.md: "evidence comes from content,
+// not metric widgets"). Numbers carry emphasis through size + weight (Rubik display),
+// never amber, so the Honey Signal Rule's amber budget stays untouched.
+const figures = {
+  years: '+5',
+  projects: '+10',
+  companies: '3',
+  clients: '+50'
+};
 </script>
 
 <template>
@@ -67,31 +21,48 @@ onMounted(() => {
       ref="sectionRef"
       class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 border-y border-default py-12 sm:py-16 lg:py-20 px-4 sm:px-12 lg:px-16"
     >
-      <div class="grid grid-cols-2 lg:grid-cols-4 items-stretch max-w-(--ui-container) mx-auto gap-y-10 lg:gap-y-0 lg:divide-x lg:divide-default/50 rtl:divide-x-reverse">
-        <div
-          v-for="(stat, index) in stats"
-          :key="stat.label"
-          class="flex flex-col items-center gap-2 text-center animate-fade-in px-4 sm:px-8 py-2"
-          :style="`animation-delay: ${0.1 + index * 0.1}s`"
-          :aria-label="`${stat.value} ${stat.label}`"
+      <p
+        class="credibility mx-auto max-w-3xl text-center text-balance text-default text-xl sm:text-2xl lg:text-3xl leading-relaxed"
+      >
+        على مدى
+        <span
+          class="num text-highlighted animate-fade-in animation-delay-100"
+          dir="ltr"
+          >{{ figures.years }}</span
         >
-          <UIcon
-            :name="stat.icon"
-            class="size-5 text-muted"
-            aria-hidden="true"
-          />
-          <span
-            dir="ltr"
-            class="text-4xl sm:text-5xl font-bold text-amber leading-none transition-transform duration-200 inline-block"
-            :class="counters[index].landed.value ? 'scale-110' : 'scale-100'"
-          >
-            {{ counters[index].display.value }}
-          </span>
-          <span class="text-sm text-muted leading-snug">
-            {{ stat.label }}
-          </span>
-        </div>
-      </div>
+        سنوات، سلّمتُ
+        <span
+          class="num text-highlighted animate-fade-in animation-delay-200"
+          dir="ltr"
+          >{{ figures.projects }}</span
+        >
+        مشاريع لـ
+        <span
+          class="num text-highlighted animate-fade-in animation-delay-300"
+          dir="ltr"
+          >{{ figures.companies }}</span
+        >
+        شركات، ووثق بنتائجها
+        <span
+          class="num text-highlighted animate-fade-in animation-delay-400"
+          dir="ltr"
+          >{{ figures.clients }}</span
+        >
+        عميلاً.
+      </p>
     </div>
   </UPageSection>
 </template>
+
+<style scoped>
+.num {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4em;
+  line-height: 1;
+  /* nudge the larger glyphs back onto the sentence baseline */
+  vertical-align: -0.08em;
+  margin-inline: 0.08em;
+}
+</style>
