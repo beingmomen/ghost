@@ -45,7 +45,7 @@ useSeoMeta({
   <UPage>
     <LandingHero />
 
-    <UPageSection :ui="{ container: '!pt-0 lg:grid lg:grid-cols-2 lg:gap-8 *:min-w-0' }">
+    <UPageSection :ui="{ container: '!py-12 sm:!py-16 lg:!py-20 lg:grid lg:grid-cols-2 lg:gap-8 *:min-w-0' }">
       <LandingAbout />
       <LandingWorkExperience
         :api-error="landingError"

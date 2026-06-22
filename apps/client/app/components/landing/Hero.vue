@@ -21,7 +21,7 @@ const { global } = useAppConfig()
     />
 
     <div
-      class="relative max-w-(--ui-container) mx-auto py-20 sm:py-24 lg:py-28"
+      class="relative max-w-(--ui-container) mx-auto pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16 lg:pb-20"
     >
       <div class="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-8">
         <!-- Text column (start / right in RTL) -->

@@ -39,7 +39,7 @@ const latestBlogs = computed(() => {
     alt-action-to="/blog"
     @retry="refreshBlogs()"
   />
-  <section v-else-if="latestBlogs.length" class="py-12 sm:py-16">
+  <section v-else-if="latestBlogs.length" class="py-12 sm:py-16 lg:py-20">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
       <LandingSectionHeading
         class="lg:col-span-4"

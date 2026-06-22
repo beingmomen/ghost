@@ -65,7 +65,7 @@ onMounted(() => {
   >
     <div
       ref="sectionRef"
-      class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 border-y border-default py-12 px-4 sm:px-12 lg:px-16"
+      class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 border-y border-default py-12 sm:py-16 lg:py-20 px-4 sm:px-12 lg:px-16"
     >
       <div class="grid grid-cols-2 lg:grid-cols-4 items-stretch max-w-(--ui-container) mx-auto gap-y-10 lg:gap-y-0 lg:divide-x lg:divide-default/50 rtl:divide-x-reverse">
         <div

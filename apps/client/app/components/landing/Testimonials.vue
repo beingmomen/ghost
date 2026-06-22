@@ -23,7 +23,7 @@ const emit = defineEmits(['retry'])
   />
   <UPageSection
     v-else
-    :ui="{ container: 'px-0 !pt-0' }"
+    :ui="{ container: 'px-0 !p-0' }"
   >
     <TestimonialCarousel :items="data?.testimonials || []" />
   </UPageSection>

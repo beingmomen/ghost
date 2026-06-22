@@ -32,7 +32,7 @@ const {
   />
   <section
     v-else-if="featuredProjects?.length"
-    class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/20 px-4 sm:px-12 lg:px-16 py-14 sm:py-20"
+    class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/20 px-4 sm:px-12 lg:px-16 py-12 sm:py-16 lg:py-20"
   >
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 max-w-(--ui-container) mx-auto">
       <LandingSectionHeading
