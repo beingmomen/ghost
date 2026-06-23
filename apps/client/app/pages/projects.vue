@@ -14,8 +14,6 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
   }
 })
 
-const { global } = useAppConfig()
-
 const pageDescription = 'استعرض مشاريعي في تطوير الويب وبناء تطبيقات حديثة وعالية الأداء'
 
 useSeoMeta({
@@ -71,26 +69,9 @@ useHead({
       description="مجموعة من المشاريع التي عملت عليها باستخدام أحدث التقنيات"
       :ui="{
         title: '!mx-0 text-right',
-        description: '!mx-0 text-right',
-        links: 'justify-start'
+        description: '!mx-0 text-right'
       }"
-    >
-      <template #links>
-        <div class="flex items-center gap-2">
-          <UButton
-            label="تواصل معي"
-            to="/contact"
-            color="primary"
-          />
-          <UButton
-            label="أرسل بريد"
-            :to="`mailto:${global.email}`"
-            color="neutral"
-            variant="outline"
-          />
-        </div>
-      </template>
-    </UPageHero>
+    />
     <LandingSectionFallback
       v-if="projectsError"
       state="error"
@@ -120,7 +101,6 @@ useHead({
           :key="project._id"
         >
           <UPageCard
-            :title="project.title"
             :description="project.description"
             :to="project.url"
             target="_blank"
@@ -133,13 +113,18 @@ useHead({
               wrapper: 'max-sm:order-last'
             }"
           >
+            <template #title>
+              <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-balance">
+                {{ project.title }}
+              </h2>
+            </template>
             <template #leading>
               <span class="text-base text-muted">
                 {{ project.tag }}
               </span>
             </template>
             <template #footer>
-              <div class="flex flex-wrap gap-2">
+              <div class="flex flex-wrap items-center gap-2">
                 <UBadge
                   v-for="tag in project.tags"
                   :key="tag._id"
@@ -148,17 +133,25 @@ useHead({
                   variant="subtle"
                   size="xs"
                 />
+                <UIcon
+                  name="i-lucide-external-link"
+                  class="size-3.5 text-dimmed me-auto"
+                  aria-hidden="true"
+                />
+                <span class="sr-only">يفتح في تبويب جديد</span>
               </div>
             </template>
-            <NuxtImg
-              :src="project.image"
-              :alt="project.altText || project.title"
-              width="400"
-              height="192"
-              :loading="index === 0 ? 'eager' : 'lazy'"
-              :fetchpriority="index === 0 ? 'high' : 'auto'"
-              class="object-cover w-full h-48 rounded-lg"
-            />
+            <div class="aspect-video w-full overflow-hidden rounded-lg bg-elevated/40 ring-1 ring-default/60">
+              <NuxtImg
+                :src="project.image"
+                :alt="project.altText || project.title"
+                width="1152"
+                height="648"
+                :loading="index === 0 ? 'eager' : 'lazy'"
+                :fetchpriority="index === 0 ? 'high' : 'auto'"
+                class="object-cover w-full h-full"
+              />
+            </div>
           </UPageCard>
         </div>
       </div>
