@@ -23,7 +23,6 @@ const page = computed(() => {
       paragraphs: info.bio?.paragraphs || [],
       quote: info.bio?.quote || ''
     },
-    stats: info.stats || [],
     skills: info.skills || [],
     images: info.images || []
   }
@@ -168,37 +167,29 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
     >
       <div class="lg:grid lg:grid-cols-3 lg:gap-10">
         <div class="lg:col-span-2 space-y-6">
-          <div class="animate-fade-in animation-delay-100">
-            <h2 class="text-right text-xl sm:text-2xl font-medium text-highlighted">
-              قصتي
-            </h2>
-          </div>
+          <h2 class="text-right text-xl sm:text-2xl font-medium text-highlighted">
+            قصتي
+          </h2>
 
-          <div
+          <p
             v-for="(paragraph, index) in page.story.paragraphs"
             :key="index"
-            class="animate-fade-in"
-            :style="{ animationDelay: `${0.15 + 0.15 * index}s` }"
+            class="text-muted text-right text-base sm:text-lg leading-relaxed"
           >
-            <p class="text-muted text-right text-base sm:text-lg leading-relaxed">
-              {{ paragraph }}
-            </p>
-          </div>
+            {{ paragraph }}
+          </p>
 
-          <div
+          <blockquote
             v-if="page.story.quote"
-            class="animate-fade-in"
-            style="animation-delay: 0.45s"
+            class="border border-default bg-elevated/40 p-5 rounded-xl"
           >
-            <blockquote class="border border-default bg-elevated/40 p-5 rounded-xl">
-              <p class="text-muted text-base sm:text-lg font-medium leading-relaxed text-right">
-                "{{ page.story.quote }}"
-              </p>
-            </blockquote>
-          </div>
+            <p class="text-muted text-base sm:text-lg font-medium leading-relaxed text-right">
+              "{{ page.story.quote }}"
+            </p>
+          </blockquote>
         </div>
 
-        <div class="lg:col-span-1 flex flex-row lg:flex-col justify-center items-center py-10 lg:py-0 -space-x-8 lg:space-x-0 lg:gap-6">
+        <div class="lg:col-span-1 flex flex-col items-center justify-center gap-4 lg:gap-6 py-10 lg:py-0">
           <div
             v-for="(image, index) in page.images"
             :key="index"
@@ -209,39 +200,6 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
               :image="image"
               :index="index"
             />
-          </div>
-        </div>
-      </div>
-    </UPageSection>
-
-    <!-- ========== SECTION 3: STATS ========== -->
-    <UPageSection
-      v-if="page.stats.length"
-      :ui="{
-        container: 'px-0'
-      }"
-    >
-      <div class="-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 border-y border-default py-10 px-4 sm:px-12 lg:px-16">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-(--ui-container) mx-auto">
-          <div
-            v-for="(stat, index) in page.stats"
-            :key="index"
-            class="animate-fade-in"
-            :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
-          >
-            <div class="flex flex-col items-center gap-2 text-center">
-              <UIcon
-                :name="stat.icon"
-                class="size-5 text-muted"
-                aria-hidden="true"
-              />
-              <span class="text-4xl sm:text-5xl font-bold text-highlighted leading-none">
-                {{ stat.value }}
-              </span>
-              <span class="text-sm text-muted leading-snug">
-                {{ stat.label }}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -263,7 +221,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
           class="animate-fade-in"
           :style="{ animationDelay: `${0.2 + cIndex * 0.15}s` }"
         >
-          <div class="rounded-2xl border border-default bg-elevated/40 p-5 sm:p-6 space-y-4 hover:border-default hover:shadow-md transition-all duration-300 group">
+          <div class="rounded-2xl border border-default bg-elevated/40 p-5 sm:p-6 space-y-4 hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-end gap-3">
               <span class="font-semibold text-base text-right text-highlighted">
                 {{ category.title }}
@@ -277,27 +235,22 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             <USeparator />
 
             <div class="flex flex-wrap gap-2 justify-end">
-              <div
+              <UBadge
                 v-for="(skill, sIndex) in category.items"
                 :key="sIndex"
-                class="animate-fade-in"
-                :style="{ animationDelay: `${0.3 + cIndex * 0.1 + sIndex * 0.05}s` }"
+                :label="skill.name"
+                color="neutral"
+                variant="subtle"
+                size="sm"
+                class="gap-1.5 cursor-default select-none"
               >
-                <UBadge
-                  :label="skill.name"
-                  color="neutral"
-                  variant="subtle"
-                  size="sm"
-                  class="gap-1.5 cursor-default select-none"
-                >
-                  <template #leading>
-                    <UIcon
-                      :name="skill.icon"
-                      class="size-3.5"
-                    />
-                  </template>
-                </UBadge>
-              </div>
+                <template #leading>
+                  <UIcon
+                    :name="skill.icon"
+                    class="size-3.5"
+                  />
+                </template>
+              </UBadge>
             </div>
           </div>
         </div>
@@ -345,10 +298,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
 
               <!-- Experience card -->
               <div
-                class="flex-1 rounded-xl border p-4 sm:p-5 mr-4 sm:mr-0 transition-all duration-300 hover:shadow-md"
-                :class="exp.endDate === 'الحالي'
-                  ? 'border-default bg-elevated/40'
-                  : 'border-default bg-elevated/40'"
+                class="flex-1 rounded-xl border border-default bg-elevated/40 p-4 sm:p-5 mr-4 sm:mr-0 transition-all duration-300 hover:shadow-md"
               >
                 <div class="flex items-start justify-between flex-wrap gap-2 mb-3">
                   <div>
@@ -417,42 +367,6 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             </div>
           </div>
         </div>
-      </div>
-    </UPageSection>
-
-    <!-- ========== SECTION 6: CTA ========== -->
-    <UPageSection :ui="{ container: '!pt-0' }">
-      <div class="animate-fade-in animation-delay-200">
-        <UPageCTA
-          title="هل لديك مشروع في ذهنك؟"
-          description="سواء كان مشروعاً جديداً أو تحسين منتج قائم، أنا هنا للمساعدة والتعاون. لا تتردد في التواصل."
-          variant="subtle"
-          :ui="{
-            container: 'sm:py-12 lg:py-16 sm:gap-6',
-            title: 'text-2xl sm:text-3xl font-bold',
-            description: '!text-base text-muted mt-2 leading-relaxed'
-          }"
-        >
-          <template #links>
-            <div class="flex flex-wrap items-center gap-3 justify-center">
-              <UButton
-                label="تواصل معي الآن"
-                to="/contact"
-                color="primary"
-                size="lg"
-                trailing-icon="i-lucide-arrow-left"
-              />
-              <UButton
-                label="عرض المشاريع"
-                to="/projects"
-                color="neutral"
-                variant="outline"
-                size="lg"
-                trailing-icon="i-lucide-folder-open"
-              />
-            </div>
-          </template>
-        </UPageCTA>
       </div>
     </UPageSection>
   </UPage>
