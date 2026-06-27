@@ -42,12 +42,6 @@ export const secondaryLinks: NavigationMenuItem[] = [
 // Technical guides.
 export const guideLinks: NavigationMenuItem[] = [
   {
-    label: 'مسار التطور لـ Senior',
-    description: 'رحلة تعلّم مُمنهَجة من Mid إلى Senior',
-    icon: 'i-lucide-trending-up',
-    to: '/learning-roadmap'
-  },
-  {
     label: 'القرارات المعمارية',
     description: 'Architecture Decision Records',
     icon: 'i-lucide-landmark',

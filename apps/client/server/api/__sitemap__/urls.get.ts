@@ -8,7 +8,6 @@ export default defineEventHandler(async () => {
     { loc: '/about', changefreq: 'monthly', priority: 0.7 },
     { loc: '/contact', changefreq: 'monthly', priority: 0.7 },
     { loc: '/testimonial', changefreq: 'monthly', priority: 0.6 },
-    { loc: '/learning-roadmap', changefreq: 'weekly', priority: 0.6 },
     { loc: '/adr', changefreq: 'monthly', priority: 0.6 },
     { loc: '/sdlc', changefreq: 'monthly', priority: 0.5 },
     { loc: '/sdlc-ar', changefreq: 'monthly', priority: 0.5 }
