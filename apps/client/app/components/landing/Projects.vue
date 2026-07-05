@@ -1,17 +1,18 @@
 <script setup>
 const { cloudinary } = useRuntimeConfig().public
 
+// `useAPI` unwraps the { status, data, ... } envelope, so `data` is the array.
 const {
-  data: projectsResponse,
+  data: projects,
   error: projectsError,
   refresh: refreshProjects
-} = await useAPI('/projects', {
+} = await useAPI<Array<any>>('/projects', {
   key: 'landing-projects',
   query: { isActive: true, limit: 3 }
 })
 
 const featuredProjects = computed(() => {
-  const list = projectsResponse.value?.data ?? []
+  const list = Array.isArray(projects.value) ? projects.value : []
   return list.slice(0, 3).map(project => ({
     ...project,
     image: optimizeCloudinary(
