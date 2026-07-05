@@ -55,8 +55,7 @@ if want apps/db; then
 fi
 
 if want apps/server; then
-  echo "== build server =="
-  pnpm build:server
+  echo "== restart server (Express — no build step needed) =="
   pm2 startOrRestart ecosystem.config.cjs --only server --update-env
 fi
 
