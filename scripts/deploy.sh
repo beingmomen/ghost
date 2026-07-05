@@ -6,6 +6,7 @@
 #   deploy.sh auto    -> build only the apps touched since the last pull (default)
 set -euo pipefail
 
+export HOME="${HOME:-/root}"   # the runner service starts with no HOME set
 export NVM_DIR="$HOME/.nvm"
 # shellcheck disable=SC1091
 . "$NVM_DIR/nvm.sh"
