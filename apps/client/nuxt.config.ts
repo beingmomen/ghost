@@ -87,9 +87,9 @@ export default defineNuxtConfig({
 
   routeRules: {
     // API-driven — SWR cache (revalidate in background)
-    '/': { swr: 3600 },
-    '/about': { swr: 3600 },
-    '/projects': { swr: 3600 },
+    '/': { swr: 60 },
+    '/about': { swr: 60 },
+    '/projects': { swr: 60 },
     '/blog': { swr: 600 },
     '/blog/**': { swr: 600 },
     '/api/blog': { swr: 600 },
