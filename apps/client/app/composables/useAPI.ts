@@ -15,9 +15,21 @@ export function useAPI<T>(
   url: string | (() => string),
   options?: UseFetchOptions<T>
 ) {
-  return useFetch<T>(url, {
+  const config = useRuntimeConfig()
+  const baseURL = config.public.baseURL?.replace(/\/+$/, '') ?? ''
+
+  // Resolve to a full URL ourselves. `$fetch.create({ baseURL })` has proven
+  // unreliable across HMR boundaries — sometimes a relative `url` slipped
+  // through and hit `…/api/v1?…` (no resource). Building the URL here is
+  // bulletproof and matches what the network panel showed on the live server.
+  const resolve = () => {
+    const raw = typeof url === 'function' ? url() : url
+    const path = raw.startsWith('/') ? raw : `/${raw}`
+    return `${baseURL}${path}`
+  }
+
+  return useFetch<T>(resolve, {
     ...options,
-    $fetch: useNuxtApp().$api,
     onResponseError({ response }) {
       const toast = useToast()
       const status = response?.status
