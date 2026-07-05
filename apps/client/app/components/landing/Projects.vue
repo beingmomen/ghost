@@ -2,23 +2,25 @@
 const { cloudinary } = useRuntimeConfig().public
 
 const {
-  data: featuredProjects,
+  data: projectsResponse,
   error: projectsError,
   refresh: refreshProjects
 } = await useAPI('/projects', {
   key: 'landing-projects',
-  query: { isActive: true, limit: 3 },
-  default: () => [],
-  transform: (response) =>
-    (response.data || []).slice(0, 3).map(project => ({
-      ...project,
-      image: optimizeCloudinary(
-        project.image?.startsWith('http')
-          ? project.image
-          : `${cloudinary.cloudinaryUrl}${project.image}`,
-        'f_auto,q_auto,w_192,h_128,c_fill'
-      )
-    }))
+  query: { isActive: true, limit: 3 }
+})
+
+const featuredProjects = computed(() => {
+  const list = projectsResponse.value?.data ?? []
+  return list.slice(0, 3).map(project => ({
+    ...project,
+    image: optimizeCloudinary(
+      project.image?.startsWith('http')
+        ? project.image
+        : `${cloudinary.cloudinaryUrl}${project.image}`,
+      'f_auto,q_auto,w_192,h_128,c_fill'
+    )
+  }))
 })
 </script>
 
