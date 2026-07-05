@@ -15,7 +15,8 @@ module.exports = {
       name: 'server',
       cwd: `${ROOT}/apps/server`,
       script: 'server.js',
-      env: { PORT: 1234 }
+      // 1234 is taken by another project on this shared VPS -> use a free port.
+      env: { PORT: 3001 }
     },
     {
       name: 'db',
