@@ -1,0 +1,38 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Never run two deploys at once — the VPS builds sequentially to protect RAM.
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux]
+    steps:
+      - name: Sync repo on server
+        run: |
+          cd /root/ghost
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Write env files from repository variables
+        env:
+          CLIENT_ENV: ${{ vars.CLIENT_ENV_PROD }}
+          SERVER_ENV: ${{ vars.SERVER_ENV_PROD }}
+          DB_ENV: ${{ vars.DB_ENV_PROD }}
+        run: |
+          printf '%s' "$CLIENT_ENV" > /root/ghost/apps/client/.env
+          printf '%s' "$SERVER_ENV" > /root/ghost/apps/server/.env
+          printf '%s' "$DB_ENV"     > /root/ghost/apps/db/.env
+
+      - name: Build & restart changed apps
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          EVENT: ${{ github.event_name }}
+        run: bash /root/ghost/scripts/deploy.sh
