@@ -6,7 +6,10 @@ const { data, error, refresh } = await useFetch('/api/blog', {
   default: () => [],
   transform: blogs => blogs.map(blog => ({
     ...blog,
-    image: blog.image?.startsWith('http') ? blog.image : `${cloudinary.cloudinaryUrl}${blog.image}`
+    image: optimizeCloudinary(
+      blog.image?.startsWith('http') ? blog.image : `${cloudinary.cloudinaryUrl}${blog.image}`,
+      'f_auto,q_auto,w_800'
+    )
   }))
 })
 

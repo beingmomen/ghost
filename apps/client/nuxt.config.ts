@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         {
           name: 'keywords',
           content:
-            'Frontend Engineer, Frontend Engineer, عبدالمؤمن الشطوري, Elshatory, beingmomen, تطوير تطبيقات ويب, واجهات أمامية, مشاريع برمجية, تقييم عملاء, تطوير ويب'
+            'Frontend Engineer, مهندس واجهات أمامية, عبدالمؤمن الشطوري, Elshatory, beingmomen, تطوير تطبيقات ويب, واجهات أمامية, مشاريع برمجية, تقييم عملاء, تطوير ويب'
         },
         {
           property: 'og:title',
@@ -176,7 +176,6 @@ export default defineNuxtConfig({
       'xxl': 1536,
       '2xl': 1536
     },
-    domains: ['beingmomen.com'],
     cloudinary: {
       baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`
     }

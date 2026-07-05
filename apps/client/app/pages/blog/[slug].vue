@@ -31,7 +31,10 @@ const blogDescription = computed(
 )
 const blogImage = computed(() =>
   singleBlog.value.image
-    ? (singleBlog.value.image.startsWith('http') ? singleBlog.value.image : `${config.public.cloudinary.cloudinaryUrl}${singleBlog.value.image}`)
+    ? optimizeCloudinary(
+      singleBlog.value.image.startsWith('http') ? singleBlog.value.image : `${config.public.cloudinary.cloudinaryUrl}${singleBlog.value.image}`,
+      'f_auto,q_auto,w_1200'
+    )
     : `${config.public.siteUrl}/favicon.ico`
 )
 const blogUrl = computed(
@@ -171,7 +174,7 @@ useBreadcrumbSchema([
               :name="global.fullName"
               :description="global.title"
               :avatar="{
-                src: global.picture?.light,
+                src: optimizeCloudinary(global.picture?.light, 'f_auto,q_auto,w_128'),
                 alt: global.picture?.alt
               }"
             />

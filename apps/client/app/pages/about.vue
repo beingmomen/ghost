@@ -24,7 +24,10 @@ const page = computed(() => {
       quote: info.bio?.quote || ''
     },
     skills: info.skills || [],
-    images: info.images || []
+    images: (info.images || []).map(img => ({
+      ...img,
+      src: optimizeCloudinary(img.src, 'f_auto,q_auto,w_256,h_256,c_fill')
+    }))
   }
 })
 
@@ -84,8 +87,8 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
       <div class="animate-fade-in">
         <UColorModeAvatar
           class="size-24 sm:size-32 lg:size-36 rounded-2xl ring-2 ring-primary/30 ring-offset-4 ring-offset-bg rotate-2 hover:rotate-0 transition-all duration-500"
-          :light="global.picture?.light"
-          :dark="global.picture?.dark"
+          :light="optimizeCloudinary(global.picture?.light, 'f_auto,q_auto,w_288')"
+          :dark="optimizeCloudinary(global.picture?.dark, 'f_auto,q_auto,w_288')"
           :alt="global.picture?.alt"
         />
       </div>

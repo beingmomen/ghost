@@ -9,7 +9,10 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
   transform: (response) => {
     return (response.data || []).map(project => ({
       ...project,
-      image: project.image?.startsWith('http') ? project.image : `${cloudinary.cloudinaryUrl}${project.image}`
+      image: optimizeCloudinary(
+        project.image?.startsWith('http') ? project.image : `${cloudinary.cloudinaryUrl}${project.image}`,
+        'f_auto,q_auto,w_1152'
+      )
     }))
   }
 })

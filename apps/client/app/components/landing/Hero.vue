@@ -119,8 +119,8 @@ const { global } = useAppConfig()
             />
             <UColorModeAvatar
               class="hero-photo relative size-44 sm:size-52 lg:size-60 rounded-4xl ring-1 ring-default shadow-2xl shadow-primary/20"
-              :light="global.picture?.light"
-              :dark="global.picture?.dark"
+              :light="optimizeCloudinary(global.picture?.light, 'f_auto,q_auto,w_480')"
+              :dark="optimizeCloudinary(global.picture?.dark, 'f_auto,q_auto,w_480')"
               :alt="global.picture?.alt"
               loading="eager"
               fetchpriority="high"

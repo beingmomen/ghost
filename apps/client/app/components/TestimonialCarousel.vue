@@ -18,7 +18,10 @@ const testimonials = computed(() =>
       name: item.name,
       avatar: {
         src: item.image?.trim()
-          ? (item.image.startsWith('http') ? item.image : `${cloudinary.cloudinaryUrl}${item.image}`)
+          ? optimizeCloudinary(
+            item.image.startsWith('http') ? item.image : `${cloudinary.cloudinaryUrl}${item.image}`,
+            'f_auto,q_auto,w_128,h_128,c_fill'
+          )
           : undefined,
         alt: item.name
       }

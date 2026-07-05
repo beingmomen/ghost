@@ -98,8 +98,8 @@ function resetForm() {
         <span class="animate-fade-in">
           <UColorModeAvatar
             class="size-18 ring ring-default ring-offset-3 ring-offset-bg"
-            :light="global.picture?.light"
-            :dark="global.picture?.dark"
+            :light="optimizeCloudinary(global.picture?.light, 'f_auto,q_auto,w_160')"
+            :dark="optimizeCloudinary(global.picture?.dark, 'f_auto,q_auto,w_160')"
             :alt="global.picture?.alt"
           />
         </span>

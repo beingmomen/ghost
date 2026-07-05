@@ -12,9 +12,12 @@ const {
   transform: (response) =>
     (response.data || []).slice(0, 3).map(project => ({
       ...project,
-      image: project.image?.startsWith('http')
-        ? project.image
-        : `${cloudinary.cloudinaryUrl}${project.image}`
+      image: optimizeCloudinary(
+        project.image?.startsWith('http')
+          ? project.image
+          : `${cloudinary.cloudinaryUrl}${project.image}`,
+        'f_auto,q_auto,w_192,h_128,c_fill'
+      )
     }))
 })
 </script>
