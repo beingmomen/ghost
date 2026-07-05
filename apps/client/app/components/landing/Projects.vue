@@ -6,7 +6,7 @@ const {
   data: projects,
   error: projectsError,
   refresh: refreshProjects
-} = await useAPI<Array<any>>('/projects', {
+} = await useAPI('/projects', {
   key: 'landing-projects',
   query: { isActive: true, limit: 3 }
 })
