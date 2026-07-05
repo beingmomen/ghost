@@ -111,23 +111,23 @@ Required build-time vars for client: `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_N
 | `/mcp` | empty state | ربط بـ `GET /api/v1/mcp` |
 | `/mcp/[slug]` | 404 | ربط بـ `GET /api/v1/mcp/:slug` |
 
-### Server API routes في apps/client (تحتاج حذف أو تحويل)
+### Server API routes في apps/client (تم حذفها ✅)
 
-الملفات التالية كانت تكتب/تحذف ملفات Markdown وهي dev-only:
+الملفات التالية كانت تكتب/تحذف ملفات Markdown محلياً (dev-only) وقد **تم حذفها بالفعل** من `apps/client`:
 - `server/api/agents.{post,delete}.ts`
 - `server/api/commands.{post,delete}.ts`
 - `server/api/mcp.{post,delete}.ts`
 - `server/api/skills.{post,delete}.ts`
 - `server/utils/markdown.ts`
 
-بعد الـ migration، هذه الـ routes ستُحذف وتُنقل وظيفتها إلى apps/db (Dashboard).
+وظيفة هذه الـ routes (CRUD للـ collections) ستُنقل إلى apps/db (Dashboard) عند استئناف الـ migration.
 
 ### خطوات الـ migration المطلوبة
 
 1. **Backend (apps/server)**: إضافة models وroutes لـ agents، skills، commands، mcp
 2. **Dashboard (apps/db)**: إضافة modules لإدارة الـ collections الأربعة
 3. **Frontend (apps/client)**: استبدال `Promise.resolve([])` بـ `useAPI('/agents')` وما شابه
-4. حذف `server/api/{agents,skills,commands,mcp}.*.ts` و `server/utils/markdown.ts`
+4. ~~حذف `server/api/{agents,skills,commands,mcp}.*.ts` و `server/utils/markdown.ts`~~ ✅ تم
 
 ## Stack
 

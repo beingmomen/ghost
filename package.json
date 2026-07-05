@@ -5,7 +5,10 @@
     "dev": "concurrently -n server,db,client -c blue,magenta,green -k --delay 3000 \"pnpm --dir apps/server dev\" \"pnpm --dir apps/db dev\" \"pnpm --dir apps/client dev\"",
     "dev:server": "pnpm --dir apps/server dev",
     "dev:db": "pnpm --dir apps/db dev",
-    "dev:client": "pnpm --dir apps/client dev"
+    "dev:client": "pnpm --dir apps/client dev",
+    "build:server": "pnpm --dir apps/server build",
+    "build:db": "pnpm --dir apps/db build",
+    "build:client": "pnpm --dir apps/client build"
   },
   "packageManager": "pnpm@10.29.3",
   "pnpm": {

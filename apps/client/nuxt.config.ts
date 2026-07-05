@@ -86,14 +86,22 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    // API-driven — SWR cache (revalidate in background)
     '/': { swr: 3600 },
     '/about': { swr: 3600 },
     '/projects': { swr: 3600 },
     '/blog': { swr: 600 },
+    '/blog/**': { swr: 600 },
     '/api/blog': { swr: 600 },
-    // SSR-only (dynamic/user-specific — no caching)
-    '/contact': { ssr: true },
-    '/testimonial': { ssr: true }
+    // Static content — prerendered at build time (no API, no runtime cost).
+    // Routes are listed explicitly because crawlLinks is false (won't auto-discover).
+    '/sdlc': { prerender: true },
+    '/sdlc-ar': { prerender: true },
+    '/adr': { prerender: true },
+    '/adr/global-data': { prerender: true },
+    '/adr/multi-mode-system': { prerender: true },
+    '/contact': { prerender: true }
+    // /testimonial fetches /landing at request time → stays SSR (the global default)
   },
 
   devServer: {

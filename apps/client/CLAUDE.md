@@ -95,7 +95,6 @@ app/components/
 | `/about` | About page with polaroid gallery |
 | `/projects` | Projects grid |
 | `/testimonial` | Testimonial form (Cloudinary upload) |
-| `/learning-roadmap` | Senior learning roadmap (live progress from API) |
 | `/contact` | Contact form (Zod validation) |
 | `/sdlc` | SDLC English page |
 | `/sdlc-ar` | SDLC Arabic page |
@@ -105,7 +104,7 @@ app/components/
 
 - `@nuxt/ui` — UI component library (Nuxt UI 4)
 - `@nuxt/image` — Image optimization (Cloudinary provider)
-- `@nuxt/fonts` — Google Fonts (Tajawal + Space Grotesk)
+- `@nuxt/fonts` — Font optimization (Tajawal + Rubik, self-hosted via `app/assets/css/fonts.css`)
 - `@nuxt/eslint` — ESLint integration
 - `motion-v/nuxt` — Animation library (replaced GSAP)
 - `@nuxtjs/seo` — SEO suite (sitemap, robots, schema.org, og-image)
