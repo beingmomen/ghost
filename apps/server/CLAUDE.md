@@ -97,14 +97,16 @@ Mongoose schemas use:
 
 ### Reverse Proxy Trust
 
-`app.js` sets `trust proxy: 1` so Express honors the `X-Forwarded-*` headers added by Coolify's Traefik proxy (correct client IP, HTTPS detection, rate limiting).
+`app.js` sets `trust proxy: 1` so Express honors the `X-Forwarded-*` headers added by the reverse proxy (CloudPanel nginx now; Traefik on the old Coolify setup) — correct client IP, HTTPS detection, rate limiting.
 
 ## Deployment
 
-Deployed via Coolify on `elshatory-api.beingmomen.com` using `apps/server/Dockerfile`.
+Deployed on the **CloudPanel VPS** at `api.beingmomen.com` via PM2 (no Dockerfile in
+the live flow). See the monorepo [docs/DEPLOYMENT.md](../../docs/DEPLOYMENT.md).
 
-- Runs on port **1234** (set via `PORT` env var)
-- Auto-deploy triggers on: `apps/server/**` or `pnpm-lock.yaml` changes
+- Runs on port **3001** (via `PORT` in `ecosystem.config.cjs` — `1234` is taken by
+  another project on this shared VPS; the Express app is not built, it runs `server.js` directly)
+- Deploy triggers on `apps/server/**` changes (handled by `scripts/deploy.sh`)
 
 ## Adding a New Resource
 

@@ -1,14 +1,18 @@
 # Beingmomen Monorepo
 
-pnpm workspace monorepo — 3 apps deployed independently on Coolify via Docker.
+pnpm workspace monorepo — 3 apps deployed independently on a CloudPanel VPS
+(GitHub Actions self-hosted runner + PM2).
 
 ## Apps
 
-| App | Path | Domain | Stack |
-|-----|------|--------|-------|
-| **client** | `apps/client` | [elshatory-web.beingmomen.com](https://elshatory-web.beingmomen.com) | Nuxt 4 (portfolio) |
-| **server** | `apps/server` | [elshatory-api.beingmomen.com](https://elshatory-api.beingmomen.com) | Express.js (REST API) |
-| **db** | `apps/db` | [elshatory-db.beingmomen.com](https://elshatory-db.beingmomen.com) | Nuxt 4 (admin dashboard) |
+| App | Path | Domain | Local port | Stack |
+|-----|------|--------|-----------|-------|
+| **client** | `apps/client` | [beingmomen.com](https://beingmomen.com) | 3000 | Nuxt 4 (portfolio) |
+| **server** | `apps/server` | [api.beingmomen.com](https://api.beingmomen.com) | 3001 | Express.js (REST API) |
+| **db** | `apps/db` | [db.beingmomen.com](https://db.beingmomen.com) | 9122 | Nuxt 4 (admin dashboard) |
+
+> A previous Coolify deployment may still run as a backup on `elshatory-*.beingmomen.com`
+> (a separate server). The live deployment is CloudPanel — see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Commands
 
@@ -38,32 +42,36 @@ pnpm build:db
 
 ## Deployment
 
-Each app has its own Dockerfile and deploys independently via Coolify's built-in
-**Auto Deploy** on push to `main`. A private GitHub App (`comfortable-capuchin-z122lc1l6`)
-sends the push webhook; Coolify filters by each app's watch_paths. No GitHub Actions.
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Deployed on a **CloudPanel VPS** via a **GitHub Actions self-hosted runner** + **PM2**
+(no Docker, no Coolify). On push to `main`, the runner syncs `/root/ghost`, writes each
+app's `.env` from repo variables, and runs `scripts/deploy.sh`, which builds & restarts
+**only the changed apps**. Full details: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
-**Auto-deploy triggers (watch_paths):**
-- `apps/client/**` or `pnpm-lock.yaml` → redeploys client
-- `apps/server/**` or `pnpm-lock.yaml` → redeploys server
-- `apps/db/**` or `pnpm-lock.yaml` → redeploys db
+**Selective deploy (watch_paths equivalent, in `scripts/deploy.sh`):**
+- `apps/client/**` → rebuilds client (port 3000)
+- `apps/server/**` → restarts server (port 3001 — 1234 is taken on this shared VPS)
+- `apps/db/**` → rebuilds db (port 9122)
+- `pnpm-lock.yaml` → `pnpm install` + rebuilds all three
 
-**IMPORTANT — builds must never run concurrently.** Concurrent Nuxt builds exhaust
-VPS RAM (each needs ~4GB heap). This is enforced by the Coolify server setting
-`concurrent_builds = 1`, which queues builds one at a time even when one push touches
-multiple apps. Do NOT raise it.
+**IMPORTANT — builds run sequentially, never concurrently.** Two Nuxt builds at once
+exhaust RAM (each needs ~4GB heap). `deploy.sh` builds client → db → server one at a
+time. Do NOT parallelize it.
 
-### Dockerfiles
+### Deployment files
 
-- `apps/client/Dockerfile` — standard Node build (better-sqlite3 removed)
-- `apps/db/Dockerfile` — requires `GIGET_AUTH` build arg for GitHub base layer
-- `apps/server/Dockerfile` — standard Node build
+- [ecosystem.config.cjs](ecosystem.config.cjs) — PM2 process defs + ports
+- [scripts/deploy.sh](scripts/deploy.sh) — builds/restarts only changed apps, sequential
+- [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — writes `.env` from repo variables, runs deploy.sh
 
-### Build-time Environment Variables
+### Environment Variables (repo variables → `.env`)
 
-`apps/client` bakes `BASE_URL` into CSP headers at build time via `nuxt.config.ts`. This var must be set as **build-time** (not runtime-only) in Coolify, otherwise browser API calls will be blocked by CSP.
+The workflow writes each app's `.env` from GitHub repository variables
+`CLIENT_ENV_PROD` / `SERVER_ENV_PROD` / `DB_ENV_PROD` (each holds a full `.env`).
 
-Required build-time vars for client: `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_URL`
+- **`BASE_URL` (client)** is baked into CSP headers at build time — `deploy.sh` sources
+  `apps/client/.env` before building so it must live in `CLIENT_ENV_PROD`.
+- **`GIGET_AUTH` (db)** fetches the private `beingmomen/base-layer` at build — lives in `DB_ENV_PROD`.
+- These are currently **Variables** (readable). Moving them to **Secrets** is recommended.
 
 ## Architecture Migration — Nuxt Content → Backend API
 

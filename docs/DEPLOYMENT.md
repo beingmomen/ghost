@@ -2,110 +2,121 @@
 
 # دليل النشر (Deployment) — Beingmomen Monorepo
 
-شرح كامل لعملية النشر. المشروع `monorepo` فيه 3 تطبيقات (`client`, `server`, `db`)
-كل واحد يُنشر **بشكل مستقل** على منصة **Coolify** (مستضافة ذاتياً على VPS) باستخدام
-**Docker**، عبر **الـ Auto-Deploy المدمج في Coolify** (GitHub App webhook) — بدون
-GitHub Actions.
+المشروع `monorepo` فيه 3 تطبيقات (`client`, `server`, `db`) تُنشر **بشكل مستقل** على
+**VPS** يعمل عليه **CloudPanel**، عبر **GitHub Actions self-hosted runner** + **PM2** —
+بدون Docker وبدون Coolify.
+
+> **ملاحظة تاريخية:** كان النشر سابقاً على **Coolify** (Docker + Traefik). تمّ الانتقال
+> إلى **CloudPanel** على VPS منفصل. نسخة Coolify القديمة قد تظل تعمل كـ backup على
+> نطاقات `elshatory-*.beingmomen.com` (سيرفر مختلف تماماً، لا يتزاحم مع هذا).
 
 ## نظرة عامة
 
 ```
 git push → main
         │
-        ▼ (webhook من الـ GitHub App)
-Coolify
-        │
-        ├─ Watch Paths  ← أي تطبيق اتغيّر؟ (مضبوطة لكل تطبيق)
-        │
-        ▼ (البناءات تُصفّ في طابور: concurrent_builds = 1)
-   بناء Docker image → تشغيل الحاوية
+        ▼ (GitHub Actions — self-hosted runner على الـ VPS)
+   .github/workflows/deploy.yml
+        │  1. يزامن /root/ghost (git reset --hard origin/main)
+        │  2. يكتب apps/*/.env من الـ repository variables
+        │  3. ينفّذ scripts/deploy.sh
+        ▼
+   scripts/deploy.sh  →  يبني التطبيق المتأثّر فقط (بديل watch_paths)، بالتتابع
         │
         ▼
-Traefik (reverse proxy) + Let's Encrypt SSL → النطاق العام
+   PM2 (startOrRestart)  →  يشغّل الـ 3 processes ويحفظها (auto-start بعد reboot)
+        │
+        ▼
+   CloudPanel (nginx reverse-proxy) + Let's Encrypt SSL → النطاق العام
 ```
 
-| التطبيق | المسار | النطاق | الـ Stack | UUID (Coolify) |
-|---------|--------|--------|-----------|----------------|
-| **client** | `apps/client` | elshatory-web.beingmomen.com | Nuxt 4 (portfolio) | `q6fhf875uc3gkeufyhm65t6e` |
-| **server** | `apps/server` | elshatory-api.beingmomen.com | Express.js (REST API) | `u1180x2bduzvavpdq8suq4tm` |
-| **db** | `apps/db` | elshatory-db.beingmomen.com | Nuxt 4 (admin dashboard) | `hf5pu8txoa6tkkjqhzegjlrm` |
+## التطبيقات والنطاقات
 
-- **المصدر (Source):** GitHub App خاص باسم `comfortable-capuchin-z122lc1l6`
-  (`app_id: 3676122`) موصول بالريبو `beingmomen/ghost` على الفرع `main`.
+| التطبيق | النطاق | البورت المحلي | PM2 name | Site user (CloudPanel) |
+|---------|--------|---------------|----------|------------------------|
+| **client** | beingmomen.com | `3000` | `client` | `ghost-web` |
+| **server** | api.beingmomen.com | `3001` | `server` | `ghost-api` |
+| **db** | db.beingmomen.com | `9122` | `db` | `ghost-db` |
 
----
+> **لماذا 3001 للـ server؟** البورت الافتراضي `1234` محجوز من مشروع آخر على هذا الـ VPS
+> المشترك، فتمّ نقل الـ server إلى `3001` عبر `ecosystem.config.cjs`.
 
-## كيف يعمل النشر
+## البنية على السيرفر (VPS)
 
-1. **Push على `main`** → الـ GitHub App يرسل webhook إلى Coolify.
-2. **Watch Paths** — Coolify يفحص أي تطبيق تأثّر، ولا يُعيد بناء إلا المتأثّر:
+- **النظام:** Ubuntu 24.04 + CloudPanel، IP: `145.223.33.177`
+- **Runtime:** Node.js 24 عبر `nvm` (معزول عن node النظام) + pnpm 10.29.3 (corepack) + PM2
+- **الكود:** clone واحد للـ workspace في `/root/ghost` (عبر **SSH deploy key** — read only)
+- **الـ processes:** يديرها PM2؛ `pm2 startup` مفعّل ليرجعوا بعد أي reboot
 
-   | التطبيق | watch_paths |
-   |---------|-------------|
-   | `client` | `apps/client` + `pnpm-lock.yaml` |
-   | `db` | `apps/db` + `pnpm-lock.yaml` |
-   | `server` | `apps/server` + `pnpm-lock.yaml` |
+## آلية النشر (تفصيلاً)
 
-   > `pnpm-lock.yaml` يُشغّل **الثلاثة** لأنه مشترك على مستوى الـ workspace.
-3. **طابور البناء** — لو تأثّر أكثر من تطبيق، يُصفّون في طابور ويُبنون **واحداً تلو
-   الآخر** لأن إعداد السيرفر `concurrent_builds = 1`. هذا يمنع تشغيل بناءين Nuxt
-   معاً (كل واحد يحتاج ~4GB RAM) فيستنفدان ذاكرة الـ VPS.
-4. **Traefik** يوجّه النطاق ويُدير شهادة SSL تلقائياً.
+1. **Push على `main`** → GitHub يبلّغ الـ **self-hosted runner** المثبّت على الـ VPS
+   (كخدمة systemd، `srv635353`).
+2. **الـ workflow** ([.github/workflows/deploy.yml](../.github/workflows/deploy.yml)):
+   - **Sync:** `cd /root/ghost && git fetch && git reset --hard origin/main`
+   - **Env:** يكتب `apps/{client,server,db}/.env` من الـ repository variables
+     `CLIENT_ENV_PROD` / `SERVER_ENV_PROD` / `DB_ENV_PROD`
+   - **Deploy:** ينفّذ `scripts/deploy.sh` ويمرّر له `BEFORE`/`AFTER`/`EVENT` (سياق git)
+3. **[scripts/deploy.sh](../scripts/deploy.sh):**
+   - يحدّد التطبيقات المتأثّرة من `git diff` (أو الكل في `workflow_dispatch`)
+   - لو تغيّر `pnpm-lock.yaml` → `pnpm install --frozen-lockfile` + يبني الكل
+   - يبني ويعيد تشغيل المتأثّر فقط، **بالتتابع** (بناءان Nuxt معاً يستنزفان الرام)
+4. **CloudPanel (nginx)** يوجّه النطاق للبورت المحلي ويدير الـ SSL.
 
-> **حرج:** `concurrent_builds = 1` هو ما يحمي الـ VPS من نفاد الذاكرة. لا ترفعه.
-> هذا الإعداد يحلّ محلّ الترتيب المتسلسل الذي كان يفرضه GitHub Actions سابقاً.
+> **حرج:** البناء **بالتتابع** (client ثم db ثم server) هو ما يحمي الرام — نفس منطق
+> `concurrent_builds = 1` الذي كان في Coolify.
 
----
+## متغيّرات البيئة
 
-## بناء Docker لكل تطبيق
+القيم مخزّنة في **GitHub → Settings → Secrets and variables → Actions → Variables**
+كثلاثة متغيّرات، كل واحد يحتوي **محتوى ملف `.env` كامل**:
 
-عند الـ trigger، Coolify يبني الـ image حسب `Dockerfile` كل تطبيق:
+| المتغيّر | التطبيق | مفاتيح مهمة |
+|----------|---------|-------------|
+| `CLIENT_ENV_PROD` | client | `BASE_URL`, `SITE_URL`, `CLOUDINARY_*` |
+| `SERVER_ENV_PROD` | server | `DATABASE_ATLAS`, `JWT_*`, `CLOUDINARY_*` |
+| `DB_ENV_PROD` | db | إعدادات الـ dashboard + **`GIGET_AUTH`** |
 
-### server — [apps/server/Dockerfile](../apps/server/Dockerfile)
-الأبسط (Express): صورة واحدة، `pnpm install --prod`، يشغّل `server.js` على port **1234**.
+### نقطتان حرجتان
 
-### client — [apps/client/Dockerfile](../apps/client/Dockerfile)
-multi-stage (Nuxt):
-- `deps`: يثبّت `python3 make g++` (مطلوبة لـ `better-sqlite3`)
-- `builder`: يستقبل build args (`BASE_URL`, `SITE_URL`, `CLOUDINARY_*`) ويبني بـ heap = 4GB
-- `runner`: صورة نظيفة فيها `.output` فقط، port **3000**، heap = 2GB
+1. **`BASE_URL` build-time للـ client:** يُخبز في ترويسة الـ CSP وقت البناء. `deploy.sh`
+   يعمل `source apps/client/.env` قبل `pnpm build:client`، فلازم يكون في `CLIENT_ENV_PROD`.
+2. **`GIGET_AUTH` للـ db:** الـ db يجلب base-layer من ريبو خاص (`beingmomen/base-layer`)
+   أثناء التثبيت/البناء. `deploy.sh` يعمل `source apps/db/.env` قبل بناء db.
 
-### db — [apps/db/Dockerfile](../apps/db/Dockerfile)
-multi-stage (Nuxt) مع ميزة خاصة: يستقبل `GIGET_AUTH` كـ build arg لجلب الـ
-base layer من GitHub الخاص أثناء البناء.
+> **تحسين أمني مقترح:** القيم حالياً **Variables** (مقروءة، تظهر لمن له صلاحية على الريبو).
+> يُفضّل نقلها إلى **Secrets** (مشفّرة، مخفية في الـ logs) — خصوصاً `GIGET_AUTH` والـ PAT —
+> وتعديل الـ workflow من `vars.` إلى `secrets.`.
 
----
+## الملفات المسؤولة عن النشر
 
-## نقطتان حرجتان في متغيّرات البيئة
-
-### 1. متغيّرات البناء (build-time) في الـ client
-`nuxt.config.ts` يخبز `BASE_URL` داخل ترويسة الـ CSP (`connect-src`) **وقت
-البناء**. لو ضبطتها runtime-only في Coolify، المتصفح سيحجب كل نداءات الـ API.
-لازم تُضبط **build-time + runtime**:
-`BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_URL`.
-
-### 2. `GIGET_AUTH` في الـ db
-لازم build-time، وإلا فشل البناء لأنه لا يقدر يجلب الـ base layer.
-
----
+- [ecosystem.config.cjs](../ecosystem.config.cjs) — تعريف الـ 3 processes لـ PM2 + البورتات
+- [scripts/deploy.sh](../scripts/deploy.sh) — بناء وإعادة تشغيل المتأثّر فقط، بالتتابع
+- [.github/workflows/deploy.yml](../.github/workflows/deploy.yml) — يكتب الـ env ويشغّل deploy.sh
 
 ## النشر اليدوي (عند الحاجة)
 
-بدائل لتشغيل deploy دون انتظار push:
-
-- **زر Deploy في لوحة Coolify** — التطبيق → Deploy.
-- **Deploy Webhook / API:**
+- **إعادة بناء الكل:** شغّل الـ workflow يدوياً من GitHub → Actions → *Deploy to VPS* →
+  **Run workflow** (يمرّر `workflow_dispatch` → يبني الثلاثة).
+- **على السيرفر مباشرة:**
   ```bash
-  curl -X GET "https://coolify.beingmomen.com/api/v1/deploy?uuid=<APP_UUID>" \
-    -H "Authorization: Bearer $COOLIFY_TOKEN"
+  cd /root/ghost && EVENT=workflow_dispatch bash scripts/deploy.sh
   ```
 
----
+## أوامر PM2 مفيدة (على السيرفر)
+
+```bash
+pm2 ls                 # حالة الـ 3 apps
+pm2 logs server        # سجل تطبيق (تشخيص الأخطاء)
+pm2 restart db         # إعادة تشغيل يدوية
+pm2 save               # حفظ الحالة الحالية
+```
 
 ## الـ Stack الأساسي
 
-- **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10.29.3
-- **Proxy**: Traefik + Let's Encrypt (SSL تلقائي)
-- **Platform**: Coolify (مستضاف ذاتياً) على `coolify.beingmomen.com`
+- **Runtime:** Node.js 24 (nvm) + pnpm 10.29.3
+- **Process manager:** PM2 (systemd startup)
+- **Proxy/SSL:** CloudPanel (nginx) + Let's Encrypt
+- **CI:** GitHub Actions self-hosted runner (لا GitHub-hosted runners، لا Docker)
 
 </div>

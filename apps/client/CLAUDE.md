@@ -174,12 +174,13 @@ app/components/
 
 ## Deployment
 
-Deployed via Coolify on `elshatory-web.beingmomen.com` using `apps/client/Dockerfile`.
+Deployed on the **CloudPanel VPS** at `beingmomen.com` (port 3000, behind nginx reverse
+proxy) via PM2. See the monorepo [docs/DEPLOYMENT.md](../../docs/DEPLOYMENT.md).
 
-**Critical — build-time env vars**: `nuxt.config.ts` bakes `BASE_URL` into the CSP `connect-src` header at build time. If `BASE_URL` is set as runtime-only in Coolify, browser API calls will be blocked. Always set these as **build-time + runtime** in Coolify:
+**Critical — build-time env vars**: `nuxt.config.ts` bakes `BASE_URL` into the CSP `connect-src` header at build time. `scripts/deploy.sh` sources `apps/client/.env` before building, so `BASE_URL` must be present in the `CLIENT_ENV_PROD` repo variable — otherwise browser API calls are blocked by CSP.
 - `BASE_URL`, `SITE_URL`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_URL`
 
-**Do NOT deploy simultaneously with `apps/db`** — concurrent Nuxt builds exhaust VPS RAM. Deploy sequentially.
+**Never build simultaneously with `apps/db`** — two Nuxt builds exhaust VPS RAM. `scripts/deploy.sh` builds them sequentially.
 
 - Route rules: Static pages prerendered, blog uses SWR caching
 - Node heap at build: `NODE_OPTIONS=--max-old-space-size=4096`
