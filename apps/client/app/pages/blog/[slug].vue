@@ -32,9 +32,9 @@ const blogDescription = computed(
 const blogImage = computed(() =>
   singleBlog.value.image
     ? optimizeCloudinary(
-      singleBlog.value.image.startsWith('http') ? singleBlog.value.image : `${config.public.cloudinary.cloudinaryUrl}${singleBlog.value.image}`,
-      'f_auto,q_auto,w_1200'
-    )
+        singleBlog.value.image.startsWith('http') ? singleBlog.value.image : `${config.public.cloudinary.cloudinaryUrl}${singleBlog.value.image}`,
+        'f_auto,q_auto,w_1200'
+      )
     : `${config.public.siteUrl}/favicon.ico`
 )
 const blogUrl = computed(

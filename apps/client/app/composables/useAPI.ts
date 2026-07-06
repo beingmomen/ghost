@@ -34,14 +34,10 @@ export function useAPI<T = unknown>(
   return useAsyncData<T | null>(
     typeof url === 'function' ? 'api-handler' : `api:${url}`,
     async () => {
-      try {
-        const res = await $api<T>(fullUrl(), { query })
-        return (res as any)?.data ?? res
-      } catch (e) {
-        // Re-throw so useAsyncData sets error.value; the toast is shown
-        // by onResponseError below for HTTP-level failures.
-        throw e
-      }
+      // Errors propagate to useAsyncData (sets error.value); the toast is
+      // shown by onResponseError below for HTTP-level failures.
+      const res = await $api<T>(fullUrl(), { query })
+      return (res as any)?.data ?? res
     },
     {
       ...rest,

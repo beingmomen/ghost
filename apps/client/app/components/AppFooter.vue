@@ -1,10 +1,10 @@
 <script setup>
 // Footer link columns share their single source of truth with the header
 // navigation (`app/utils/links.ts`), auto-imported as `footerGroups`.
-const { footer, global } = useAppConfig();
+const { footer, global } = useAppConfig()
 
 function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
@@ -90,12 +90,18 @@ function scrollToTop() {
           </div>
 
           <!-- Columns 3-4: Link groups (derived from app/utils/links.ts) -->
-          <div v-for="group in footerGroups" :key="group.title">
+          <div
+            v-for="group in footerGroups"
+            :key="group.title"
+          >
             <h4 class="text-base font-semibold mb-4">
               {{ group.title }}
             </h4>
             <ul class="space-y-2.5">
-              <li v-for="link in group.links" :key="link.to">
+              <li
+                v-for="link in group.links"
+                :key="link.to"
+              >
                 <NuxtLink
                   :to="link.to"
                   class="text-base text-muted hover:text-amber transition-colors duration-200 ease-out"

@@ -8,7 +8,7 @@ const figures = {
   projects: '+10',
   companies: '3',
   clients: '+50'
-};
+}
 </script>
 
 <template>
@@ -28,26 +28,22 @@ const figures = {
         <span
           class="num text-highlighted animate-fade-in animation-delay-100"
           dir="ltr"
-          >{{ figures.years }}</span
-        >
+        >{{ figures.years }}</span>
         سنوات، سلّمتُ
         <span
           class="num text-highlighted animate-fade-in animation-delay-200"
           dir="ltr"
-          >{{ figures.projects }}</span
-        >
+        >{{ figures.projects }}</span>
         مشاريع لـ
         <span
           class="num text-highlighted animate-fade-in animation-delay-300"
           dir="ltr"
-          >{{ figures.companies }}</span
-        >
+        >{{ figures.companies }}</span>
         شركات، ووثق بنتائجها
         <span
           class="num text-highlighted animate-fade-in animation-delay-400"
           dir="ltr"
-          >{{ figures.clients }}</span
-        >
+        >{{ figures.clients }}</span>
         عميلاً.
       </p>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-const { cloudinary } = useRuntimeConfig().public;
+const { cloudinary } = useRuntimeConfig().public
 
 const {
   data: blogs,
@@ -8,24 +8,24 @@ const {
 } = await useFetch('/api/blog', {
   key: 'blogs',
   default: () => [],
-  transform: (blogs) =>
-    blogs.map((blog) => ({
+  transform: blogs =>
+    blogs.map(blog => ({
       ...blog,
       image: blog.image?.startsWith('http')
         ? blog.image
         : `${cloudinary.cloudinaryUrl}${blog.image}`
     }))
-});
+})
 
 const latestBlogs = computed(() => {
-  return (blogs.value || []).slice(0, 3).map((blog) => ({
+  return (blogs.value || []).slice(0, 3).map(blog => ({
     title: blog.title,
     description: blog.description,
     date: blog.createdAt,
     path: `/blog/${blog.slug}`,
     to: `/blog/${blog.slug}`
-  }));
-});
+  }))
+})
 </script>
 
 <template>
@@ -39,7 +39,10 @@ const latestBlogs = computed(() => {
     alt-action-to="/blog"
     @retry="refreshBlogs()"
   />
-  <section v-else-if="latestBlogs.length" class="py-12 sm:py-16 lg:py-20">
+  <section
+    v-else-if="latestBlogs.length"
+    class="py-12 sm:py-16 lg:py-20"
+  >
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
       <LandingSectionHeading
         class="lg:col-span-4"
@@ -50,7 +53,10 @@ const latestBlogs = computed(() => {
         link-label="كل المقالات"
       />
 
-      <UBlogPosts orientation="vertical" class="lg:col-span-8 gap-4 lg:gap-y-4">
+      <UBlogPosts
+        orientation="vertical"
+        class="lg:col-span-8 gap-4 lg:gap-y-4"
+      >
         <UBlogPost
           v-for="post in latestBlogs"
           :key="post.path"

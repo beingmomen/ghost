@@ -1,4 +1,4 @@
-import type { NavigationMenuItem } from '@nuxt/ui';
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 /**
  * Single source of truth for site navigation.
@@ -23,7 +23,7 @@ export const primaryLinks: NavigationMenuItem[] = [
     icon: 'i-lucide-file-text',
     to: '/blog'
   }
-];
+]
 
 // Main pages shown after the "technical content" dropdown in the header.
 export const secondaryLinks: NavigationMenuItem[] = [
@@ -37,7 +37,7 @@ export const secondaryLinks: NavigationMenuItem[] = [
     icon: 'i-lucide-mail',
     to: '/contact'
   }
-];
+]
 
 // Technical guides.
 export const guideLinks: NavigationMenuItem[] = [
@@ -59,7 +59,7 @@ export const guideLinks: NavigationMenuItem[] = [
     icon: 'i-lucide-workflow',
     to: '/sdlc-ar'
   }
-];
+]
 
 // Header navigation — primary pages, a technical-content dropdown, then secondary pages.
 export const navLinks: NavigationMenuItem[] = [
@@ -70,7 +70,7 @@ export const navLinks: NavigationMenuItem[] = [
     children: [...guideLinks]
   },
   ...secondaryLinks
-];
+]
 
 // Footer link columns — derived from the same groups as the header.
 export const footerGroups = [
@@ -84,4 +84,4 @@ export const footerGroups = [
     icon: 'i-lucide-book-open',
     links: guideLinks
   }
-];
+]

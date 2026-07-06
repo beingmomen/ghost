@@ -116,7 +116,6 @@ function resetForm() {
           تجربتك تلهمنا وتقييمك يساعدنا على تقديم الأفضل دائماً
         </span>
       </template>
-
     </UPageHero>
 
     <!-- Section 2: Testimonials Carousel -->
