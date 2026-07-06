@@ -7,7 +7,7 @@ const { loading, post } = useApiRequest()
 const { data: landingData } = await useAPI('/landing', {
   key: 'landing',
   default: () => ({}),
-  transform: response => response.data || {}
+  transform: response => response || {}
 })
 
 const submitted = ref(false)

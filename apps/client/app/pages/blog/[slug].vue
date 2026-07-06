@@ -8,7 +8,7 @@ const { global } = useAppConfig()
 const { data: singleBlog } = await useAPI(`/blogs/slug/${route.params.slug}`, {
   key: `blog-${route.params.slug}`,
   default: () => ({}),
-  transform: response => response?.data || {}
+  transform: response => response || {}
 })
 
 provide('singleBlog', singleBlog)

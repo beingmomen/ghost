@@ -7,7 +7,7 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
   query: { isActive: true },
   default: () => [],
   transform: (response) => {
-    return (response.data || []).map(project => ({
+    return (Array.isArray(response) ? response : []).map(project => ({
       ...project,
       image: optimizeCloudinary(
         project.image?.startsWith('http') ? project.image : `${cloudinary.cloudinaryUrl}${project.image}`,

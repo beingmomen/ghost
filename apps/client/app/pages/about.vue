@@ -5,7 +5,7 @@ const config = useRuntimeConfig()
 const { data: infoData, error: infoError, refresh: refreshInfo } = await useAPI('/infos', {
   key: 'about-info',
   default: () => ({}),
-  transform: response => response.data?.[0] || {}
+  transform: response => response?.[0] || {}
 })
 
 const { data: experiences, error: expError, refresh: refreshExp } = await useAPI('/experiences/all', {

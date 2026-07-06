@@ -4,7 +4,7 @@ const config = useRuntimeConfig()
 const { error: landingError, refresh: refreshLanding } = await useAPI('/landing', {
   key: 'landing',
   default: () => ({}),
-  transform: response => response.data || {}
+  transform: response => response || {}
 })
 
 useHead({
