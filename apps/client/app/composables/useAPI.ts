@@ -16,7 +16,7 @@ import type { AsyncData, AsyncDataOptions } from 'nuxt/app'
  */
 export function useAPI<T = unknown>(
   url: string | (() => string),
-  options: AsyncDataOptions<T> & { query?: Record<string, unknown> } = {}
+  options: AsyncDataOptions<T> & { query?: Record<string, unknown>, key?: string } = {}
 ) {
   const config = useRuntimeConfig()
   const $api = useNuxtApp().$api
@@ -29,10 +29,16 @@ export function useAPI<T = unknown>(
     return `${baseURL}${path}`
   }
 
-  const { query, default: defaultFn, ...rest } = options
+  const { query, default: defaultFn, key: userKey, ...rest } = options
+
+  // Honour a caller-supplied `key` so shared caches work (e.g. `index.vue`
+  // populates key `landing`, and `useNuxtData('landing')` reads it in child
+  // sections). Fall back to a per-URL key when the caller omits one.
+  const asyncKey = userKey
+    ?? (typeof url === 'function' ? 'api-handler' : `api:${url}`)
 
   return useAsyncData<T | null>(
-    typeof url === 'function' ? 'api-handler' : `api:${url}`,
+    asyncKey,
     async () => {
       // Errors propagate to useAsyncData (sets error.value); the toast is
       // shown by onResponseError below for HTTP-level failures.
