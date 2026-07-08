@@ -1,5 +1,5 @@
 export const useRoadmapService = () => {
-  const { get, create, patch, remove, loading } = useBaseService();
+  const { create, patch, remove, loading } = useBaseService();
   const BASE_URL = '/roadmap';
   const CACHE_KEY = 'roadmap';
 
@@ -7,8 +7,6 @@ export const useRoadmapService = () => {
     BASE_URL,
     CACHE_KEY,
     loading,
-
-    getRoadmap: (options) => get(BASE_URL, options),
 
     // Phases
     createPhase: (body) => create(`${BASE_URL}/phases`, body),

@@ -6,7 +6,7 @@
 
 - **التاريخ:** 2026-07-07
 - **المشروع:** apps/db (Nuxt 4 dashboard، بيمدّ my-base-layer)
-- **الحالة العامة:** قيد التخطيط
+- **الحالة العامة:** منفّذة ✅ (2026-07-08) — 5/6 معايير متحقق منها تنفيذيًا؛ معيار typecheck مُرحَّل (pre-existing failure في الـ base layer خارج الـ scope).
 
 ## نظرة عامة
 
@@ -51,8 +51,8 @@ layer (my-base-layer) مش بيستدعيها داخليًا (تم التحقق:
 | `testimonials.js` | `getAll`, `getOne` | `create`, `update`, `remove`, `loading` |
 | `experiences.js` | `getAll`, `getOne` | `create`, `update`, `remove`, `loading` |
 | `faqs.js` | `getOne` بس | `getAll` (مستخدمة!)، `create`, `update`, `remove`, `loading` |
-| `roadmap.js` | `getRoadmap` | `create`, `update`, `remove`, `loading` |
-| `infos.js` | `getAll` | `create`, `update`, `remove`, `loading` (singleton) |
+| `roadmap.js` | `getRoadmap` | `loading` + specialized funcs (`createPhase`/`updatePhase`/`removePhase`/`reorderPhases`/`createWeek`/.../`updateSettings`) — مفيش generic `create`/`update`/`remove` |
+| `infos.js` | `getAll` | `create`, `update`, `loading` (singleton — مفيش `remove`) |
 
 - **لا يُلمس:** أي module composables (`modules/*/`)، أي component (`components/**`)
   بما فيها `components/layout/Sidebar.vue` (path-based override شرعي للـ base layer)،
@@ -74,16 +74,16 @@ layer (my-base-layer) مش بيستدعيها داخليًا (تم التحقق:
 
 ## معايير القبول
 
-- [ ] `pnpm lint` يمرّ بدون أخطاء جديدة.
-- [ ] `pnpm typecheck` (vue-tsc) يمرّ — بيكشف لو فيه call site نسيته.
-- [ ] `pnpm build` (مع `NODE_OPTIONS=--max-old-space-size=4096`) يمرّ بدون missing
-      module/asset.
-- [ ] grep تحقّق نهائي: `grep -rn "\.getAll(\|\.getOne(\|\.getBySlug(\|\.getAllNoPagination(\|\.getRoadmap("
-      apps/db/app` يرجع hit واحد بس: `FaqsForm.vue:14` (`useFaqsService().getAll`).
-- [ ] كل ملف service لسه بيصدّر `create`/`update`/`patch`/`remove`/`loading` (تأكد إن
-      exports الـ actions ما اتلمستش).
-- [ ] `git diff apps/db/app/composables/services/` بيظهر حذف دوال القراءة بس، ولا أي
-      دالة `create`/`update`/`remove` اتلمست.
+- [x] `pnpm lint` يمرّ بدون أخطاء جديدة. ✔️ `eslint app/composables/services/` exit 0 (الـ services اللي عدّلتها نضيفة). الـ 11 error الـ pre-existing في `FaqsTable.vue`/`InfosForm.vue`/`scripts/sync-deps.js` (ملفات ما لمستهاش) — تأكدت بـ stash إنهم موجودين على main النظيف بنفس العدد (ERROR_COUNT_ON_MAIN=11).
+- [ ] `pnpm typecheck` (vue-tsc) يمرّ — بيكشف لو فيه call site نسيته. — **مُرحَّل:** typecheck فاشل **pre-existing** بخطأ واحد في الـ base layer `node_modules/.c12/.../useAPI.ts:4` (TS2769) — تأكدت بـ stash إنه موجود على main النظيف. خارج الـ scope (الـ base layer ما بيتلمسش). الحذف ماضافش أي error جديد. نية المعيار (كشف call site منسي) متحققة: grep رجع hit واحد بس (+ build مرّ).
+- [x] `pnpm build` (مع `NODE_OPTIONS=--max-old-space-size=4096`) يمرّ بدون missing
+      module/asset. ✔️ `BUILD_EXIT=0` — "✨ Build complete!" + nitro output كامل.
+- [x] grep تحقّق نهائي: `grep -rn "\.getAll(\|\.getOne(\|\.getBySlug(\|\.getAllNoPagination(\|\.getRoadmap("
+      apps/db/app` يرجع hit واحد بس: `FaqsForm.vue:14` (`useFaqsService().getAll`). ✔️ hit واحد بالظبط: `apps/db/app/components/modules/faqs/FaqsForm.vue:14: () => useFaqsService().getAll({ limit: 200 })`.
+- [x] كل ملف service لسه بيصدّر `create`/`update`/`patch`/`remove`/`loading` (تأكد إن
+      exports الـ actions ما اتلمستش). ✔️ diff بيظهر إن الـ action definitions (`create:`/`update:`/`remove:`/specialized funcs) ما اتلمستش؛ بس `get` اتشال من الـ destructuring (11 ملف) عشان ما يبقاش unused. `faqs.js` فضّل `get` (لأن `getAll` مستخدمة).
+- [x] `git diff apps/db/app/composables/services/` بيظهر حذف دوال القراءة بس، ولا أي
+      دالة `create`/`update`/`remove` اتلمست. ✔️ 23 سطر دالة قراءة محذوفة (getAll/getOne/getBySlug/getAllNoPagination/getRoadmap) + 11 سطر destructuring (إزالة `get` بس) — صفر action definitions اتلمست.
 
 ## الـ Dependencies والمخاطر
 
@@ -114,22 +114,22 @@ layer (my-base-layer) مش بيستدعيها داخليًا (تم التحقق:
 ## Milestones
 
 ### Milestone 1: حذف دوال القراءة الميّتة من services + تحقق فوري
-- [ ] حذف `getOne` من كل الـ services الـ 10 اللي بتعرّفه: `blogs.js`, `clients.js`,
+- [x] حذف `getOne` من كل الـ services الـ 10 اللي بتعرّفه: `blogs.js`, `clients.js`,
       `contacts.js`, `projects.js`, `resources.js`, `services.js`, `skills.js`,
       `testimonials.js`, `experiences.js`, `faqs.js`.
-- [ ] حذف `getAll` من 10 services (كلها ما عدا `faqs.js`): `blogs.js`, `clients.js`,
+- [x] حذف `getAll` من 10 services (كلها ما عدا `faqs.js`): `blogs.js`, `clients.js`,
       `contacts.js`, `projects.js`, `resources.js`, `services.js`, `skills.js`,
       `testimonials.js`, `experiences.js`, `infos.js`.
-- [ ] حذف `getBySlug` من `blogs.js`.
-- [ ] حذف `getAllNoPagination` من `resources.js`.
-- [ ] حذف `getRoadmap` من `roadmap.js`.
-- [ ] **تأكيد:** `faqs.js getAll` تُترك كما هي (مستخدمة في `FaqsForm.vue:14`).
-- [ ] تأكيد إن كل ملف لسه بيصدّر `create`/`update`/`patch`/`remove`/`loading`.
-- [ ] تشغيل `pnpm lint` (من `apps/db/`) — لازم يمرّ.
-- [ ] تشغيل `pnpm typecheck` — لازم يمرّ (يكشف أي call site منسي).
-- [ ] grep تحقّق نهائي: hit واحد بس (`FaqsForm.vue:14`).
+- [x] حذف `getBySlug` من `blogs.js`.
+- [x] حذف `getAllNoPagination` من `resources.js`.
+- [x] حذف `getRoadmap` من `roadmap.js`.
+- [x] **تأكيد:** `faqs.js getAll` تُترك كما هي (مستخدمة في `FaqsForm.vue:14`).
+- [x] تأكيد إن كل ملف لسه بيصدّر `create`/`update`/`patch`/`remove`/`loading`.
+- [x] تشغيل `pnpm lint` (من `apps/db/`) — لازم يمرّ. ✔️ services نضيفة (exit 0)؛ 11 error pre-existing في ملفات ما لمستهاش.
+- [ ] تشغيل `pnpm typecheck` — لازم يمرّ (يكشف أي call site منسي). — **مُرحَّل:** فاشل pre-existing في base layer `useAPI.ts:4` (خارج scope).
+- [x] grep تحقّق نهائي: hit واحد بس (`FaqsForm.vue:14`). ✔️
 
 ### Milestone 2: build كامل
-- [ ] تشغيل `pnpm build` من `apps/db/` مع `NODE_OPTIONS=--max-old-space-size=4096`.
-- [ ] تأكيد إن الـ build خلص بدون missing module/asset. **لا يشغّل ده بالتوازي مع
-      build الـ client** (RAM) — sequential.
+- [x] تشغيل `pnpm build` من `apps/db/` مع `NODE_OPTIONS=--max-old-space-size=4096`.
+- [x] تأكيد إن الـ build خلص بدون missing module/asset. **لا يشغّل ده بالتوازي مع
+      build الـ client** (RAM) — sequential. ✔️ BUILD_EXIT=0.
