@@ -6,7 +6,7 @@
 
 - **التاريخ:** 2026-07-07
 - **المشروع:** apps/client (Nuxt 4 + Nuxt UI 4، SSR)
-- **الحالة العامة:** قيد التخطيط
+- **الحالة العامة:** منفّذة ✅ (2026-07-08) — 7/8 معايير متحقق منها تنفيذيًا؛ معيار typecheck مُرحَّل (pre-existing failure خارج الـ scope).
 
 ## نظرة عامة
 
@@ -65,17 +65,17 @@
 
 ## معايير القبول
 
-- [ ] `pnpm lint` يمرّ بدون أخطاء جديدة.
+- [x] `pnpm lint` يمرّ بدون أخطاء جديدة. ✔️ `pnpm lint` exit 0 (eslint .).
 - [ ] `pnpm typecheck` (vue-tsc) يمرّ — ده اللي بيكشف "حذفت component لسه مستخدم في
-      template" و"حذفت import لسه متسدعى".
-- [ ] `pnpm build` (مع `NODE_OPTIONS=--max-old-space-size=4096`) يمرّ بدون missing
-      asset/module.
-- [ ] `git diff apps/client/package.json` بيظهر بس الـ 5 deps المحذوفة.
-- [ ] `apps/client/app/components/sdlc/SdlcTasks.vue` و`SdlcArTasks.vue` مش موجودين.
-- [ ] `apps/client/pnpm-workspace.yaml` ما عادش فيه `better-sqlite3` (و`sharp` لسه موجود).
-- [ ] grep تحقّق: `grep -rn "SdlcTasks\|SdlcArTasks" apps/client/app` يرجع صفر.
-- [ ] root `CLAUDE.md` و`apps/client/CLAUDE.md` ما عادش يذكروا deps/modules محذوفة كأنهم
-      شغّالة.
+      template" و"حذفت import لسه متسدعى". — **مُرحَّل:** typecheck فاشل **pre-existing** على `main` النظيف (قبل أي تعديل) بخطأين في `app/composables/useAPI.ts:50,51` (TS2769/TS7031) — مكوّن خارج الـ scope (الخطة بتقول "لا يُلمس useAPI"). الحذف ماضافش أي error جديد (خطأي-قبل = خطأي-بعد). نية المعيار (كشف حذف مكسور) متحققة عبر الـ build بدل ده. ده شغل `/code-review` أو إصلاح منفصل لـ useAPI.ts.
+- [x] `pnpm build` (مع `NODE_OPTIONS=--max-old-space-size=4096`) يمرّ بدون missing
+      asset/module. ✔️ `BUILD_EXIT=0` — "✨ Build complete!" + nitro output كامل + sharp binaries included.
+- [x] `git diff apps/client/package.json` بيظهر بس الـ 5 deps المحذوفة. ✔️ diff بيعرض بالظبط `@nuxt/fonts`, `@nuxtjs/fontaine`, `dotenv`, `@playwright/test`, `playwright` — ولا dep مستخدمة اتلمست.
+- [x] `apps/client/app/components/sdlc/SdlcTasks.vue` و`SdlcArTasks.vue` مش موجودين. ✔️ `git status` بيعرض `D` للاتنين.
+- [x] `apps/client/pnpm-workspace.yaml` ما عادش فيه `better-sqlite3` (و`sharp` لسه موجود). ✔️ diff بيظهر حذف `better-sqlite3` بس؛ `sharp` لسه موجود.
+- [x] grep تحقّق: `grep -rn "SdlcTasks\|SdlcArTasks" apps/client/app` يرجع صفر. ✔️ `ZERO_HITS_IN_APP`.
+- [x] root `CLAUDE.md` و`apps/client/CLAUDE.md` ما عادش يذكروا deps/modules محذوفة كأنهم
+      شغّالة. ✔️ grep --ignore-case صفر في الاتنين لـ `motion-v`/`@nuxt/fonts`/`@nuxtjs/fontaine`/`dotenv`/`playwright`/`better-sqlite3`.
 
 ## الـ Dependencies والمخاطر
 
@@ -103,26 +103,26 @@
 ## Milestones
 
 ### Milestone 1: حذف المكوّنات والـ dependencies والإعدادات الميّتة + تحقق فوري
-- [ ] حذف `apps/client/app/components/sdlc/SdlcTasks.vue`.
-- [ ] حذف `apps/client/app/components/sdlc-ar/SdlcArTasks.vue`.
-- [ ] إزالة من `apps/client/package.json`: `dotenv`, `@nuxt/fonts`, `@nuxtjs/fontaine`
+- [x] حذف `apps/client/app/components/sdlc/SdlcTasks.vue`.
+- [x] حذف `apps/client/app/components/sdlc-ar/SdlcArTasks.vue`.
+- [x] إزالة من `apps/client/package.json`: `dotenv`, `@nuxt/fonts`, `@nuxtjs/fontaine`
       (deps) + `@playwright/test`, `playwright` (devDeps).
-- [ ] إزالة `better-sqlite3` من `apps/client/pnpm-workspace.yaml` `onlyBuiltDependencies`
+- [x] إزالة `better-sqlite3` من `apps/client/pnpm-workspace.yaml` `onlyBuiltDependencies`
       (إبقاء `sharp`).
-- [ ] تشغيل `pnpm install` من روت الـ monorepo لتحديث `pnpm-lock.yaml`.
-- [ ] تشغيل `pnpm lint` (من `apps/client/`) — لازم يمرّ.
-- [ ] تشغيل `pnpm typecheck` — لازم يمرّ (يكشف أي مكوّن لسه مستخدم).
-- [ ] grep تحقّق نهائي: صفر `SdlcTasks`/`SdlcArTasks` في `apps/client/app`.
+- [x] تشغيل `pnpm install` من روت الـ monorepo لتحديث `pnpm-lock.yaml`.
+- [x] تشغيل `pnpm lint` (من `apps/client/`) — لازم يمرّ.
+- [ ] تشغيل `pnpm typecheck` — لازم يمرّ (يكشف أي مكوّن لسه مستخدم). — **مُرحَّل:** فاشل pre-existing على main في `useAPI.ts:50,51` (خارج scope).
+- [x] grep تحقّق نهائي: صفر `SdlcTasks`/`SdlcArTasks` في `apps/client/app`.
 
 ### Milestone 2: build كامل
-- [ ] تشغيل `pnpm build` من `apps/client/` مع `NODE_OPTIONS=--max-old-space-size=4096`.
-- [ ] تأكيد إن الـ build خلص بدون missing asset/module. **لا يشغّل ده بالتوازي مع
-      build الـ db** (RAM) — sequential.
+- [x] تشغيل `pnpm build` من `apps/client/` مع `NODE_OPTIONS=--max-old-space-size=4096`.
+- [x] تأكيد إن الـ build خلص بدون missing asset/module. **لا يشغّل ده بالتوازي مع
+      build الـ db** (RAM) — sequential. ✔️ BUILD_EXIT=0.
 
 ### Milestone 3: تنظيف التوثيق
-- [ ] تحديث روت `CLAUDE.md` جدول الهجرة: صفحات agents/skills/commands/mcp "متحذفة"
+- [x] تحديث روت `CLAUDE.md` جدول الهجرة: صفحات agents/skills/commands/mcp "متحذفة"
       بدل "معطّلة مؤقتاً (empty state)".
-- [ ] تحديث `apps/client/CLAUDE.md`: إزالة سطر `motion-v/nuxt`، إزالة `@nuxt/fonts`
+- [x] تحديث `apps/client/CLAUDE.md`: إزالة سطر `motion-v/nuxt`، إزالة `@nuxt/fonts`
       و`@nuxtjs/fontaine` من قائمة الـ Modules.
-- [ ] مراجعة `apps/client/CLAUDE.md` Environment Variables / Key Config Files للتأكد
-      ما بذكرش deps محذوفة.
+- [x] مراجعة `apps/client/CLAUDE.md` Environment Variables / Key Config Files للتأكد
+      ما بذكرش deps محذوفة. ✔️ صفر ذِكر.

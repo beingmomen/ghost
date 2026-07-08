@@ -106,18 +106,18 @@ The workflow writes each app's `.env` from GitHub repository variables
 
 ### ما يحتاج migration في apps/client
 
-الصفحات التالية معطّلة مؤقتاً (تعرض empty state) حتى يكتمل الـ migration:
+الصفحات التالية **تم حذفها** من `apps/client` (الكود مش موجود أصلاً)؛ إعادة إضافتها لاحقًا تتطلب الربط بـ الـ Backend API:
 
-| الصفحة | الحالة | المطلوب |
+| الصفحة | الحالة | المطلوب عند الإعادة |
 |--------|--------|---------|
-| `/agents` | empty state | ربط بـ `GET /api/v1/agents` |
-| `/agents/[slug]` | 404 | ربط بـ `GET /api/v1/agents/:slug` |
-| `/skills` | empty state | ربط بـ `GET /api/v1/skills` |
-| `/skills/[slug]` | 404 | ربط بـ `GET /api/v1/skills/:slug` |
-| `/commands` | empty state | ربط بـ `GET /api/v1/commands` |
-| `/commands/[slug]` | 404 | ربط بـ `GET /api/v1/commands/:slug` |
-| `/mcp` | empty state | ربط بـ `GET /api/v1/mcp` |
-| `/mcp/[slug]` | 404 | ربط بـ `GET /api/v1/mcp/:slug` |
+| `/agents` | محذوفة | ربط بـ `GET /api/v1/agents` |
+| `/agents/[slug]` | محذوفة | ربط بـ `GET /api/v1/agents/:slug` |
+| `/skills` | محذوفة | ربط بـ `GET /api/v1/skills` |
+| `/skills/[slug]` | محذوفة | ربط بـ `GET /api/v1/skills/:slug` |
+| `/commands` | محذوفة | ربط بـ `GET /api/v1/commands` |
+| `/commands/[slug]` | محذوفة | ربط بـ `GET /api/v1/commands/:slug` |
+| `/mcp` | محذوفة | ربط بـ `GET /api/v1/mcp` |
+| `/mcp/[slug]` | محذوفة | ربط بـ `GET /api/v1/mcp/:slug` |
 
 ### Server API routes في apps/client (تم حذفها ✅)
 

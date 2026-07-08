@@ -104,12 +104,11 @@ app/components/
 
 - `@nuxt/ui` — UI component library (Nuxt UI 4)
 - `@nuxt/image` — Image optimization (Cloudinary provider)
-- `@nuxt/fonts` — Font optimization (Tajawal + Rubik, self-hosted via `app/assets/css/fonts.css`)
 - `@nuxt/eslint` — ESLint integration
-- `motion-v/nuxt` — Animation library (replaced GSAP)
 - `@nuxtjs/seo` — SEO suite (sitemap, robots, schema.org, og-image)
 - `@stefanobartoletti/nuxt-social-share` — Social sharing
-- `@nuxtjs/fontaine` — Font fallback optimization
+
+> Fonts (Tajawal + Rubik) are self-hosted manually via `app/assets/css/fonts.css` + `app/assets/fonts/*.woff2` — no font module is registered in `nuxt.config.ts`.
 
 ## Utils
 
