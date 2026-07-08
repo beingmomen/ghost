@@ -13,11 +13,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getMe = (req, res, next) => {
-  req.params.id = req.user.id;
-  next();
-};
-
 exports.getMyProfile = catchAsync(async (req, res, next) => {
   const user = await Model.findById(req.user.id);
 

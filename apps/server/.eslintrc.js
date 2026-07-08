@@ -93,13 +93,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['netlify/**/*.js'],
-      rules: {
-        'node/no-unpublished-require': 'off',
-        'no-console': 'off'
-      }
-    },
-    {
       files: ['server.js'],
       rules: {
         'no-console': 'off'

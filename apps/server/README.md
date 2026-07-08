@@ -107,9 +107,6 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 CLOUDINARY_UPLOAD_PRESET=your_app_name
-
-# Optional: Ngrok (for development tunneling)
-NGROK_AUTH_TOKEN=your_ngrok_token
 ```
 
 ## Running the Project
@@ -207,7 +204,6 @@ express/
 
 - **jsonwebtoken**: ^9.0.2 - JWT authentication
 - **bcryptjs**: ^2.4.3 - Password hashing
-- **express-oauth2-jwt-bearer**: ^1.6.0 - OAuth2 JWT bearer authentication
 - **express-rate-limit**: ^7.5.0 - API rate limiting
 - **helmet**: ^8.0.0 - Security HTTP headers
 - **express-mongo-sanitize**: ^2.2.0 - NoSQL injection prevention
@@ -228,15 +224,8 @@ express/
 
 - **express-validator**: ^7.0.1 - Request validation middleware
 - **validator**: ^13.12.0 - String validation and sanitization
-- **slugify**: ^1.6.6 - URL slug generation
 - **compression**: ^1.8.0 - Response compression middleware
 - **morgan**: ^1.10.0 - HTTP request logger
-
-### Development & Deployment
-
-- **@ngrok/ngrok**: ^1.4.1 - Secure tunneling for development
-- **ngrok**: ^5.0.0-beta.2 - Alternative ngrok package
-- **connect-history-api-fallback**: ^2.0.0 - SPA routing support
 
 ### Dev Dependencies
 
