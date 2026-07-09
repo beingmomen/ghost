@@ -23,6 +23,11 @@ export const useSidebar = () => {
         to: '/projects'
       },
       {
+        label: 'مشاريع الهوم',
+        icon: 'i-lucide-star',
+        to: '/home-featured'
+      },
+      {
         label: 'الخدمات',
         icon: 'i-lucide-briefcase',
         to: '/services'

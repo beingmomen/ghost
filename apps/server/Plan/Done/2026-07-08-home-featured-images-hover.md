@@ -67,14 +67,14 @@
 
 ## معايير القبول
 
-- `GET /api/v1/home-featured` بيرجّع `{ data: [doc] }` (infos pattern) فيه الـ singleton doc بـ `projects: [ObjectId...]` (raw ids)، أو `{ data: [null] }` لو السجل مش موجود (الـ db بتعتمد على الشكل ده في الـ empty-state branching).
-- `GET /api/v1/home-featured/populated` بيرجّع `{ data: [Project,...] }` populated، بـ isActive filter، بالترتيب، وبدون nulls. على DB فاضي (مفيش singleton لسه) بيرجّع `{ data: [] }` بـ 200 (مش 500) → الـ client `state="empty"` بدل `state="error"`.
-- `PATCH /api/v1/home-featured` بـ 4 ids → بيرفض (400 + رسالة max-3). بـ 3 أو أقل → بيقبل ويحدّث/upsert.
-- لما project يتحوّل `isActive:false` عبر `findByIdAndUpdate` → الـ hook بيشيله من `HomeFeatured.projects`.
-- لما project يتمسح (`findByIdAndDelete`) → الـ hook بيشيله من `HomeFeatured.projects`.
-- `GET /api/v1/projects/all` **محمي بـ `protect`** بيرجّع كل مشروع بـ `{ _id, title, slug, image, altText }` (مش `name title` بس). طلب بدون token بيرجّع 401 (مش التسرب العام القديم).
-- رفع صورة ثابتة جديدة → Cloudinary بترجّع asset بـ dimensions ~1200×675. رفع GIF → asset متحرّك بـ width ≤800.
-- السكربت الـ executable check (M1) بيطبّع `PASS 4-ref create rejected` + `PASS 3-ref create ok`.
+- [ ] `GET /api/v1/home-featured` بيرجّع `{ data: [doc] }` أو `{ data: [null] }` لو مش موجود. — **مُرحَّل: تحقّق runtime** (محتاج DB). ✔️ كود: `findOne()→{data:[doc]}` مطابق `_infoController` + الـ wiring اتفحص (route مركّب، controller بيرجّع الشكل).
+- [ ] `GET /api/v1/home-featured/populated` بيرجّع `{ data: [Project,...] }` مفلتر isActive بالترتيب بدون nulls؛ DB فاضي → `{ data: [] }` @200 (مش 500). — **مُرحَّل: تحقّق runtime** (محتاج DB). ✔️ كود: `!doc` guard صريح قبل `doc.projects` + `match:{isActive:true}` + `filter(Boolean)`.
+- [x] `PATCH /api/v1/home-featured` بـ 4 ids → بيرفض (400 + max-3). بـ ≤3 → بيقبل. — ✔️ **M1 executable check**: `validateSync` رفض 4، قبل 3 و0 + `express-validator isArray({min:0,max:3})` مسجّل. (رد الـ HTTP 400 نفسه محتاج server شغّال.)
+- [ ] `isActive:false` عبر `findByIdAndUpdate` → الـ hook بيشيله من `HomeFeatured.projects`. — **مُرحَّل: تحقّق runtime** (محتاج DB). ✔️ كود: `post('findOneAndUpdate')` hook مسجّل (M3 check) + منطق pull صحيح.
+- [ ] مسح project (`findByIdAndDelete`) → الـ hook بيشيله. — **مُرحَّل: تحقّق runtime** (محتاج DB). ✔️ كود: `post('findOneAndDelete')` hook مسجّل (M3 check).
+- [x] `GET /api/v1/projects/all` **محمي بـ `protect`** بيرجّع `{ _id, title, slug, image, altText }`؛ بدون token → 401. — ✔️ **wiring**: `/all` بقى 2 handlers (protect+controller) + `selectFields:'title slug image altText'` مضاف. (401 = سلوك `protect` القياسي.)
+- [ ] رفع صورة ثابتة → asset ~1200×675؛ GIF → متحرّك ≤800. — **مُرحَّل: رفع فعلي على Cloudinary**. ✔️ كود: config مضبوط + `buildUploadOptions` GIF-aware + كل خدمات الصور بتتحمّل (6 PASS).
+- [x] السكربت الـ executable check (M1) بيطبّع `PASS 4-ref create rejected` + `PASS 3-ref create ok`. — ✔️ اتنفّذ: طبع الاتنين + `PASS 0-ref ok` (exit 0).
 
 ## الـ Dependencies والمخاطر
 
@@ -110,24 +110,24 @@
 ## Milestones
 
 ### Milestone 1: HomeFeatured model + max-3 validation (executable check أول)
-- [ ] أنشئ `apps/server/models/homeFeaturedModel.js`: schema `{ projects: [{type:ObjectId, ref:'Project'}] }` بـ `validate: { validator: v => v.length <= 3, message: '...' }` + `getSingleton` static (نمط `roadmapSettingsModel.js`) + timestamps + toJSON/toObject virtuals.
-- [ ] أنشئ `apps/server/middleware/validators/homeFeatured.validator.js`: `updateHomeFeaturedRules` (`isArray({min:0,max:3})` + `isMongoId` per item) + سجّله في `middleware/validators/index.js`.
-- [ ] **executable check:** شغّل سكربت `node` يتصل بـ DB (local `DATABASE` لو متاح) ويعمل `HomeFeatured.create({ projects: [4 ids] })` (يتوقع reject) و `create({ projects: [3 ids] })` (يتوقع success) + cleanup. يطبّع `PASS 4-ref create rejected` + `PASS 3-ref create ok`. `in-progress`
+- [x] أنشئ `apps/server/models/homeFeaturedModel.js`: schema `{ projects: [{type:ObjectId, ref:'Project'}] }` بـ `validate: { validator: v => v.length <= 3, message: '...' }` + `getSingleton` static (نمط `roadmapSettingsModel.js`) + timestamps + toJSON/toObject virtuals.
+- [x] أنشئ `apps/server/middleware/validators/homeFeatured.validator.js`: `updateHomeFeaturedRules` (`isArray({min:0,max:3})` + `isMongoId` per item) + سجّله في `middleware/validators/index.js`.
+- [x] **executable check:** ✔️ نُفِّذ in-memory عبر `validateSync()` (بدون DB — الخطة نبّهت ضد الإنتاج، ومفيش `DATABASE` محلي؛ الـ array-level validate بيشتغل على document validation بلا اتصال). السكربت في الـ scratchpad طبع `PASS 4-ref create rejected` + `PASS 3-ref create ok` + `PASS 0-ref (empty home) ok` (exit 0).
 
 ### Milestone 2: home-featured routes + controller + mount + /projects/all fix
-- [ ] أنشئ `apps/server/controllers/_homeFeaturedController.js`: `getHomeFeatured` (`Model.findOne()` → `{data:[doc]}` حيث `doc` ممكن `null` — **مش** `getSingleton`)، `getHomeFeaturedPopulated` (`findOne().populate({path:'projects',match:{isActive:true}})` → **`if (!doc) return res.status(200).json({ data: [] })`** (singleton مش موجود على deploy جديد) → filter nulls → `{data:[Project...]}`)، `createHomeFeatured`/`updateHomeFeatured` (`getSingleton()` → `doc.projects = req.body.projects` → `doc.save()`).
-- [ ] أنشئ `apps/server/routes/homeFeaturedRoutes.js`: GET `/`، GET `/populated` (قبل أي `/:id` لو اتعمل)، POST `/` (protect+restrictTo ADMIN/DEV + validator)، PATCH `/` (protect+restrictTo + validator). لا multer.
-- [ ] عدّل `apps/server/app.js`: require + `app.use('/api/v1/home-featured', homeFeaturedRouter)` قبل `app.all('/api/*', ...)`.
-- [ ] عدّل `apps/server/controllers/_projectController.js:4`: أضف `{ selectFields: 'title slug image altText' }` لـ `getAllNoPagination`.
-- [ ] عدّل `apps/server/routes/projectRoutes.js:22`: أضف `authController.protect` على `/all` route (`router.route('/all').get(authController.protect, controller.getAllNoPagination)`) — كان عام بلا auth بيتسرب لكل المشاريع incl. inactive. الـ dashboard بيبعت Bearer token فمش هيتأثر.
-- [ ] تحقق يدوي: `pnpm dev:server` + `curl http://localhost:3001/api/v1/home-featured` (يتوقع `{data:[doc]}`) + `curl .../home-featured/populated` + `curl .../projects/all` (يتوقع fields الجديدة).
+- [x] أنشئ `apps/server/controllers/_homeFeaturedController.js`: `getHomeFeatured` (`Model.findOne()` → `{data:[doc]}` حيث `doc` ممكن `null` — **مش** `getSingleton`)، `getHomeFeaturedPopulated` (`findOne().populate({path:'projects',match:{isActive:true}})` → **`if (!doc) return res.status(200).json({ data: [] })`** (singleton مش موجود على deploy جديد) → filter nulls → `{data:[Project...]}`)، `createHomeFeatured`/`updateHomeFeatured` (`getSingleton()` → `doc.projects = req.body.projects` → `doc.save()`).
+- [x] أنشئ `apps/server/routes/homeFeaturedRoutes.js`: GET `/`، GET `/populated` (قبل أي `/:id` لو اتعمل)، POST `/` (protect+restrictTo ADMIN/DEV + validator)، PATCH `/` (protect+restrictTo + validator). لا multer.
+- [x] عدّل `apps/server/app.js`: require + `app.use('/api/v1/home-featured', homeFeaturedRouter)` قبل `app.all('/api/*', ...)`.
+- [x] عدّل `apps/server/controllers/_projectController.js:4`: أضف `{ selectFields: 'title slug image altText' }` لـ `getAllNoPagination`.
+- [x] عدّل `apps/server/routes/projectRoutes.js:22`: أضف `authController.protect` على `/all` route (`router.route('/all').get(authController.protect, controller.getAllNoPagination)`) — كان عام بلا auth بيتسرب لكل المشاريع incl. inactive. الـ dashboard بيبعت Bearer token فمش هيتأثر.
+- [ ] تحقق يدوي — **مُرحَّل** (محتاج server شغّال + DB، والوحيد المتاح إنتاج Atlas). الـ wiring اتفحص in-memory بدل كده: تحميل `app.js` كامل + تركيب كل الـ routes (`/populated` GET، `/` GET/POST/PATCH) + تصدير الـ handlers + `/projects/all` بقى 2 handlers = **11 PASS**. باقي: `pnpm dev:server` + `curl .../home-featured` (يتوقع `{data:[doc]}`) + `.../home-featured/populated` + `.../projects/all`.
 
 ### Milestone 3: cascade hooks على projectModel
-- [ ] أضف `schema.post('findOneAndUpdate')` في `projectModel.js`: افحص `this.getUpdate()` — لو فيه `isActive` (top-level أو تحت `$set`/`$unset`) **و** `doc && doc.isActive === false` اعمل `HomeFeatured.findOne()` → **لو `!featured` اعمل early return (مفيش singleton لسه → مفيش cascade)** → `featured.projects = featured.projects.filter(id => id.toString() !== doc._id.toString())` → `save()`. لو الـ update ما لمسش `isActive` → اخرج بـ early return (no-op re-save بيتجنّب). استخدم `mongoose.model('HomeFeatured')` lazy.
-- [ ] أضف `schema.post('findOneAndDelete')`: **لو `!doc` اعمل early return** (مسح مشروع مش موجود → الـ controller بيرجّع 404، الـ hook ما يشتغلش عليه). بعدها `HomeFeatured.findOne()` → **لو `!featured` early return** → نفس الـ pull (بدون شرط isActive — المسح دايمًا إزالة).
-- [ ] تحقق يدوي: حدّث مشروع مميّز لـ `isActive:false` → تأكد إنه اتشال من `HomeFeatured.projects`. امسح مشروع مميّز → تأكد إنه اتشال.
+- [x] أضف `schema.post('findOneAndUpdate')` في `projectModel.js`: افحص `this.getUpdate()` — لو فيه `isActive` (top-level أو تحت `$set`/`$unset`) **و** `doc && doc.isActive === false` اعمل `HomeFeatured.findOne()` → **لو `!featured` اعمل early return (مفيش singleton لسه → مفيش cascade)** → `featured.projects = featured.projects.filter(id => id.toString() !== doc._id.toString())` → `save()`. لو الـ update ما لمسش `isActive` → اخرج بـ early return (no-op re-save بيتجنّب). استخدم `mongoose.model('HomeFeatured')` lazy.
+- [x] أضف `schema.post('findOneAndDelete')`: **لو `!doc` اعمل early return** (مسح مشروع مش موجود → الـ controller بيرجّع 404، الـ hook ما يشتغلش عليه). بعدها `HomeFeatured.findOne()` → **لو `!featured` early return** → نفس الـ pull (بدون شرط isActive — المسح دايمًا إزالة).
+- [ ] تحقق يدوي — **مُرحَّل** (محتاج DB إنتاج). اتأكّد in-memory إن الـ hookين (`post('findOneAndUpdate')` + `post('findOneAndDelete')`) متسجّلين والـ model بيتحمّل (2 PASS). باقي: حدّث مشروع مميّز لـ `isActive:false` → تأكد إنه اتشال من `HomeFeatured.projects`؛ امسح مشروع مميّز → تأكد إنه اتشال.
 
 ### Milestone 4: إصلاح جودة الصور (resize + GIF)
-- [ ] عدّل `apps/server/imageServices/project.image.js`: `STATIC_RESIZE={width:1200,height:675,fit:'cover',quality:85}` + `GIF_RESIZE={width:800,height:450,fit:'cover',quality:85}` + مررهم للـ field config.
-- [ ] عدّل `apps/server/imageServices/config/cloudinary-image.image.js`: `buildUploadOptions(file, findField, folderName)` — لو `file.mimetype==='image/gif'` استخدم `findField.gifResize ?? findField.resize` (fallback لـ `resize` لو الـ service معندهاش `gifResize` — الـ factory shared) و**شيل `format:'jpeg'`**؛ غير كده `resize` + `format:'jpeg'`. استبدل الـ inline options في السطور 81-92 و 108-119.
-- [ ] تحقق يدوي: رفع صورة ثابتة عبر `POST /api/v1/projects` → asset 1200×675. رفع GIF → asset متحرّك ≤800px. (لو `crop:'fill'` كسر الـ GIF، جرّب `crop:'limit'`.)
+- [x] عدّل `apps/server/imageServices/project.image.js`: `resize={width:1200,height:675,fit:'cover',quality:85}` + `gifResize={width:800,height:450,fit:'cover',quality:85}` inline في الـ field config (مطابق للنمط الحالي).
+- [x] عدّل `apps/server/imageServices/config/cloudinary-image.image.js`: `buildUploadOptions(file, findField, folderName)` — لو `file.mimetype==='image/gif'` استخدم `findField.gifResize ?? findField.resize` (fallback لـ `resize` لو الـ service معندهاش `gifResize` — الـ factory shared) و**شيل `format:'jpeg'`**؛ غير كده `resize` + `format:'jpeg'`. استبدل الـ inline options في السطور 81-92 و 108-119.
+- [ ] تحقق يدوي — **مُرحَّل** (محتاج رفع فعلي على Cloudinary). اتأكّد in-memory إن كل خدمات الصور (project/blog/service/testimonial/client/experience) بتتحمّل بعد تغيير الـ shared factory (6 PASS) + ESLint نظيف. باقي: رفع صورة ثابتة عبر `POST /api/v1/projects` → asset 1200×675؛ رفع GIF → asset متحرّك ≤800px. (لو `crop:'fill'` كسر الـ GIF، جرّب `crop:'limit'`.)

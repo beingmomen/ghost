@@ -7,15 +7,19 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
   query: { isActive: true },
   default: () => [],
   transform: (response) => {
-    return (Array.isArray(response) ? response : []).map(project => ({
-      ...project,
-      image: optimizeCloudinary(
-        project.image?.startsWith('http') ? project.image : `${cloudinary.cloudinaryUrl}${project.image}`,
-        'f_auto,q_auto,w_1152'
-      )
-    }))
+    return (Array.isArray(response) ? response : []).map((project) => {
+      const src = project.image?.startsWith('http')
+        ? project.image
+        : `${cloudinary.cloudinaryUrl}${project.image}`
+      return {
+        ...project,
+        image: optimizeCloudinary(src, cloudinaryTransformFor(src, 'full'))
+      }
+    })
   }
 })
+
+const hover = projectHover({ imageScale: '103' })
 
 const pageDescription = 'استعرض مشاريعي في تطوير الويب وبناء تطبيقات حديثة وعالية الأداء'
 
@@ -111,7 +115,7 @@ useHead({
             orientation="horizontal"
             variant="naked"
             :reverse="index % 2 === 1"
-            class="group"
+            :class="`group ${hover.card}`"
             :ui="{
               wrapper: 'max-sm:order-last'
             }"
@@ -142,17 +146,22 @@ useHead({
                   aria-hidden="true"
                 />
                 <span class="sr-only">يفتح في تبويب جديد</span>
+                <UIcon
+                  name="i-lucide-arrow-left"
+                  :class="`size-4 text-primary ${hover.arrow}`"
+                  aria-hidden="true"
+                />
               </div>
             </template>
             <div class="aspect-video w-full overflow-hidden rounded-lg bg-elevated/40 ring-1 ring-default/60">
-              <NuxtImg
+              <CommonProjectImage
                 :src="project.image"
                 :alt="project.altText || project.title"
                 width="1152"
                 height="648"
                 :loading="index === 0 ? 'eager' : 'lazy'"
                 :fetchpriority="index === 0 ? 'high' : 'auto'"
-                class="object-cover w-full h-full"
+                :image-class="`object-cover w-full h-full ${hover.image}`"
               />
             </div>
           </UPageCard>

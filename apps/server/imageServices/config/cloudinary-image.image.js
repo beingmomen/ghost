@@ -47,6 +47,42 @@ const uploadToCloudinary = (buffer, options) =>
   });
 
 /**
+ * Build Cloudinary upload options for a single file.
+ * GIF: use gifResize (fallback to resize) and keep it animated — no `format:'jpeg'`.
+ * Non-GIF: use resize + `format:'jpeg'` as before.
+ * @param {Object} file - Multer file object (needs `.mimetype`)
+ * @param {Object} findField - Field config (`resize`, optional `gifResize`)
+ * @param {String} folderName - Cloudinary subfolder name
+ * @returns {Object} - Cloudinary upload options
+ */
+const buildUploadOptions = (file, findField, folderName) => {
+  const isGif = file.mimetype === 'image/gif';
+  // GIF بيستخدم gifResize لو موجود، و fallback لـ resize عشان الـ factory shared
+  // بين كل الـ cloudinary services؛ اللي معندهاش gifResize متكسرش رفع GIF بتاعها.
+  const resize =
+    isGif && findField.gifResize ? findField.gifResize : findField.resize;
+
+  const options = {
+    folder: `${process.env.CLOUDINARY_UPLOAD_PRESET}/${folderName}`,
+    transformation: [
+      {
+        width: resize.width,
+        height: resize.height,
+        crop: 'fill',
+        quality: resize.quality || 85
+      }
+    ]
+  };
+
+  // GIF متحرّك: شيل `format:'jpeg'` (اللي بيحوّله لـ frame ثابت واحد).
+  if (!isGif) {
+    options.format = 'jpeg';
+  }
+
+  return options;
+};
+
+/**
  * Middleware to upload and process images to Cloudinary
  * @param {Array} fields - Upload field configurations (from closure)
  */
@@ -77,19 +113,12 @@ const uploadImagesToCloudinary = fields =>
         req.body[key] = [];
 
         await Promise.all(
-          value.map(async (_item, index) => {
-            const uploadOptions = {
-              folder: `${process.env.CLOUDINARY_UPLOAD_PRESET}/${folderName}`,
-              transformation: [
-                {
-                  width: findField.resize.width,
-                  height: findField.resize.height,
-                  crop: 'fill',
-                  quality: findField.resize.quality || 85
-                }
-              ],
-              format: 'jpeg'
-            };
+          value.map(async (item, index) => {
+            const uploadOptions = buildUploadOptions(
+              item,
+              findField,
+              folderName
+            );
 
             const result = await uploadToCloudinary(
               req.files[key][index].buffer,
@@ -105,18 +134,11 @@ const uploadImagesToCloudinary = fields =>
         );
       } else {
         // Single image
-        const uploadOptions = {
-          folder: `${process.env.CLOUDINARY_UPLOAD_PRESET}/${folderName}`,
-          transformation: [
-            {
-              width: findField.resize.width,
-              height: findField.resize.height,
-              crop: 'fill',
-              quality: findField.resize.quality || 85
-            }
-          ],
-          format: 'jpeg'
-        };
+        const uploadOptions = buildUploadOptions(
+          req.files[key][0],
+          findField,
+          folderName
+        );
 
         const result = await uploadToCloudinary(
           req.files[key][0].buffer,

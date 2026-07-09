@@ -1,27 +1,29 @@
 <script setup>
 const { cloudinary } = useRuntimeConfig().public
 
-// `useAPI` unwraps the { status, data, ... } envelope, so `data` is the array.
+const hover = projectHover({ imageScale: '105' })
+
+// `useAPI` unwraps the { status, data, ... } envelope, so `data` is the array of
+// featured projects (populated + isActive-filtered + ordered, already capped at ≤3).
 const {
   data: projects,
   error: projectsError,
   refresh: refreshProjects
-} = await useAPI('/projects', {
-  key: 'landing-projects',
-  query: { isActive: true, limit: 3 }
+} = await useAPI('/home-featured/populated', {
+  key: 'landing-projects'
 })
 
 const featuredProjects = computed(() => {
   const list = Array.isArray(projects.value) ? projects.value : []
-  return list.slice(0, 3).map(project => ({
-    ...project,
-    image: optimizeCloudinary(
-      project.image?.startsWith('http')
-        ? project.image
-        : `${cloudinary.cloudinaryUrl}${project.image}`,
-      'f_auto,q_auto,w_192,h_128,c_fill'
-    )
-  }))
+  return list.map((project) => {
+    const src = project.image?.startsWith('http')
+      ? project.image
+      : `${cloudinary.cloudinaryUrl}${project.image}`
+    return {
+      ...project,
+      image: optimizeCloudinary(src, cloudinaryTransformFor(src, 'thumb'))
+    }
+  })
 })
 </script>
 
@@ -57,7 +59,7 @@ const featuredProjects = computed(() => {
           :to="project.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="animate-fade-in group flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 hover:bg-elevated/60 hover:border-primary/30 transition-colors duration-300"
+          :class="`animate-fade-in group flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 ${hover.card}`"
           :style="`animation-delay: ${i * 0.12}s`"
         >
           <div class="flex-1 min-w-0 text-right">
@@ -84,23 +86,32 @@ const featuredProjects = computed(() => {
           </div>
 
           <div class="shrink-0 relative overflow-hidden rounded-lg w-24 h-16">
-            <NuxtImg
+            <CommonProjectImage
               :src="project.image"
               :alt="project.altText || project.title"
               width="96"
               height="64"
               :loading="i === 0 ? 'eager' : 'lazy'"
               :fetchpriority="i === 0 ? 'high' : 'auto'"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              :image-class="`w-full h-full object-cover ${hover.image}`"
             />
           </div>
 
           <UIcon
             name="i-lucide-arrow-left"
-            class="size-4 text-primary self-center shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:-translate-x-2 transition-all duration-200"
+            :class="`size-4 text-primary self-center shrink-0 ${hover.arrow}`"
           />
         </NuxtLink>
       </div>
     </div>
   </section>
+  <LandingSectionFallback
+    v-else
+    state="empty"
+    eyebrow="المشاريع"
+    title="أبرز المشاريع"
+    message="لا توجد مشاريع مميّزة حالياً. تصفّح كل المشاريع للاطّلاع على أعمالي."
+    alt-action-label="كل المشاريع"
+    alt-action-to="/projects"
+  />
 </template>

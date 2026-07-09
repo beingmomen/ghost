@@ -101,6 +101,43 @@ schema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
+// شيل projectId من الـ HomeFeatured singleton لو موجود (cascade مشترك).
+// mongoose.model('HomeFeatured') lazy عشان نتجنّب circular import.
+const pullFromHomeFeatured = async projectId => {
+  const HomeFeatured = mongoose.model('HomeFeatured');
+  const featured = await HomeFeatured.findOne();
+  if (!featured) return;
+
+  featured.projects = featured.projects.filter(
+    id => id.toString() !== projectId.toString()
+  );
+  await featured.save();
+};
+
+// لما مشروع مميّز يتعطّل (isActive:false) → شيله من HomeFeatured.projects.
+// بنضيّق على «الـ update نفسه لمس isActive» (mongoSanitize بيلفّه في $set) عشان
+// نتجنّب no-op re-saves على الـ singleton في تعديلات المشاريع الـ inactive المتزامنة.
+schema.post('findOneAndUpdate', async function (doc) {
+  const update = this.getUpdate() || {};
+  const touchedIsActive =
+    update.isActive !== undefined ||
+    update.$set?.isActive !== undefined ||
+    update.$unset?.isActive !== undefined;
+
+  if (!touchedIsActive) return;
+  if (!doc || doc.isActive !== false) return;
+
+  await pullFromHomeFeatured(doc._id);
+});
+
+// لما مشروع مميّز يتمسح → شيله من HomeFeatured.projects (بدون شرط — المسح دايمًا إزالة).
+// !doc guard: findByIdAndDelete بترجع null على المسح المكرر/المتزامن.
+schema.post('findOneAndDelete', async doc => {
+  if (!doc) return;
+
+  await pullFromHomeFeatured(doc._id);
+});
+
 schema.virtual('skills', {
   ref: 'Skill',
   localField: 'skillIds',

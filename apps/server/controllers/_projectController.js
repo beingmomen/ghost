@@ -1,7 +1,9 @@
 const Model = require('../models/projectModel');
 const factory = require('./handlerFactory');
 
-exports.getAllNoPagination = factory.getAllNoPagination(Model);
+exports.getAllNoPagination = factory.getAllNoPagination(Model, {
+  selectFields: 'title slug image altText'
+});
 
 exports.getAll = factory.getAll(Model, {
   popOptions: ['skills']

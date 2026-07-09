@@ -54,14 +54,14 @@
 
 ## معايير القبول
 
-- صفحة `/home-featured` بتفتح، بتجيب السجل الحالي + قائمة كل المشاريع (بصورة + عنوان).
-- الـ multi-select بيسمح باختيار ≤3 مشاريع؛ لو حاولت تختار رابع، Zod بيرفض عند submit برسالة «حد أقصى 3 مشاريع».
-- الـ ordered list بـ up/down arrows بيغيّر ترتيب `state.projects`، والترتيب ده اللي بيتسجّل.
-- submit بـ 3 مشاريع → `PATCH /api/home-featured` → toast success → reload بيحافظ على الاختيار والترتيب.
-- submit بـ array فاضي → بيقبل (إخلاء الهوم).
-- sidebar فيه «مشاريع الهوم» بـ icon star، بيودّي على `/home-featured`.
-- `pnpm typecheck` و `pnpm build` (NUXT_IGNORE_LOCK=1) بيمشوا بدون أخطاء.
-- بعد server M4: إعادة رفع الـ 4 مشاريع الموجودة عبر تعديلها → الصور الجديدة بـ dimensions الجديدة (1200×675 / 800 للـ GIF متحرّك).
+- [ ] صفحة `/home-featured` بتفتح، بتجيب السجل الحالي + قائمة كل المشاريع (بصورة + عنوان). — **مُرحَّل: فحص بصري/runtime** (محتاج backend + متصفّح). ✔️ كود: الـ page بـ `useAPI('/api/home-featured')` + `/api/projects/all` + `setProjectsList`؛ الـ build نجح.
+- [ ] الـ multi-select ≤3؛ رابع → Zod يرفض «حد أقصى 3 مشاريع» عند submit. — **مُرحَّل: فحص بصري**. ✔️ كود: schema `z.array(z.string()).max(3, 'حد أقصى 3 مشاريع')`.
+- [ ] الـ ordered list بـ up/down بيغيّر `state.projects` والترتيب بيتسجّل. — **مُرحَّل: فحص بصري**. ✔️ كود: `moveUp/moveDown` swap + `orderedProjects` computed.
+- [ ] submit بـ 3 → `PATCH /api/home-featured` → toast → reload بيحافظ. — **مُرحَّل: تحقّق runtime** (محتاج backend). ✔️ كود: `handleSubmit` create/update + `prepareSubmitData` JSON.
+- [ ] submit بـ array فاضي → بيقبل. — **مُرحَّل: تحقّق runtime**. ✔️ كود: schema `min 0` (بدون `required`).
+- [x] sidebar فيه «مشاريع الهوم» بـ icon star → `/home-featured`. — ✔️ **تحقّق بالكود**: الـ item مضاف في مجموعة «المحتوى» + الـ build نجح.
+- [x] `pnpm typecheck` + `pnpm build` (NUXT_IGNORE_LOCK=1) بدون أخطاء. — ✔️ `build` نجح (exit 0) + ملفاتي **صفر أخطاء typecheck** + `lint` نظيف. ⚠️ typecheck فيه خطأ **pre-existing** في `useAPI.ts` بتاع الـ base-layer (خارج الميزة).
+- [ ] بعد server M4: إعادة رفع الـ 4 مشاريع → dimensions جديدة. — **مُرحَّل/blocked**: محتاج deploy الـ server + رفع يدوي من الـ dashboard.
 
 ## الـ Dependencies والمخاطر
 
@@ -86,19 +86,19 @@
 ## Milestones
 
 ### Milestone 1: wiring + module composables (executable check: typecheck)
-- [ ] عدّل `apps/db/server/config/proxy.ts`: أضف `'/home-featured'` لـ `allowedPrefixes`.
-- [ ] عدّل `apps/db/app/composables/layout/sideBar/index.js`: أضف sidebar item في مجموعة «المحتوى» بعد «المشاريع».
-- [ ] أنشئ `apps/db/app/composables/services/homeFeatured.js` (نسخة من `services/infos.js` بتغيير URL/key).
-- [ ] أنشئ `apps/db/app/composables/modules/homeFeatured/{schema,form,actions,index}.js` (schema بـ max-3، form بـ `prepareSubmitData` JSON + `moveUp/moveDown/removeProject`، actions بـ `loadExisting`/`handleSubmit`/`setProjectsList`).
-- [ ] **executable check:** `cd apps/db && pnpm typecheck` (vue-tsc) — يتحقق من الـ auto-imports والـ schema types. لو فشل، أصلح قبل ما تكمل. `in-progress`
+- [x] عدّل `apps/db/server/config/proxy.ts`: أضف `'/home-featured'` لـ `allowedPrefixes`.
+- [x] عدّل `apps/db/app/composables/layout/sideBar/index.js`: أضف sidebar item (`مشاريع الهوم`, `i-lucide-star`, `/home-featured`) في مجموعة «المحتوى» بعد «المشاريع».
+- [x] أنشئ `apps/db/app/composables/services/homeFeatured.js` (نسخة من `services/infos.js` بـ URL/key = `/home-featured`).
+- [x] أنشئ `apps/db/app/composables/modules/homeFeatured/{schema,form,actions,index}.js` (schema بـ `.max(3)` — شِلت الـ `.refine` المكرّرة، form بـ `prepareSubmitData` JSON + `moveUp/moveDown/removeProject`، actions بـ `loadExisting`/`handleSubmit`/`setProjectsList` بـ mapping صريح `{id:_id, name:title, image, slug}`).
+- [x] **executable check:** ✔️ `pnpm typecheck` — كل ملفاتي صفر أخطاء (بس خطأ pre-existing في `useAPI.ts` بتاع الـ base-layer، خارج النطاق). ✔️ `pnpm lint` نظيف.
 
 ### Milestone 2: UI component + page (executable check: build)
-- [ ] أنشئ `apps/db/app/components/modules/homeFeatured/HomeFeaturedForm.vue`: `BaseCard` (title="مشاريع الهوم المميزة" icon="i-lucide-star") + `BaseForm :schema :state :cols="1"` + `BaseSelect multiple` (value-key="id", label-key="name", items=projectsList) + `USeparator label="الترتيب"` + ordered list بـ up/down/remove + `#actions` (submit/cancel). أضف fallback «مشروع محذوف» لو lookup فشل.
-- [ ] أنشئ `apps/db/app/pages/home-featured/index.vue`: `definePageMeta({title:'مشاريع الهوم'})` + `useAPI('/api/home-featured', {key, query:{limit:1}})` + `loadExisting(data[0])` + `useAPI('/api/projects/all', {key})` + `setProjectsList` + `provide('composable', ...)` + `<ModulesHomeFeaturedForm />`.
-- [ ] **executable check:** `cd apps/db && pnpm typecheck` ثم `NUXT_IGNORE_LOCK=1 pnpm build` (full SSR lift check — لوحده بدون client build بالتوازي). `in-progress`
-- [ ] تحقق يدوي: `pnpm dev:db` + افتح `/home-featured` → الـ select والـ ordered list بيظهروا، اختيار + ترتيب + submit يشتغل.
+- [x] أنشئ `apps/db/app/components/modules/homeFeatured/HomeFeaturedForm.vue`: `BaseCard` (title="مشاريع الهوم المميزة" icon="i-lucide-star") + `BaseForm :schema :state :cols="1"` + `BaseSelect multiple` (value-key="id", label-key="name", items=projectsList) + `USeparator label="الترتيب"` + ordered list (رقم + `UAvatar` بـ `normalizeAvatarSrc` + up/down/remove) + `#actions`. fallback «مشروع محذوف» لو lookup فشل + رسالة لو مفيش اختيار.
+- [x] أنشئ `apps/db/app/pages/home-featured/index.vue`: `definePageMeta({title:'مشاريع الهوم'})` + `useAPI('/api/home-featured', {key, query:{limit:1}})` + `loadExisting(data[0])` + `useAPI('/api/projects/all', {key})` + `setProjectsList` + `provide('composable', ...)` + `<ModulesHomeFeaturedForm />`.
+- [x] **executable check:** ✔️ `pnpm typecheck` (ملفاتي صفر أخطاء) ثم ✔️ `NUXT_IGNORE_LOCK=1 pnpm build` نجح (exit 0، "Build complete!" — لوحده بدون client build بالتوازي).
+- [ ] تحقق يدوي — **مُرحَّل للمستخدم** (محتاج backend شغّال + متصفّح): `pnpm dev:db` + افتح `/home-featured` → الـ select والـ ordered list بيظهروا، اختيار + ترتيب + submit يشتغل.
 
 ### Milestone 3: إعادة رفع المشاريع الموجودة (بعد server M4)
-- [ ] `blocked` — السبب: محتاج server M4 (resize fix) يكون اتعمل و deployed.
+- [ ] `blocked` / **مُرحَّل للمستخدم** — كود server M4 (resize fix) **اتبنى في الجلسة دي**، بس إعادة الرفع محتاجة: (1) نشر الـ server عشان الـ resize الجديد يشتغل على مسار الرفع، (2) رفع يدوي من الـ dashboard. مش ممكن في جلسة كود.
 - [ ] افتح كل مشروع من الـ 4 (Warraq، ترابط، عصام فهمي، دريم تي في) في `/projects/:id` (edit)، ارفع الصورة الأصلية تاني → حفظ. الصور الجديدة هتاخد resize الجديد (1200×675 للثابتة / 800 متحرّك للـ GIF).
 - [ ] تحقق: افتح `/projects` في الـ client → الـ 4 صور بتظهروا (الـ GIFs متحركة، الـ JPGs crisp) وصفحة `/` → المشاريع المميزة بتظهر.

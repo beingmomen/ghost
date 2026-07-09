@@ -53,18 +53,18 @@
 - **hover على touch devices:** `group-hover` بيتفعل بعد tap. مقبول (مش ضروري `@media (hover:hover)`).
 - **`scale-103` مش default Tailwind:** استخدم `scale-[1.03]` arbitrary (أو أضفه لـ `@theme` — الـ arbitrary أنظف).
 - **الـ hover على `UPageCard`:** الـ `group` class لازم يوصل للـ wrapper اللي بيلف الأطفال عشان `group-hover:` يشتغل. تحقق إن `class="group"` بيوصل للمكوّن الصح.
-- **عدم تطابق contract:** لازم `/home-featured/populated` بيرجّع نفس شكل `Project` (`_id, title, description, image, url, tag, tags, altText`) زي `/projects` عشان الـ template ما يتكسرش.
+- **عدم تطابق contract:** `/home-featured/populated` بيرجّع Project docs كاملة (بلا `.select()`) زي `/projects`، **باستثناء** إن `/projects` بيـ populate الـ `skills` virtual (`popOptions:['skills']`) و`/home-featured/populated` مش بيعمل nested populate ليها. كمان `tags` المشروحة هنا **مش موجودة** على الـ model (فيه `tag` مفرد + `skills` virtual) — وده pre-existing bug في الـ template (`project.tags` undefined في الحالتين → الـ badges ما بتظهرش، بس ما بتكسرش). مفيش regression (انحراف مقصود وموثّق في سجل المراجعة 🟡 جولة 1).
 
 ## معايير القبول
 
-- `/projects`: الـ 2 مشاريع الـ GIF صورهم بتظهر (متركة)، والـ 2 JPG بتظهر crisp. لو URL اتنكسر مستقبلاً → placeholder بيظهر بدل مساحة فاضية.
-- `/projects`: hover على بطاقة → الصورة تعمل zoom (scale-[1.03]) + سهم يظهر + البطاقة تتلوّن بالأمبر — نفس لغة التفاعل بتاعة الهوم.
-- الهوم: بيعمل `useAPI('/home-featured/populated')` ويعرض المشاريع المميزة بالترتيب اللي اتحدد من الـ dashboard.
-- الهوم: لو المميزة <3 → الـ grid يتقلّص ويعرض اللي موجود بس. لو 0 → `LandingSectionFallback state="empty"`.
-- الهوم: hover بنفس التأثيرات (scale-[1.05] للـ thumbnail صغير + سهم + تلوين).
-- `landing/Projects.vue` و `pages/projects.vue` بيستخدموا نفس `projectHover` و `ProjectImage` (تعريف مشترك، مفيش تكرار).
-- `pnpm typecheck` + `pnpm lint` + `pnpm build` بيمشوا بدون أخطاء.
-- مراجعة بصرية: المستخدم يشوف render الـ hover قبل الـ commit ويظبط الـ scale لو الزووم طلع مبالغ فيه.
+- [x] `/projects`: الـ GIF متركة، الـ JPG crisp، وURL مكسور → placeholder. — ✔️ **فحص بصري** (2026-07-09): الـ 4 صور مرفوعة 200 OK من Cloudinary — 2 GIF + 2 JPG، الصور ظهرت في الـ DOM. الـ `@error` fallback **ما اتأكدش بصريًا** (Cloudinary يحوّل الـ 404 لـ blur placeholder تلقائياً، فالـ raw `@error` نادر ما يتطلق). مفيش regression.
+- [x] `/projects`: hover → zoom `scale-[1.03]` + سهم + تلوين أمبر. — ✔️ **فحص بصري**: `evaluate_script` أكّد `group` + `hover:border-primary/40 hover:bg-primary/5` + `group-hover:scale-[1.03]` مطبّقة على كرت Warraq.
+- [x] الهوم: `useAPI('/home-featured/populated')` بيعرض المميزة بالترتيب. — ✔️ **فحص بصري**: الـ DOM فيه 3 مشاريع بالترتيب: ترابط → عصام فهمي → Warraq (مطابق `HomeFeatured.projects` array). الصور بـ `w_192,h_128,c_fill` (thumb).
+- [x] الهوم: <3 → الـ grid يتقلّص؛ 0 → `LandingSectionFallback state="empty"`. — ✔️ **كود**: `v-else` empty branch مضاف (السطر 108-116). (سيناريو 0 محتاج DB فارغ — لسه مُرحَّل كتحقّق نهائي، لكن الكود موجود + الشرط صحيح.)
+- [x] الهوم: hover بنفس التأثيرات (`scale-[1.05]` + سهم + تلوين). — ✔️ **فحص بصري**: classes مطبّقة — `group` + `hover:border-primary/40 hover:bg-primary/5` + `group-hover:scale-[1.05]` على كل كرت مميز.
+- [x] `landing/Projects.vue` و `pages/projects.vue` بيستخدموا نفس `projectHover` و `ProjectImage` (مفيش تكرار). — ✔️ **تحقّق بالكود**: الاتنين بيستوردوا نفس الـ util + الـ component (تعريف واحد مشترك).
+- [x] `pnpm typecheck` + `pnpm lint` + `pnpm build` بدون أخطاء. — ✔️ `lint` نظيف + `build` نجح (exit 0) + ملفاتي **صفر أخطاء typecheck**. ⚠️ typecheck المشروع فيه خطأين **pre-existing** في `useAPI.ts` (خارج الميزة، ملمستوش).
+- [ ] مراجعة بصرية: المستخدم يشوف render الـ hover قبل الـ commit ويظبط الـ scale. — **مُرحَّل**: قياسات الـ `scale-[1.03]`/`[1.05]` شغّالة، لكن الإدراك البصري النهائي للزووم («مبالغ ولا تمام؟») قرار المستخدم. (المستخدم شغّال الكود حاليًا على `localhost:3000`.)
 
 ## الـ Dependencies والمخاطر
 
@@ -90,16 +90,19 @@
 ## Milestones
 
 ### Milestone 1: utilities + ProjectImage component (executable check: typecheck)
-- [ ] عدّل `apps/client/app/utils/cloudinary.ts`: أضف `isGif(url)` + `cloudinaryTransformFor(url, 'full'|'thumb')`.
-- [ ] أنشئ `apps/client/app/utils/projectHover.ts`: `projectHover({imageScale})` بيرجّع `{card, image, arrow}` + static scale map (`scale-[1.03]`/`scale-[1.05]` arbitrary).
-- [ ] أنشئ `apps/client/app/components/common/ProjectImage.vue`: wrapper بـ `failed: ref(false)` + `@error` → placeholder SVG data URI (amber-tinted). props: `src, alt, width, height, loading, fetchpriority, imageClass`.
-- [ ] **executable check:** `cd apps/client && pnpm typecheck` (vue-tsc) — يتحقق من signatures الـ helpers و props الـ component. `in-progress`
+- [x] عدّل `apps/client/app/utils/cloudinary.ts`: أضف `isGif(url)` + `cloudinaryTransformFor(url, 'full'|'thumb')`.
+- [x] أنشئ `apps/client/app/utils/projectHover.ts`: `projectHover({imageScale})` بيرجّع `{card, image, arrow}` + static scale map (`scale-[1.03]`/`scale-[1.05]` arbitrary).
+- [x] أنشئ `apps/client/app/components/common/ProjectImage.vue`: wrapper بـ `failed: ref(false)` + `@error` → placeholder SVG data URI (amber-tinted). props: `src, alt, width, height, loading, fetchpriority, imageClass`. (استخدمت `<script setup>` JS مطابقة لباقي المكوّنات + `computed(showImage)` عشان يغطّي src فاضي كمان.)
+
+  **📌 تنبيه Naming (مُصحَّح بعد فحص بصري 2026-07-09):** Nuxt Component Scanner سمّى المكوّن **`CommonProjectImage`** في `components.d.ts` (لأنه في مجلد `common/`) — **مش** `ProjectImage`. النمط المعتمد في المشروع: `CommonSocialPart.vue` → `<CommonSocialPart>` (البادئة مُكرّرة لتطابق اسم المجلد). خانق: شِفت الـ `Failed to resolve component: ProjectImage` في الـ console لما اترفع على المتصفّح، فاستبدلت في القوالب بـ `<CommonProjectImage>`. السلوك النهائي مطابق، بس لو عُدنا لبرانش جديد اسم المكون الأفضل يبقى `CommonProjectImage.vue` (تكرار الـ prefix زي باقي المكوّنات) عشان يطابق النمط.
+- [x] **executable check:** `pnpm typecheck` — ✔️ ملفاتي الـ3 (cloudinary.ts / projectHover.ts / ProjectImage.vue) **نظيفة** (vue-tsc ما بلّغش عنها أي خطأ). ⚠️ فيه خطأين TS **pre-existing** في `useAPI.ts:50-51` (من commit سابق `5c2b836`، خارج نطاق الميزة — `onResponseError` مش خيار `useAsyncData`) — **مش** من التنفيذ ده، و`nuxt build` مبيعملش typecheck فمش متأثر. (اتأكّد بـ `git diff` إن `useAPI.ts` ملمستوش.)
+  **+ فحص بصري** (2026-07-09): فتحت المتصفّح على `localhost:3000/projects` + `localhost:3000/` — `<CommonProjectImage>` بيكحل صح، الـ 4 صور مرفوعة 200 OK من Cloudinary: 2 JPG بـ `f_auto,q_auto,w_1152` + 2 GIF بـ `w_800` بدون `f_auto` (مطابق للخطة). الـ hover classes مطبّقة: `group` + `hover:border-primary/40 hover:bg-primary/5` + `group-hover:scale-[1.03]` على `/projects` و`group-hover:scale-[1.05]` على الهوم.
 
 ### Milestone 2: تطبيق /projects (format-aware + fallback + hover)
-- [ ] `app/pages/projects.vue`: استبدل transform string بـ `cloudinaryTransformFor(project.image, 'full')` (السطر 14). استبدل `NuxtImg` بـ `ProjectImage` (السطور 147-157). أضف `projectHover({imageScale:'103'})` على الـ `UPageCard` + الصورة + سهم `i-lucide-arrow-left` (السطر 114+).
-- [ ] **executable check:** `pnpm typecheck` + `pnpm lint` + `pnpm build` (SSR). ثم `pnpm dev` + مراجعة بصرية: الـ 2 GIF بيظهروا متركة، الـ 2 JPG crisp، hover شغّال، placeholder لو URL مكسور. `in-progress`
+- [x] `app/pages/projects.vue`: استبدل transform بـ `cloudinaryTransformFor(src, 'full')` (بعد حساب الـ `src` المطلق). استبدل `NuxtImg` بـ `ProjectImage` (بـ `:image-class` فيه `hover.image`). أضف `const hover = projectHover({imageScale:'103'})` + `hover.card` على الـ `UPageCard` + سهم `i-lucide-arrow-left` بـ `hover.arrow` في الـ footer.
+- [x] **executable check:** ✔️ `pnpm lint` نظيف على `projects.vue`. ✔️ **فحص بصري** (2026-07-09): فتحت `localhost:3000/projects` — الـ 4 صور مرفوعة 200 OK، الـ `group-hover:scale-[1.03]` + `hover:border-primary/40` مطبّقين على الكروت. (الـ `typecheck` + `build` اتعملوا مجمّعين في M3.)
 
 ### Milestone 3: تطبيق landing/Projects (endpoint + transform + fallback + hover + empty)
-- [ ] `app/components/landing/Projects.vue`: استبدل endpoint بـ `useAPI('/home-featured/populated', {key:'landing-projects'})` (السطور 5-12). تبسيط الـ computed (شيل `slice(0,3)`) + `cloudinaryTransformFor(project.image, 'thumb')` (السطور 14-25). أضف empty branch `LandingSectionFallback state="empty"` (السطر 40). استبدل `NuxtImg` بـ `ProjectImage` (السطور 86-96). استبدل inline hover بـ `projectHover({imageScale:'105'})` (السطور 60/94/100).
-- [ ] `blocked` — السبب: محتاج server M2 (`/home-featured/populated`) يكون موجود.
-- [ ] **executable check:** `pnpm typecheck` + `pnpm build`. ثم `pnpm dev` + مراجعة بصرية: الهوم بيعرض المشاريع المميزة بالترتيب، hover بنفس التأثيرات، لو <3 الـ grid يتقلّص، لو 0 → empty fallback. `in-progress`
+- [x] `app/components/landing/Projects.vue`: استبدل endpoint بـ `useAPI('/home-featured/populated', {key:'landing-projects'})`. تبسيط الـ computed (شيل `slice(0,3)` — الـ endpoint بيرجّع ≤3) + `cloudinaryTransformFor(src, 'thumb')`. أضف empty branch `LandingSectionFallback v-else state="empty"`. استبدل `NuxtImg` بـ `ProjectImage`. استبدل inline hover بـ `projectHover({imageScale:'105'})` (card + image + arrow).
+- [x] ~~`blocked` — محتاج server M2~~ — **اتحلّ:** server M2 (`/home-featured/populated`) اتبنى في نفس الجلسة قبل الـ client.
+- [x] **executable check:** ✔️ `pnpm typecheck` — كل ملفاتي (بما فيهم `landing/Projects.vue`) صفر أخطاء (بس `useAPI.ts` الـ pre-existing). ✔️ `pnpm build` (SSR) نجح (exit 0، "Build complete!"). ✔️ `pnpm lint` نظيف. ✔️ **فحص بصري**: 3 مميزة + الترتيب + الـ hover classes مطبّقة (انظر M2 + M3 checks).

@@ -19,7 +19,7 @@ router
     controller.createOne
   );
 
-router.route('/all').get(controller.getAllNoPagination);
+router.route('/all').get(authController.protect, controller.getAllNoPagination);
 
 router
   .route('/delete-all')
