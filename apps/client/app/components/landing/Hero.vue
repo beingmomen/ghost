@@ -1,5 +1,10 @@
 <script setup>
 const { global } = useAppConfig()
+
+// الداتا محلولة أصلاً من index.vue (SSR block nav) — بنقراها بدون pending/skeleton.
+// لو الـ info فشل/فاضي، الزرار مايظهرش (v-if) — المسار الفارغ يرندر لا شيء.
+const { data: landing } = useNuxtData('landing')
+const resumeUrl = computed(() => landing.value?.info?.resumeUrl)
 </script>
 
 <template>
@@ -40,7 +45,7 @@ const { global } = useAppConfig()
               class="gap-2 rounded-full"
               :to="global.available ? global.meetingLink : ''"
               :target="global.available ? '_blank' : undefined"
-              :label="global.available ? 'متاح للمشاريع الجديدة' : 'غير متاح حالياً'"
+              :label="global.available ? global.availableLabel : global.unavailableLabel"
             >
               <template #leading>
                 <span class="relative flex size-2">
@@ -88,6 +93,16 @@ const { global } = useAppConfig()
               :key="link.to"
               v-bind="link"
               size="lg"
+            />
+            <UButton
+              v-if="resumeUrl"
+              label="السيرة الذاتية"
+              :to="resumeUrl"
+              target="_blank"
+              color="neutral"
+              variant="outline"
+              size="lg"
+              icon="i-lucide-download"
             />
           </div>
 

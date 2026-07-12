@@ -8,6 +8,11 @@ const {
   statusOptions,
   resourcesList
 } = inject('composable');
+
+const { label: descCounter, colorClass: descCounterClass } = useCharacterCounter(
+  () => state.description,
+  { min: 60, max: 160 }
+);
 </script>
 
 <template>
@@ -59,11 +64,17 @@ const {
         v-model="state.description"
         name="description"
         label="وصف المقال"
-        placeholder="أدخل وصف المقال"
+        placeholder="وصف موجز للمقال يصلح كـ meta description"
+        help="وصف صادق يلخّص موضوع المقال — بين 60 و160 حرف."
         :rows="4"
+        :maxlength="160"
         required
         class="col-span-full"
-      />
+      >
+        <template #hint>
+          <span class="text-xs" :class="descCounterClass">{{ descCounter }}</span>
+        </template>
+      </BaseTextarea>
 
       <BaseSwitch
         v-model="state.isArabicArticle"

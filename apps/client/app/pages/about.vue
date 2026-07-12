@@ -1,4 +1,6 @@
 <script setup>
+import { IDENTITY } from '#shared/identity'
+
 const { global } = useAppConfig()
 const config = useRuntimeConfig()
 
@@ -14,11 +16,18 @@ const { data: experiences, error: expError, refresh: refreshExp } = await useAPI
   transform: response => Array.isArray(response) ? response : (response?.data || [])
 })
 
+// نبذة صفحة about (الهيرو) — المسودّة المعتمدة.
+const heroDescription = `${IDENTITY.title} منذ ${IDENTITY.since}. أبني واجهات ويب نظيفة وسريعة، وأنظمة تصميم متّسقة تكبر مع المنتج.`
+// وصف SEO فريد للصفحة (≤160).
+const pageDescription = `${IDENTITY.title} منذ ${IDENTITY.since} — قصّتي، مهاراتي، والمشاريع اللي اشتغلت عليها.`
+
+const resumeUrl = computed(() => infoData.value?.resumeUrl)
+
 const page = computed(() => {
   const info = infoData.value || {}
   return {
     title: 'نبذة عني',
-    description: 'Frontend Engineer بخبرة تزيد عن 5 سنوات. أبني تطبيقات ويب حديثة وعالية الأداء مع التركيز على تجربة المستخدم.',
+    description: heroDescription,
     story: {
       paragraphs: info.bio?.paragraphs || [],
       quote: info.bio?.quote || ''
@@ -30,8 +39,6 @@ const page = computed(() => {
     }))
   }
 })
-
-const pageDescription = 'Frontend Engineer بخبرة تزيد عن 5 سنوات. أبني تطبيقات ويب حديثة وعالية الأداء مع التركيز على تجربة المستخدم.'
 
 useSeoMeta({
   title: 'نبذة عني | عبدالمؤمن الشطوري',
@@ -126,12 +133,22 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
               size="md"
             />
             <UButton
+              v-if="resumeUrl"
+              label="السيرة الذاتية"
+              :to="resumeUrl"
+              target="_blank"
+              color="neutral"
+              variant="outline"
+              size="md"
+              icon="i-lucide-download"
+            />
+            <UButton
               :color="global.available ? 'success' : 'error'"
               variant="ghost"
               class="gap-2"
               :to="global.available ? global.meetingLink : ''"
               :target="global.available ? '_blank' : undefined"
-              :label="global.available ? 'متاح للمشاريع الجديدة' : 'غير متاح حالياً'"
+              :label="global.available ? global.availableLabel : global.unavailableLabel"
             >
               <template #leading>
                 <span class="relative flex size-2">

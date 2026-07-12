@@ -37,7 +37,7 @@ const paginatedPosts = computed(() => {
 const totalPages = computed(() => Math.ceil(posts.value.length / pageSize))
 
 const config = useRuntimeConfig()
-const pageDescription = 'اكتشف أحدث المقالات والمدونات حول تطوير الويب والبرمجة وأفضل الممارسات في عالم التكنولوجيا'
+const pageDescription = 'مقالات تقنية عن تطوير الويب وأنظمة التصميم والأداء، من واقع الشغل.'
 
 useSeoMeta({
   title: 'المدونة | عبدالمؤمن الشطوري',

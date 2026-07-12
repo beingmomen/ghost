@@ -21,7 +21,9 @@ const schema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, 'Description is required'],
-      trim: true
+      trim: true,
+      minlength: [60, 'Description must be at least 60 characters'],
+      maxlength: [160, 'Description must be at most 160 characters']
     },
     content: {
       type: String,

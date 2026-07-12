@@ -19,11 +19,11 @@ function scrollToTop() {
           <h2
             class="font-display text-[clamp(1.5rem,4vw,2.25rem)] font-semibold leading-1.3 mb-3"
           >
-            هل لديك مشروع؟ لنعمل معاً
+            عندك مشروع أو فرصة؟
           </h2>
 
           <p class="text-base text-muted mb-6 max-w-lg mx-auto">
-            أنا متاح لمشاريع جديدة ومستعد لتحويل أفكارك إلى واقع رقمي مميز
+            متاح للفرص والمشاريع، عن بُعد — ويسعدني نتكلم.
           </p>
 
           <div

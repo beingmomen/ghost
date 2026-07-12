@@ -1,5 +1,9 @@
 # Database Content - محتوى قاعدة البيانات
 
+> **حدود أوصاف المحتوى:** `Project.description` بين 60-200 حرف و`Blog.description` بين
+> 60-160 حرف (مفروضة على مستوى الـ Mongoose schema + express-validator). لقواعد كتابة
+> المحتوى (الصدق، الطول، النبرة) راجع `docs/CONTENT_GUIDELINES.md` في جذر الريبو.
+
 ---
 
 ## 1. Project Model
@@ -13,6 +17,7 @@
 | `title`          | String     | Yes - `'Title is required'`             | Yes    | Yes   | Yes  | -          | -      | -                                                                                            |
 | `slug`           | String     | -                                       | -      | Yes   | -    | -          | -      | يتولد تلقائي من الـ title                                                                    |
 | `original_slug`  | String     | -                                       | -      | -     | -    | -          | -      | يتولد تلقائي من الـ title                                                                    |
+| `description`    | String     | Yes - `'Description is required'`       | -      | -     | Yes  | -          | -      | 60-200 حرف (minlength/maxlength)                                                             |
 | `tag`            | String     | Yes - `'Tag is required'`               | -      | -     | Yes  | -          | -      | -                                                                                            |
 | `isActive`       | Boolean    | -                                       | -      | -     | -    | `true`     | -      | -                                                                                            |
 | `url`            | String     | Yes - `'Url is required'`               | -      | -     | Yes  | -          | -      | لازم يكون URL صالح (بيستخدم `new URL()`) - `'Please provide a valid URL'`                    |
@@ -66,7 +71,7 @@
 | `title`           | String                                    | Yes - `'Title is required'`          | Yes    | Yes   | Yes  | -          | -                    | -                                    | -                                    |
 | `slug`            | String                                    | -                                    | -      | Yes   | -    | -          | -                    | -                                    | يتولد تلقائي من الـ title            |
 | `original_slug`   | String                                    | -                                    | -      | -     | -    | -          | -                    | -                                    | يتولد تلقائي من الـ title            |
-| `description`     | String                                    | Yes - `'Description is required'`    | -      | -     | Yes  | -          | -                    | -                                    | -                                    |
+| `description`     | String                                    | Yes - `'Description is required'`    | -      | -     | Yes  | -          | -                    | -                                    | 60-160 حرف (minlength/maxlength)     |
 | `content`         | String                                    | Yes - `'Content is required'`        | -      | -     | Yes  | -          | -                    | -                                    | بيتعالج تلقائي لاستخراج الـ headings |
 | `tableOfContents` | [{ id, text, level }]                     | -                                    | -      | -     | -    | `[]`       | -                    | -                                    | بيتولد تلقائي من الـ content         |
 | `image`           | String                                    | Yes - `'Image is required'`          | -      | -     | -    | -          | -                    | -                                    | -                                    |
@@ -143,51 +148,7 @@
 
 ---
 
-## 3. Service Model
-
-> موديل الخدمات - بيعرض الخدمات المقدمة
-
-**API:** `/api/v1/services`
-
-| Field            | Type     | Required                                | Unique | Index | Trim | Default    | Select | Validation                         |
-| ---------------- | -------- | --------------------------------------- | ------ | ----- | ---- | ---------- | ------ | ---------------------------------- |
-| `title`          | String   | Yes - `'Title is required'`             | Yes    | Yes   | Yes  | -          | -      | -                                  |
-| `slug`           | String   | -                                       | -      | Yes   | -    | -          | -      | يتولد تلقائي من الـ title          |
-| `original_slug`  | String   | -                                       | -      | -     | -    | -          | -      | يتولد تلقائي من الـ title          |
-| `description`    | String   | Yes - `'Description is required'`       | -      | -     | Yes  | -          | -      | -                                  |
-| `image`          | String   | Yes - `'Image is required'`             | -      | -     | -    | -          | -      | -                                  |
-| `altText`        | String   | Yes - `'Alt text is required'`          | -      | -     | Yes  | -          | -      | -                                  |
-| `createdAt`      | Date     | -                                       | -      | Yes   | -    | `Date.now` | Yes    | -                                  |
-| `user`           | ObjectId | Yes - `'Service must belong to a user'` | -      | Yes   | -    | -          | -      | ref: `User`                        |
-| `documentNumber` | Number   | -                                       | Yes    | Yes   | -    | -          | -      | auto-increment (من Counter Plugin) |
-
-### Indexes - الفهارس
-
-| Index                         | النوع |
-| ----------------------------- | ----- |
-| `{ slug: 1, user: 1 }`        | مركب  |
-| `{ createdAt: -1, title: 1 }` | مركب  |
-
-### Middleware
-
-- **Pre-save:** بيولد `original_slug` و `slug` من الـ `title`
-- **Pre-findOneAndUpdate:** بيحدث الـ `slug` لو الـ `title` اتغير
-
-### API Endpoints
-
-| Method | Route         | الوصف                        | الصلاحيات |
-| ------ | ------------- | ---------------------------- | --------- |
-| GET    | `/`           | كل الخدمات (paginated)       | عام       |
-| POST   | `/`           | إنشاء خدمة                   | admin/dev |
-| GET    | `/all`        | كل الخدمات (بدون pagination) | عام       |
-| DELETE | `/delete-all` | حذف كل الخدمات               | dev فقط   |
-| GET    | `/:id`        | خدمة بالـ ID                 | عام       |
-| PATCH  | `/:id`        | تحديث خدمة                   | admin/dev |
-| DELETE | `/:id`        | حذف خدمة                     | admin/dev |
-
----
-
-## 4. Skill Model
+## 3. Skill Model
 
 > موديل المهارات - بيعرض المهارات التقنية وبيستخدم كـ tags للمشاريع
 
@@ -229,7 +190,7 @@
 
 ---
 
-## 5. Client Model
+## 4. Client Model
 
 > موديل العملاء - بيعرض العملاء اللي اتعامل معاهم
 
@@ -273,7 +234,7 @@
 
 ---
 
-## 6. Contact Model
+## 5. Contact Model
 
 > موديل الرسائل - بيستقبل رسائل التواصل من الزوار
 
@@ -314,7 +275,7 @@
 
 ---
 
-## 7. Testimonial Model
+## 6. Testimonial Model
 
 > موديل التوصيات/الشهادات - بيستقبل آراء العملاء وبيحتاج تأكيد من الأدمن
 
@@ -356,7 +317,7 @@
 
 ---
 
-## 8. Resource Model
+## 7. Resource Model
 
 > موديل المصادر/الروابط المفيدة
 
@@ -398,7 +359,7 @@
 
 ---
 
-## 9. Info Model
+## 8. Info Model
 
 > موديل المعلومات العامة - حاليا بيحتوي على رابط السيرة الذاتية فقط
 
@@ -435,7 +396,7 @@
 
 **الملف:** `models/plugins/counterPlugin.js`
 
-**مستخدم في:** Project, Blog, Service, Skill, Client, Contact, Testimonial, Resource
+**مستخدم في:** Project, Blog, Skill, Client, Contact, Testimonial, Resource
 
 | Field            | Type   | Unique | Index | الوصف                                       |
 | ---------------- | ------ | ------ | ----- | ------------------------------------------- |

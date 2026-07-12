@@ -1,9 +1,10 @@
+import { IDENTITY } from '#shared/identity'
+
 export default defineAppConfig({
   global: {
-    fullName: 'عبدالمؤمن الشطوري',
-    title: 'Frontend Engineer',
-    description:
-      'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء مع التركيز على تجربة المستخدم.',
+    fullName: IDENTITY.fullName,
+    title: IDENTITY.title,
+    description: IDENTITY.description,
     links: [
       { label: 'عرض أعمالي', to: '/projects', color: 'primary', trailingIcon: 'i-lucide-arrow-left' },
       { label: 'تواصل معي', to: '/contact', color: 'neutral', variant: 'outline' }
@@ -16,7 +17,9 @@ export default defineAppConfig({
     },
     meetingLink: 'https://cal.com/beingmomen',
     email: 'abdelmomenelshatory@gmail.com',
-    available: true,
+    available: IDENTITY.available,
+    availableLabel: IDENTITY.availableLabel,
+    unavailableLabel: IDENTITY.unavailableLabel,
     socialLinks: [
       {
         to: 'https://www.linkedin.com/in/beingmomen/',
@@ -35,9 +38,8 @@ export default defineAppConfig({
       }
     ],
     aboutSection: {
-      title: 'من أنا؟',
       description:
-        'بدأت من تطوير الواجهات وتعمّقت تدريجياً في بناء أنظمة التصميم (design systems) وتحسين أداء التطبيقات. عملت مع ثلاث شركات على مشاريع مختلفة، وفي كل واجهة جديدة أتعلّم طريقة أوضح لحل المشكلة.'
+        'بدأت من تطوير الواجهات، وتعمّقت مع الوقت في أنظمة التصميم وأداء التطبيقات. اشتغلت مع شركتين وعملاء مستقلّين على مشاريع مختلفة، وكل واجهة جديدة بتوريني طريقة أوضح لحل المشكلة.'
     }
   },
   ui: {

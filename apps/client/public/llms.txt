@@ -1,9 +1,9 @@
 # عبدالمؤمن الشطوري - Abdelmomen Elshatory
 
-> Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء
+> Frontend Engineer يبني واجهات وتطبيقات ويب حديثة وعالية الأداء منذ 2021
 
 ## About
-Abdelmomen Elshatory (عبدالمؤمن الشطوري) is a frontend engineer with 5+ years of experience building modern, high-performance web applications with a focus on user experience. Available for freelance projects.
+Abdelmomen Elshatory (عبدالمؤمن الشطوري) is a frontend engineer building modern, high-performance web applications with a focus on user experience since 2021. Available for full-time roles and freelance projects.
 
 ## Skills
 - Vue.js, Nuxt.js, React, TypeScript

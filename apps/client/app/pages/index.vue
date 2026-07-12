@@ -1,5 +1,9 @@
 <script setup>
+import { IDENTITY } from '#shared/identity'
+
 const config = useRuntimeConfig()
+
+const pageTitle = `${IDENTITY.fullName} | ${IDENTITY.title}`
 
 const { error: landingError, refresh: refreshLanding } = await useAPI('/landing', {
   key: 'landing',
@@ -14,10 +18,10 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        'name': 'عبدالمؤمن الشطوري',
-        'alternateName': 'Abdelmomen Elshatory',
+        'name': IDENTITY.fullName,
+        'alternateName': IDENTITY.fullNameEn,
         'url': config.public.siteUrl,
-        'description': 'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء',
+        'description': IDENTITY.seoDescription,
         'inLanguage': 'ar'
       })
     }
@@ -25,19 +29,19 @@ useHead({
 })
 
 useSeoMeta({
-  title: 'عبدالمؤمن الشطوري | Frontend Engineer',
-  description: 'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء. تصفح مشاريعي العملية، آراء العملاء، واتصل بي مباشرة لتنفيذ أفكارك التقنية.',
-  ogTitle: 'عبدالمؤمن الشطوري | Frontend Engineer',
-  ogDescription: 'حلول برمجية مبتكرة وتجارب مستخدم استثنائية — تصفح أعمالي واحصل على استشارة مجانية الآن',
+  title: pageTitle,
+  description: IDENTITY.seoDescription,
+  ogTitle: IDENTITY.ogTitle,
+  ogDescription: IDENTITY.ogDescription,
   ogType: 'website',
   ogLocale: 'ar_EG',
-  ogSiteName: 'عبدالمؤمن الشطوري',
+  ogSiteName: IDENTITY.fullName,
   twitterCard: 'summary_large_image',
-  twitterTitle: 'عبدالمؤمن الشطوري | Frontend Engineer',
-  twitterDescription: 'حلول برمجية مبتكرة وتجارب مستخدم استثنائية — تصفح أعمالي واحصل على استشارة مجانية',
+  twitterTitle: IDENTITY.ogTitle,
+  twitterDescription: IDENTITY.ogDescription,
   twitterSite: '@beingmomen',
   twitterCreator: '@beingmomen',
-  author: 'عبدالمؤمن الشطوري'
+  author: IDENTITY.fullName
 })
 </script>
 
@@ -53,7 +57,6 @@ useSeoMeta({
       />
     </UPageSection>
 
-    <LazyLandingStats />
     <LazyLandingProjects />
     <LazyLandingBlog />
     <LazyLandingTestimonials

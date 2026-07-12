@@ -5,7 +5,10 @@ export const useProjectSchema = () => {
     z.object({
       title: z.string({ message: 'العنوان مطلوب' }).min(1, 'العنوان مطلوب'),
       tag: z.string({ message: 'الوسم مطلوب' }).min(1, 'الوسم مطلوب'),
-      description: z.string({ message: 'الوصف مطلوب' }).min(1, 'الوصف مطلوب'),
+      description: z
+        .string({ message: 'الوصف مطلوب' })
+        .min(60, 'الوصف يجب أن يكون 60 حرفًا على الأقل')
+        .max(200, 'الوصف يجب ألا يتجاوز 200 حرف'),
       url: z.string({ message: 'الرابط مطلوب' }).url('الرابط غير صالح'),
       skillIds: z
         .array(z.string({ message: 'المهارات مطلوبة' }), {

@@ -1,7 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
 const Project = require('../models/projectModel');
-const Service = require('../models/serviceModel');
-const Skill = require('../models/skillModel');
 const Testimonial = require('../models/testimonialModel');
 const Client = require('../models/clientModel');
 const Info = require('../models/infoModel');
@@ -10,8 +8,6 @@ const Faq = require('../models/faqModel');
 
 exports.getLandingData = catchAsync(async (req, res, next) => {
   const [
-    skills,
-    services,
     testimonials,
     projects,
     projectsCount,
@@ -20,14 +16,6 @@ exports.getLandingData = catchAsync(async (req, res, next) => {
     experiences,
     faqs
   ] = await Promise.all([
-    Skill.find().select('title icon -_id').sort('-createdAt').limit(20).lean(),
-
-    Service.find()
-      .select('title description altText image -_id')
-      .sort('-createdAt')
-      .limit(20)
-      .lean(),
-
     Testimonial.find({ isConfirmed: true })
       .select('name description image -_id')
       .sort('-createdAt')
@@ -48,7 +36,7 @@ exports.getLandingData = catchAsync(async (req, res, next) => {
 
     Client.find().select('image name -_id').sort('-createdAt').limit(20).lean(),
 
-    Info.findOne().select('resumeUrl bio stats skills images -_id').lean(),
+    Info.findOne().select('resumeUrl bio skills images -_id').lean(),
 
     Experience.find()
       .select(
@@ -66,8 +54,6 @@ exports.getLandingData = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      skills,
-      services,
       testimonials,
       projects,
       projectsTotal: projectsCount,

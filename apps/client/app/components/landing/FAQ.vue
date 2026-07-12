@@ -23,7 +23,6 @@ const faqData = computed(() => {
     })
   }
   return {
-    title: 'الأسئلة الشائعة',
     description: 'إجابات على الأسئلة الأكثر شيوعاً',
     categories: Object.entries(categoryMap).map(([title, questions]) => ({
       title,

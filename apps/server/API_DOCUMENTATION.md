@@ -13,7 +13,6 @@
   - [User Management (Admin)](#user-management-admin)
   - [Projects](#projects)
   - [Blogs](#blogs)
-  - [Services](#services)
   - [Skills](#skills)
   - [Clients](#clients)
   - [Testimonials](#testimonials)
@@ -126,15 +125,6 @@ Public endpoint that returns all data needed for the landing page in a single re
 {
   "status": "success",
   "data": {
-    "skills": [{ "title": "Firebase", "icon": "i-logos-firebase" }],
-    "services": [
-      {
-        "title": "Web Development",
-        "description": "...",
-        "altText": "...",
-        "image": "https://..."
-      }
-    ],
     "testimonials": [
       {
         "name": "John",
@@ -529,7 +519,7 @@ Deletes user. Returns 404 if target is `dev` and requester is not `dev`.
 | Field             | Type     | Required | Validation                                               |
 | ----------------- | -------- | -------- | -------------------------------------------------------- |
 | `title`           | String   | Yes      | 2-200 chars, unique                                      |
-| `description`     | String   | Yes      | 10-500 chars                                             |
+| `description`     | String   | Yes      | 60-160 chars                                             |
 | `content`         | String   | No       | HTML content                                             |
 | `tags`            | String[] | Yes      | Array of strings, min 3 items, each 2-50 chars           |
 | `keywords`        | String   | Yes      | 2-200 chars                                              |
@@ -559,79 +549,6 @@ Deletes user. Returns 404 if target is `dev` and requester is not `dev`.
 ---
 
 #### `DELETE /blogs/delete-all`
-
-- **Auth:** Protected (`dev` only)
-
----
-
-### Services
-
-#### `GET /services`
-
-- **Auth:** None (public)
-- **Query:** [Common query parameters](#common-query-parameters)
-
-**Response item:**
-
-```json
-{
-  "_id": "...",
-  "documentNumber": 1,
-  "title": "Web Development",
-  "slug": "web-development",
-  "description": "Full-stack web development services...",
-  "image": "https://cloudinary.../image.webp",
-  "altText": "Web development illustration",
-  "user": "userId",
-  "createdAt": "...",
-  "updatedAt": "..."
-}
-```
-
----
-
-#### `GET /services/all`
-
-- **Auth:** Protected (admin/dev)
-
----
-
-#### `GET /services/:id`
-
-- **Auth:** None (public)
-
----
-
-#### `POST /services`
-
-- **Auth:** Protected (admin/dev)
-- **Content-Type:** `multipart/form-data`
-
-| Field         | Type   | Required | Validation          |
-| ------------- | ------ | -------- | ------------------- |
-| `title`       | String | Yes      | 2-100 chars, unique |
-| `description` | String | Yes      | 10-1000 chars       |
-| `altText`     | String | Yes      | 2-200 chars         |
-| `image`       | File   | Yes      | Image file          |
-
----
-
-#### `PATCH /services/:id`
-
-- **Auth:** Protected (admin/dev)
-- **Content-Type:** `multipart/form-data`
-- All fields optional
-
----
-
-#### `DELETE /services/:id`
-
-- **Auth:** Protected (admin/dev)
-- **Response:** `204`
-
----
-
-#### `DELETE /services/delete-all`
 
 - **Auth:** Protected (`dev` only)
 
@@ -1093,7 +1010,7 @@ Liveness probe.
 
 ## Image Upload Notes
 
-Resources with images (`projects`, `blogs`, `services`, `clients`, `testimonials`, `users`) use:
+Resources with images (`projects`, `blogs`, `clients`, `testimonials`, `users`) use:
 
 - **Content-Type:** `multipart/form-data`
 - **Field name:** `image` (or `photo` for users)

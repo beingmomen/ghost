@@ -7,7 +7,8 @@ export const useBlogSchema = (isEditing) => {
       .min(1, 'عنوان المقال مطلوب'),
     description: z
       .string({ message: 'وصف المقال مطلوب' })
-      .min(1, 'وصف المقال مطلوب'),
+      .min(60, 'وصف المقال يجب أن يكون 60 حرفًا على الأقل')
+      .max(160, 'وصف المقال يجب ألا يتجاوز 160 حرف'),
     content: z.any().optional(),
     altText: z.string().optional(),
     tags: z

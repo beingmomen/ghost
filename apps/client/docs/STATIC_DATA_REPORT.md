@@ -84,16 +84,11 @@ ui.colors.neutral  = 'neutral'
 
 ---
 
-## 6. `app/components/landing/Stats.vue`
+## 6. ~~`app/components/landing/Stats.vue`~~ ❌ تم الحذف
 
-**النوع:** أرقام إنجازات — **4 إحصائيات**
-
-| القيمة | التسمية |
-|--------|---------|
-| +5 | سنوات خبرة |
-| +10 | مشروع منجز |
-| 3 | شركات |
-| 100% | التزام بالجودة |
+> **تم حذف السكشن بالكامل** (تدقيق المحتوى 2026-07) — كان جملة أرقام غير موثّقة
+> («+5 سنوات»، «+50 عميل»…) تتعارض مع هدف الصدق و«الحضور الهادئ». اتشال من
+> `index.vue` والملف اتحذف.
 
 ---
 
@@ -189,10 +184,10 @@ schemaOrg:      Person (name, jobTitle, email, sameAs, knowsLanguage)
 |-------|-------------|--------|
 | ~~`app/composables/useExperiences.js`~~ | خبرات العمل (3 وظائف كاملة) | ✅ تم النقل |
 | ~~`app/pages/about.vue`~~ | قصة، مهارات، إحصائيات، صور | ✅ تم النقل |
-| `app/app.config.ts` | معلومات اتصال، صورة، availability | 🔴 عالية جداً |
+| `app/app.config.ts` | معلومات اتصال، صورة، availability (ثوابت الهوية تشتق من `shared/identity.ts`) | 🔴 عالية جداً |
 | ~~`app/components/landing/FAQ.vue`~~ | 3 فئات، 8 أسئلة وأجوبة | ✅ تم النقل |
 | `app/components/landing/Hero.vue` | عنوان، وصف، 5 صور مشاريع | 🟠 عالية |
-| `app/components/landing/Stats.vue` | 4 إحصائيات | 🟡 متوسطة |
+| ~~`app/components/landing/Stats.vue`~~ | 4 إحصائيات | ❌ تم الحذف |
 | `app/components/landing/About.vue` | نص قصير | 🟡 متوسطة |
 | `app/utils/links.ts` | روابط Nav و Social | 🟡 متوسطة |
 | `app/components/AppFooter.vue` | quickLinks, guides, aiTools | 🟡 متوسطة |

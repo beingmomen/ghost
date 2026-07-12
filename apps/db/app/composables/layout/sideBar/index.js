@@ -26,11 +26,6 @@ export const useSidebar = () => {
         label: 'مشاريع الهوم',
         icon: 'i-lucide-star',
         to: '/home-featured'
-      },
-      {
-        label: 'الخدمات',
-        icon: 'i-lucide-briefcase',
-        to: '/services'
       }
     ],
     // البيانات

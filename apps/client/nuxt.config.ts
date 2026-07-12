@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { IDENTITY } from './shared/identity'
+
 const baseUrlOrigin = process.env.BASE_URL
   ? new URL(process.env.BASE_URL).origin
   : ''
@@ -21,8 +23,7 @@ export default defineNuxtConfig({
       meta: [
         {
           name: 'description',
-          content:
-            'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء. تصفح مشاريعي العملية، آراء العملاء، واتصل بي مباشرة لتنفيذ أفكارك التقنية.'
+          content: IDENTITY.seoDescription
         },
         {
           name: 'keywords',
@@ -31,13 +32,11 @@ export default defineNuxtConfig({
         },
         {
           property: 'og:title',
-          content:
-            'عبدالمؤمن الشطوري - Frontend Engineer | مشاريع واقعية لأكثر من +50 عميل'
+          content: IDENTITY.ogTitle
         },
         {
           property: 'og:description',
-          content:
-            'حلول برمجية مبتكرة وتجارب مستخدم استثنائية — تصفح أعمالي واحصل على استشارة مجانية الآن'
+          content: IDENTITY.ogDescription
         },
         {
           name: 'google-site-verification',
@@ -62,9 +61,8 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.SITE_URL,
-    name: 'عبدالمؤمن الشطوري',
-    description:
-      'Frontend Engineer بخبرة تزيد عن 5 سنوات في بناء تطبيقات ويب حديثة وعالية الأداء',
+    name: IDENTITY.fullName,
+    description: IDENTITY.seoDescription,
     defaultLocale: 'ar'
   },
 

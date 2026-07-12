@@ -11,8 +11,8 @@ exports.createBlogRules = [
     .trim()
     .notEmpty()
     .withMessage('Description is required.')
-    .isLength({ min: 10, max: 500 })
-    .withMessage('Description must be between 10 and 500 characters.'),
+    .isLength({ min: 60, max: 160 })
+    .withMessage('Description must be between 60 and 160 characters.'),
   body('content').optional().trim(),
   body('tags').isArray({ min: 3 }).withMessage('At least 3 tags are required.'),
   body('tags.*')
@@ -52,8 +52,8 @@ exports.updateBlogRules = [
   body('description')
     .optional()
     .trim()
-    .isLength({ min: 10, max: 500 })
-    .withMessage('Description must be between 10 and 500 characters.'),
+    .isLength({ min: 60, max: 160 })
+    .withMessage('Description must be between 60 and 160 characters.'),
   body('content').optional().trim(),
   body('tags')
     .optional()

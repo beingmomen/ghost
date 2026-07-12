@@ -4,7 +4,6 @@ const INITIAL_STATE = {
     paragraphs: [''],
     quote: ''
   },
-  stats: [{ value: '', label: '', icon: '' }],
   skills: [{ title: '', icon: '', items: [{ name: '', icon: '' }] }],
   images: [{ src: null, alt: '' }]
 };
@@ -23,9 +22,6 @@ export const useInfoForm = () => {
         paragraphs: data.bio?.paragraphs?.length ? [...data.bio.paragraphs] : [''],
         quote: data.bio?.quote || ''
       },
-      stats: data.stats?.length
-        ? data.stats.map((s) => ({ value: s.value || '', label: s.label || '', icon: s.icon || '' }))
-        : [{ value: '', label: '', icon: '' }],
       skills: data.skills?.length
         ? data.skills.map((s) => ({
             title: s.title || '',
@@ -48,7 +44,6 @@ export const useInfoForm = () => {
         paragraphs: state.bio.paragraphs.filter((p) => p.trim()),
         quote: state.bio.quote
       },
-      stats: state.stats.filter((s) => s.value || s.label),
       skills: state.skills
         .filter((s) => s.title)
         .map((s) => ({

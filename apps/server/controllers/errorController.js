@@ -150,6 +150,17 @@ module.exports = async (err, req, res, next) => {
     }". Please provide a valid ${err.path === '_id' ? 'ID' : 'value'}`;
   }
 
+  // Mark Mongoose ValidationError as operational (e.g. minlength/maxlength)
+  // so production returns a clear 400 with the field message instead of a
+  // generic 500 "Something went wrong!".
+  if (err.name === 'ValidationError' && err.errors) {
+    err.isOperational = true;
+    err.statusCode = 400;
+    err.message = Object.values(err.errors)
+      .map(el => el.message)
+      .join(' ');
+  }
+
   // Handle JWT-related TypeError specifically
   if (err instanceof TypeError && err.message.includes('jwt')) {
     err.isOperational = true;

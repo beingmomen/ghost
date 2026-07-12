@@ -685,9 +685,6 @@
           <a class="nav-link" href="#blogs">
             <span class="dot" style="background:var(--yellow)"></span> Blogs
           </a>
-          <a class="nav-link" href="#services">
-            <span class="dot" style="background:var(--red)"></span> Services
-          </a>
           <a class="nav-link" href="#skills">
             <span class="dot" style="background:var(--purple)"></span> Skills
           </a>
@@ -877,7 +874,7 @@
               <div class="endpoint-header" onclick="toggleEndpoint(this)">
                 <span class="method-badge method-GET">GET</span>
                 <span class="endpoint-path">/api/v1/landing</span>
-                <span class="endpoint-desc">Aggregated landing page data (skills, services, testimonials, projects, clients, info)</span>
+                <span class="endpoint-desc">Aggregated landing page data (testimonials, projects, clients, info)</span>
                 <span class="auth-badge public">Public</span>
                 <span class="expand-icon">&#9654;</span>
               </div>
@@ -1314,22 +1311,6 @@
           ],
         },
         {
-          id: 'services', name: 'Services', base: '/api/v1/services',
-          hasImages: true, hasDeleteAll: true,
-          createFields: [
-            { name: 'title', type: 'text', required: true, info: '2-100 chars, unique' },
-            { name: 'description', type: 'textarea', required: true, info: '10-1000 chars' },
-            { name: 'altText', type: 'text', required: true, info: '2-200 chars' },
-            { name: 'image', type: 'file', required: true },
-          ],
-          updateFields: [
-            { name: 'title', type: 'text', info: '2-100 chars' },
-            { name: 'description', type: 'textarea', info: '10-1000 chars' },
-            { name: 'altText', type: 'text', info: '2-200 chars' },
-            { name: 'image', type: 'file' },
-          ],
-        },
-        {
           id: 'skills', name: 'Skills', base: '/api/v1/skills',
           hasImages: false, hasDeleteAll: true,
           createFields: [
@@ -1442,18 +1423,6 @@
           uniqueViews: 150,
           status: 'published',
           isArabicArticle: true,
-          user: '507f1f77bcf86cd799439015',
-          createdAt: '2025-01-15T10:30:00.000Z',
-          updatedAt: '2025-01-15T10:30:00.000Z',
-        },
-        services: {
-          _id: '507f1f77bcf86cd799439030',
-          num: 1,
-          title: 'Web Development',
-          slug: 'web-development',
-          description: 'Full-stack web development services using modern technologies',
-          image: 'service-1.webp',
-          altText: 'Web development service',
           user: '507f1f77bcf86cd799439015',
           createdAt: '2025-01-15T10:30:00.000Z',
           updatedAt: '2025-01-15T10:30:00.000Z',
@@ -1805,7 +1774,7 @@
         'GET /health': { status: 'success', data: { status: 'healthy', database: 'connected', cloudinary: 'connected', uptime: '2h 15m', timestamp: '2025-01-15T10:30:00.000Z' } },
         'GET /health/ready': { status: 'success', data: { ready: true } },
         'GET /health/live': { status: 'success', data: { live: true } },
-        'GET /api/v1/landing': { status: 'success', data: { skills: [exampleDocs.skills], services: [exampleDocs.services], testimonials: [exampleDocs.testimonials], projects: [exampleDocs.projects], clients: [exampleDocs.clients], info: [exampleDocs.infos] } },
+        'GET /api/v1/landing': { status: 'success', data: { testimonials: [exampleDocs.testimonials], projects: [exampleDocs.projects], clients: [exampleDocs.clients], info: [exampleDocs.infos] } },
         'POST /api/v1/users/signup': { status: 'success', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', data: exampleDocs.users },
         'POST /api/v1/users/login': { status: 'success', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', data: exampleDocs.users },
         'POST /api/v1/users/logout': { status: 'success' },

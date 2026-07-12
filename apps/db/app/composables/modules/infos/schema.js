@@ -8,13 +8,6 @@ export const useInfoSchema = () => {
         paragraphs: z.array(z.string()).optional(),
         quote: z.string().optional()
       }).optional(),
-      stats: z.array(
-        z.object({
-          value: z.string({ message: 'القيمة مطلوبة' }),
-          label: z.string({ message: 'العنوان مطلوب' }),
-          icon: z.string().optional()
-        })
-      ).optional(),
       skills: z.array(
         z.object({
           title: z.string({ message: 'عنوان المهارة مطلوب' }),

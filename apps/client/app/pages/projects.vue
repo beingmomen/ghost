@@ -21,7 +21,7 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
 
 const hover = projectHover({ imageScale: '103' })
 
-const pageDescription = 'استعرض مشاريعي في تطوير الويب وبناء تطبيقات حديثة وعالية الأداء'
+const pageDescription = 'مشاريع ويب حقيقية اشتغلت عليها — واجهات وتطبيقات بُنيت بإتقان.'
 
 useSeoMeta({
   title: 'المشاريع | عبدالمؤمن الشطوري',

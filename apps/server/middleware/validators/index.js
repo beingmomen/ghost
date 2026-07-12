@@ -13,10 +13,6 @@ const {
   updateProjectRules
 } = require('./project.validator');
 const { createBlogRules, updateBlogRules } = require('./blog.validator');
-const {
-  createServiceRules,
-  updateServiceRules
-} = require('./service.validator');
 const { createSkillRules, updateSkillRules } = require('./skill.validator');
 const { createClientRules, updateClientRules } = require('./client.validator');
 const {
@@ -63,8 +59,6 @@ module.exports = {
   updateProjectRules,
   createBlogRules,
   updateBlogRules,
-  createServiceRules,
-  updateServiceRules,
   createSkillRules,
   updateSkillRules,
   createClientRules,

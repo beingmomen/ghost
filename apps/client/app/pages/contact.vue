@@ -7,15 +7,15 @@ const { loading, post } = useApiRequest()
 
 useSeoMeta({
   title: 'تواصل معنا | عبدالمؤمن الشطوري',
-  description: 'تواصل مع عبدالمؤمن الشطوري لمناقشة مشروعك القادم. هنا لمساعدتك في تحويل أفكارك التقنية إلى واقع.',
+  description: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',
   ogTitle: 'تواصل معنا | عبدالمؤمن الشطوري',
-  ogDescription: 'تواصل مع عبدالمؤمن الشطوري لمناقشة مشروعك القادم. هنا لمساعدتك في تحويل أفكارك التقنية إلى واقع.',
+  ogDescription: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',
   ogUrl: `${config.public.siteUrl}/contact`,
   ogType: 'website',
   ogLocale: 'ar_EG',
   twitterCard: 'summary_large_image',
   twitterTitle: 'تواصل معنا | عبدالمؤمن الشطوري',
-  twitterDescription: 'تواصل مع عبدالمؤمن الشطوري لمناقشة مشروعك القادم وتحويل فكرتك إلى واقع.',
+  twitterDescription: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',
   twitterSite: '@beingmomen',
   keywords: 'تواصل, اتصل بنا, عبدالمؤمن الشطوري, مطور ويب, استشارة برمجية'
 })
@@ -103,7 +103,7 @@ const contactPills = [
             :color="global.available ? 'success' : 'error'"
             variant="ghost"
             class="gap-2 cursor-default"
-            :label="global.available ? 'متاح للمشاريع الجديدة' : 'غير متاح حالياً'"
+            :label="global.available ? global.availableLabel : global.unavailableLabel"
           >
             <template #leading>
               <span class="relative flex size-2">
@@ -389,7 +389,7 @@ const contactPills = [
                   class="text-base font-medium"
                   :class="global.available ? 'text-success' : 'text-error'"
                 >
-                  {{ global.available ? 'متاح للمشاريع' : 'غير متاح حالياً' }}
+                  {{ global.available ? global.availableLabel : global.unavailableLabel }}
                 </span>
               </div>
               <span class="text-xs text-muted">

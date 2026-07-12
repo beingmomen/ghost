@@ -19,8 +19,8 @@ exports.createProjectRules = [
     .trim()
     .notEmpty()
     .withMessage('Description is required.')
-    .isLength({ min: 10, max: 1000 })
-    .withMessage('Description must be between 10 and 1000 characters.'),
+    .isLength({ min: 60, max: 200 })
+    .withMessage('Description must be between 60 and 200 characters.'),
   body('url')
     .trim()
     .notEmpty()
@@ -56,8 +56,8 @@ exports.updateProjectRules = [
   body('description')
     .optional()
     .trim()
-    .isLength({ min: 10, max: 1000 })
-    .withMessage('Description must be between 10 and 1000 characters.'),
+    .isLength({ min: 60, max: 200 })
+    .withMessage('Description must be between 60 and 200 characters.'),
   body('url')
     .optional()
     .trim()

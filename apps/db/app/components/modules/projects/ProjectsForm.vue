@@ -7,6 +7,11 @@ const {
   isEditing,
   skillsList
 } = inject('composable');
+
+const { label: descCounter, colorClass: descCounterClass } = useCharacterCounter(
+  () => state.description,
+  { min: 60, max: 200 }
+);
 </script>
 
 <template>
@@ -65,12 +70,18 @@ const {
         <BaseTextarea
           v-model="state.description"
           :rows="4"
+          :maxlength="200"
           name="description"
           label="الوصف"
-          placeholder="أدخل وصف موجز عن المشروع"
+          placeholder="وصف موجز: المشروع بيعمل إيه ولمين"
+          help="وصف صادق يحكي ماذا يقدّم المشروع ولِمن — بين 60 و200 حرف."
           class="col-span-full"
           required
-        />
+        >
+          <template #hint>
+            <span class="text-xs" :class="descCounterClass">{{ descCounter }}</span>
+          </template>
+        </BaseTextarea>
 
         <BaseInput
           v-model="state.altText"

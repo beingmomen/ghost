@@ -23,14 +23,6 @@ const schema = new mongoose.Schema(
         trim: true
       }
     },
-    stats: [
-      {
-        value: { type: String, trim: true },
-        label: { type: String, trim: true },
-        icon: { type: String, trim: true },
-        _id: false
-      }
-    ],
     skills: [
       {
         title: { type: String, trim: true },

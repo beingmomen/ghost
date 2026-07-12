@@ -8,22 +8,34 @@ const {
 } = inject('composable');
 
 // Bio paragraphs
-function addParagraph() { state.bio.paragraphs.push(''); }
-function removeParagraph(i) { state.bio.paragraphs.splice(i, 1); }
-
-// Stats
-function addStat() { state.stats.push({ value: '', label: '', icon: '' }); }
-function removeStat(i) { state.stats.splice(i, 1); }
+function addParagraph() {
+  state.bio.paragraphs.push('');
+}
+function removeParagraph(i) {
+  state.bio.paragraphs.splice(i, 1);
+}
 
 // Skills
-function addSkill() { state.skills.push({ title: '', icon: '', items: [{ name: '', icon: '' }] }); }
-function removeSkill(i) { state.skills.splice(i, 1); }
-function addSkillItem(si) { state.skills[si].items.push({ name: '', icon: '' }); }
-function removeSkillItem(si, ii) { state.skills[si].items.splice(ii, 1); }
+function addSkill() {
+  state.skills.push({ title: '', icon: '', items: [{ name: '', icon: '' }] });
+}
+function removeSkill(i) {
+  state.skills.splice(i, 1);
+}
+function addSkillItem(si) {
+  state.skills[si].items.push({ name: '', icon: '' });
+}
+function removeSkillItem(si, ii) {
+  state.skills[si].items.splice(ii, 1);
+}
 
 // Images
-function addImage() { state.images.push({ src: null, alt: '' }); }
-function removeImage(i) { state.images.splice(i, 1); }
+function addImage() {
+  state.images.push({ src: null, alt: '' });
+}
+function removeImage(i) {
+  state.images.splice(i, 1);
+}
 </script>
 
 <template>
@@ -81,42 +93,6 @@ function removeImage(i) { state.images.splice(i, 1); }
           label="الاقتباس"
           placeholder="اقتباس ملهم..."
         />
-
-        <!-- Stats Section -->
-        <USeparator label="الإحصائيات" class="col-span-full" />
-
-        <div class="col-span-full space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">الإحصائيات</span>
-            <UButton
-              label="إضافة"
-              icon="i-lucide-plus"
-              size="xs"
-              variant="outline"
-              @click="addStat"
-            />
-          </div>
-          <div v-for="(stat, i) in state.stats" :key="i" class="grid grid-cols-3 gap-2 items-start">
-            <BaseInput v-model="stat.value" :name="`stats.${i}.value`" placeholder="القيمة" />
-            <BaseInput v-model="stat.label" :name="`stats.${i}.label`" placeholder="العنوان" />
-            <div class="flex gap-2">
-              <BaseInput
-                v-model="stat.icon"
-                :name="`stats.${i}.icon`"
-                placeholder="الأيقونة"
-                class="flex-1"
-              />
-              <UButton
-                v-if="state.stats.length > 1"
-                icon="i-lucide-trash-2"
-                color="error"
-                variant="ghost"
-                size="lg"
-                @click="removeStat(i)"
-              />
-            </div>
-          </div>
-        </div>
 
         <!-- Skills Section -->
         <USeparator label="المهارات" class="col-span-full" />
