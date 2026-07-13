@@ -42,6 +42,8 @@ export function useAPI<T = unknown>(
     async () => {
       // Errors propagate to useAsyncData (sets error.value); the toast is
       // shown by onResponseError below for HTTP-level failures.
+      // NOTE: fullUrl() is absolute, so it intentionally bypasses the $api
+      // plugin's own baseURL — the resource segment is already baked in here.
       const res = await $api<T>(fullUrl(), { query })
       return (res as any)?.data ?? res
     },
