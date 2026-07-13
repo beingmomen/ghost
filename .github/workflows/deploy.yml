@@ -26,9 +26,14 @@ jobs:
           SERVER_ENV: ${{ vars.SERVER_ENV_PROD }}
           DB_ENV: ${{ vars.DB_ENV_PROD }}
         run: |
-          printf '%s' "$CLIENT_ENV" > /root/ghost/apps/client/.env
-          printf '%s' "$SERVER_ENV" > /root/ghost/apps/server/.env
-          printf '%s' "$DB_ENV"     > /root/ghost/apps/db/.env
+          # Strip CR: the *_ENV_PROD repo variables may hold CRLF line endings,
+          # which would leave a trailing '\r' on every value (e.g. BASE_URL,
+          # SITE_URL). A '\r' in BASE_URL breaks server-side URL building — the
+          # /projects SSR fetch dropped its path and 404'd. `tr -d '\r'` yields
+          # clean LF .env files.
+          printf '%s' "$CLIENT_ENV" | tr -d '\r' > /root/ghost/apps/client/.env
+          printf '%s' "$SERVER_ENV" | tr -d '\r' > /root/ghost/apps/server/.env
+          printf '%s' "$DB_ENV"     | tr -d '\r' > /root/ghost/apps/db/.env
 
       - name: Build & restart changed apps
         env:

@@ -22,7 +22,9 @@ export function useAPI<T = unknown>(
   const $api = useNuxtApp().$api
   const toast = useToast()
 
-  const baseURL = (config.public.baseURL ?? '').replace(/\/+$/, '')
+  // `.trim()` guards against a stray trailing '\r'/whitespace in BASE_URL (e.g.
+  // from a CRLF .env), which otherwise corrupts the server-side request URL.
+  const baseURL = (config.public.baseURL ?? '').trim().replace(/\/+$/, '')
   const fullUrl = (): string => {
     const raw = typeof url === 'function' ? url() : url
     const path = raw.startsWith('/') ? raw : `/${raw}`
