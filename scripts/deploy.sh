@@ -43,6 +43,12 @@ want() { [ "$BUILD_ALL" = 1 ] || echo "$CHANGED" | grep -q "^$1/"; }
 if want apps/client; then
   echo "== build client =="
   set -a; . apps/client/.env; set +a   # BASE_URL must be present at build time (CSP)
+  # Clear stale Nuxt build cache before building. A stale cache produced an
+  # INCOHERENT build — fresh client assets but a stale SSR server bundle — so
+  # /projects (a useAPI call WITH a query) kept requesting the pre-fix URL
+  # (…/api/v1?query, dropping the /projects segment) and 404'd, while the
+  # landing (useAPI WITHOUT a query) worked. Force a clean, coherent build.
+  rm -rf apps/client/.output apps/client/.nuxt apps/client/node_modules/.cache/nuxt
   NODE_OPTIONS=--max-old-space-size=4096 pnpm build:client
   pm2 startOrRestart ecosystem.config.cjs --only client --update-env
 fi
@@ -50,6 +56,8 @@ fi
 if want apps/db; then
   echo "== build db =="
   set -a; . apps/db/.env; set +a       # GIGET_AUTH for the base-layer fetch
+  # Same clean-build guard as client (both are Nuxt) — avoid stale-cache bundles.
+  rm -rf apps/db/.output apps/db/.nuxt apps/db/node_modules/.cache/nuxt
   NODE_OPTIONS=--max-old-space-size=4096 pnpm build:db
   pm2 startOrRestart ecosystem.config.cjs --only db --update-env
 fi
