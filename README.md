@@ -1,9 +1,5 @@
 # Beingmomen Monorepo
 
-pnpm workspace monorepo containing 3 apps deployed on Coolify.
-
-## Overview
-
 The codebase behind [beingmomen.com](https://beingmomen.com) — my portfolio,
 its REST API, and the admin dashboard I use to manage its content.
 
@@ -15,6 +11,8 @@ and process management under my control.
 
 Arabic-first with full RTL support throughout.
 
+![Beingmomen](apps/client/public/image.png)
+
 ## Apps
 
 | App        | Path          | Description                                                                                    |
@@ -22,8 +20,6 @@ Arabic-first with full RTL support throughout.
 | **client** | `apps/client` | Portfolio — Nuxt 4, live at [beingmomen.com](https://beingmomen.com)                           |
 | **server** | `apps/server` | REST API — Express                                                                             |
 | **db**     | `apps/db`     | Admin dashboard — Nuxt 4. Content management for the portfolio: projects, blog posts, and ADRs |
-
-![Beingmomen](apps/client/public/image.png)
 
 ## Development
 
