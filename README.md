@@ -2,13 +2,28 @@
 
 pnpm workspace monorepo containing 3 apps deployed on Coolify.
 
+## Overview
+
+The codebase behind [beingmomen.com](https://beingmomen.com) — my portfolio,
+its REST API, and the admin dashboard I use to manage its content.
+
+Built as a pnpm workspace so the three apps share tooling and a single
+lockfile, while each deploys independently: a push that only touches
+`apps/client` won't rebuild the API. Self-hosted on a VPS with Coolify
+and Traefik rather than a managed platform, which keeps SSL, routing,
+and process management under my control.
+
+Arabic-first with full RTL support throughout.
+
 ## Apps
 
-| App | Path | Domain | Description |
-|-----|------|--------|-------------|
-| **client** | `apps/client` | [elshatory-web.beingmomen.com](https://elshatory-web.beingmomen.com) | Portfolio website (Nuxt 4) |
-| **server** | `apps/server` | [elshatory-api.beingmomen.com](https://elshatory-api.beingmomen.com) | REST API (Express) |
-| **db** | `apps/db` | [elshatory-db.beingmomen.com](https://elshatory-db.beingmomen.com) | Admin dashboard (Nuxt 4) |
+| App        | Path          | Description                                                                                    |
+| ---------- | ------------- | ---------------------------------------------------------------------------------------------- |
+| **client** | `apps/client` | Portfolio — Nuxt 4, live at [beingmomen.com](https://beingmomen.com)                           |
+| **server** | `apps/server` | REST API — Express                                                                             |
+| **db**     | `apps/db`     | Admin dashboard — Nuxt 4. Content management for the portfolio: projects, blog posts, and ADRs |
+
+![Beingmomen](apps/client/public/image.png)
 
 ## Development
 
