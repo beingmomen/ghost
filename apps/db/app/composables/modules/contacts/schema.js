@@ -8,9 +8,10 @@ export const useContactSchema = () => {
         .string({ message: 'البريد الإلكتروني مطلوب' })
         .email('البريد غير صالح'),
       phone: z
-        .string({ message: 'رقم الهاتف مطلوب' })
-        .min(1, 'رقم الهاتف مطلوب')
-        .regex(/^\+?[\d\s\-().]{7,20}$/, 'رقم الهاتف غير صالح'),
+        .string()
+        .regex(/^\+?[\d\s\-().]{7,20}$/, 'رقم الهاتف غير صالح')
+        .optional()
+        .or(z.literal('')),
       description: z.string({ message: 'الوصف مطلوب' }).min(1, 'الوصف مطلوب')
     })
   );

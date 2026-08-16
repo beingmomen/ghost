@@ -16,8 +16,7 @@ exports.createContactRules = [
     .normalizeEmail(),
   body('phone')
     .trim()
-    .notEmpty()
-    .withMessage('Phone number is required.')
+    .optional({ checkFalsy: true })
     .matches(/^\+?[\d\s\-().]{7,20}$/)
     .withMessage('Please provide a valid phone number.'),
   body('description')

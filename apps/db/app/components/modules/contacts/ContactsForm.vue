@@ -40,7 +40,6 @@ const {
           name="phone"
           label="رقم الهاتف"
           placeholder="رقم الهاتف"
-          required
         />
 
         <BaseTextarea

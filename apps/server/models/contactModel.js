@@ -19,9 +19,9 @@ const schema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: [true, 'Phone number is required.'],
       validate: {
         validator(v) {
+          if (!v) return true;
           return /^\+?[\d\s\-().]{7,20}$/.test(v);
         },
         message: 'Phone number is not valid.'

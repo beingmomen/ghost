@@ -16,10 +16,11 @@ const { data: experiences, error: expError, refresh: refreshExp } = await useAPI
   transform: response => Array.isArray(response) ? response : (response?.data || [])
 })
 
-// نبذة صفحة about (الهيرو) — المسودّة المعتمدة.
-const heroDescription = `${IDENTITY.title} منذ ${IDENTITY.since}. أبني واجهات ويب نظيفة وسريعة، وأنظمة تصميم متّسقة تكبر مع المنتج.`
-// وصف SEO فريد للصفحة (≤160).
-const pageDescription = `${IDENTITY.title} منذ ${IDENTITY.since} — قصّتي، مهاراتي، والمشاريع اللي اشتغلت عليها.`
+// نبذة صفحة about (الهيرو) — المسودّة المعتمدة. نص مختلف عن هيرو الهوم عمداً
+// (نفس الرسالة بنبرة أهدأ تناسب صفحة "عني" بدل ما يتكرر حرفياً).
+const heroDescription = `مهندس واجهات أمامية. بشتغل على الويب من ${IDENTITY.since}، ومعظم شغلي أنظمة أعمال عربية تشتغل في الإنتاج — توزيع وفوترة ولوحات تحكم بصلاحيات.`
+// وصف SEO فريد للصفحة (≤160) — مختلف عمداً عن meta description الهوم لتجنّب محتوى مكرر في نتايج البحث.
+const pageDescription = `عبدالمؤمن الشطوري — مهندس واجهات أمامية من ${IDENTITY.since}. خبرتي ومساري المهني والمشاريع اللي بنيتها: أنظمة توزيع وفوترة ولوحات تحكم عربية بـ Nuxt وVue.`
 
 const resumeUrl = computed(() => infoData.value?.resumeUrl)
 
@@ -52,7 +53,7 @@ useSeoMeta({
   twitterTitle: 'نبذة عني | عبدالمؤمن الشطوري',
   twitterDescription: pageDescription,
   twitterSite: '@beingmomen',
-  keywords: 'عبدالمؤمن الشطوري, Frontend Engineer, Frontend Engineer, تطوير ويب, مطور واجهات أمامية'
+  keywords: 'عبدالمؤمن الشطوري, Frontend Engineer, تطوير ويب, مطور واجهات أمامية'
 })
 
 useHead({
@@ -103,7 +104,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
       <template #headline>
         <span class="animate-fade-in animation-delay-200">
           <UBadge
-            label="Abdelmomen Elshatory - Frontend Engineer"
+            label="عبدالمؤمن الشطوري - مهندس واجهات أمامية"
             color="primary"
             variant="soft"
             size="sm"
@@ -135,7 +136,7 @@ useBreadcrumbSchema([{ name: 'نبذة عني', path: '/about' }])
             <UButton
               v-if="resumeUrl"
               label="السيرة الذاتية"
-              :to="resumeUrl"
+              to="/cv"
               target="_blank"
               color="neutral"
               variant="outline"

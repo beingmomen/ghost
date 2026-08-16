@@ -97,7 +97,7 @@ const resumeUrl = computed(() => landing.value?.info?.resumeUrl)
             <UButton
               v-if="resumeUrl"
               label="السيرة الذاتية"
-              :to="resumeUrl"
+              to="/cv"
               target="_blank"
               color="neutral"
               variant="outline"

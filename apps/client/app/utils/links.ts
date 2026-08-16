@@ -1,37 +1,33 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 /**
- * Single source of truth for site navigation.
- * Both the header (`navLinks`) and the footer (`footerGroups`) are composed
- * from these semantic groups — edit a route in one place only.
+ * Single source of truth for site navigation. Route definitions live here once;
+ * both the header (`navLinks`) and the footer (`footerGroups`) compose from them —
+ * edit a route in one place only.
+ *
+ * One documented divergence: the header nests "المدونة" inside the "محتوى تقني"
+ * dropdown (see `navLinks`), while the footer's "روابط سريعة" column keeps it flat
+ * (see `footerGroups`, which composes from the unfiltered `primaryLinks`). This is a
+ * deliberate per-surface layout decision, not route duplication — the blog route
+ * itself (`blogLink`) is still defined exactly once.
  */
 
-// Main pages shown before the "technical content" dropdown in the header.
-export const primaryLinks: NavigationMenuItem[] = [
-  {
-    label: 'الرئيسية',
-    icon: 'i-lucide-home',
-    to: '/'
-  },
-  {
-    label: 'المشاريع',
-    icon: 'i-lucide-folder',
-    to: '/projects'
-  },
-  {
-    label: 'المدونة',
-    icon: 'i-lucide-file-text',
-    to: '/blog'
-  }
-]
+const homeLink: NavigationMenuItem = { label: 'الرئيسية', icon: 'i-lucide-home', to: '/' }
+const projectsLink: NavigationMenuItem = { label: 'المشاريع', icon: 'i-lucide-folder', to: '/projects' }
+const blogLink: NavigationMenuItem = { label: 'المدونة', icon: 'i-lucide-file-text', to: '/blog' }
+
+// Main pages shown before the "technical content" dropdown in the header, and
+// (unfiltered) in the footer's "روابط سريعة" column.
+export const primaryLinks: NavigationMenuItem[] = [homeLink, projectsLink, blogLink]
+
+// Header-only: primary pages minus blog — blog is nested inside the "محتوى تقني"
+// dropdown instead (see `navLinks`). The footer keeps using `primaryLinks` as-is.
+// Derived from `primaryLinks` (not a hand-duplicated list) so a future primary
+// page only needs adding in one place.
+const headerPrimaryLinks: NavigationMenuItem[] = primaryLinks.filter(link => link !== blogLink)
 
 // Main pages shown after the "technical content" dropdown in the header.
 export const secondaryLinks: NavigationMenuItem[] = [
-  {
-    label: 'قم بتقييمنا',
-    icon: 'i-lucide-star',
-    to: '/testimonial'
-  },
   {
     label: 'تواصل معي',
     icon: 'i-lucide-mail',
@@ -61,13 +57,14 @@ export const guideLinks: NavigationMenuItem[] = [
   }
 ]
 
-// Header navigation — primary pages, a technical-content dropdown, then secondary pages.
+// Header navigation — primary pages (minus blog), a technical-content dropdown
+// (blog + guides), then secondary pages.
 export const navLinks: NavigationMenuItem[] = [
-  ...primaryLinks,
+  ...headerPrimaryLinks,
   {
     label: 'محتوى تقني',
     icon: 'i-lucide-layers',
-    children: [...guideLinks]
+    children: [blogLink, ...guideLinks]
   },
   ...secondaryLinks
 ]

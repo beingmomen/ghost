@@ -19,11 +19,11 @@ function scrollToTop() {
           <h2
             class="font-display text-[clamp(1.5rem,4vw,2.25rem)] font-semibold leading-1.3 mb-3"
           >
-            عندك مشروع أو فرصة؟
+            عندك فرصة أو مشروع؟
           </h2>
 
           <p class="text-base text-muted mb-6 max-w-lg mx-auto">
-            متاح للفرص والمشاريع، عن بُعد — ويسعدني نتكلم.
+            متاح لفرص عن بُعد — ويسعدني نتكلم.
           </p>
 
           <div
@@ -72,7 +72,7 @@ function scrollToTop() {
             <!-- leading-relaxed (1.625) violates the Arabic Baseline Rule (1.8 min);
                  let text-base's baked line-height apply instead. -->
             <p class="text-base text-muted">
-              واجهات أنظف، تجارب أسرع — بُنيَت بإتقان.
+              أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt وVue.
             </p>
             <a
               :href="`mailto:${global.email}`"

@@ -39,8 +39,8 @@ useBreadcrumbSchema([{ name: 'تواصل معنا', path: '/contact' }])
 
 const schema = z.object({
   name: z.string({ error: 'يرجى كتابة اسمك' }).min(1, 'يرجى كتابة اسمك'),
-  phone: z.string({ error: 'يرجى إدخال رقم التواصل' }).min(1, 'يرجى إدخال رقم التواصل').regex(/^[\d\s+\-()]{7,20}$/, 'يرجى إدخال رقم هاتف صحيح'),
-  email: z.email('يرجى إدخال عنوان بريد إلكتروني صالح').optional().or(z.literal('')),
+  phone: z.string().regex(/^[\d\s+\-()]{7,20}$/, 'يرجى إدخال رقم هاتف صحيح').optional().or(z.literal('')),
+  email: z.email('يرجى إدخال عنوان بريد إلكتروني صالح'),
   description: z.string({ error: 'يرجى كتابة رسالتك أو وصف مشروعك' }).min(1, 'يرجى كتابة رسالتك أو وصف مشروعك')
 })
 
@@ -83,7 +83,7 @@ const contactPills = [
   <UPage>
     <!-- Hero Section -->
     <UPageHero
-      description="سواء كان لديك مشروع جديد، سؤال تقني، أو فقط تريد التعارف — أنا هنا وأسعد دائماً بالتحدث"
+      description="فرصة عمل، سؤال تقني، أو مشروع — أنا هنا وأسعد دائماً بالتحدث."
       :ui="{
         title: 'text-center',
         description: 'text-center text-muted animate-fade-in animation-delay-300',
@@ -92,7 +92,7 @@ const contactPills = [
     >
       <template #title>
         <span class="animate-fade-in">
-          لنبني شيئاً رائعاً معاً
+          تواصل معي
         </span>
       </template>
 
@@ -239,7 +239,6 @@ const contactPills = [
                   label="رقم الهاتف"
                   name="phone"
                   size="lg"
-                  required
                 >
                   <UInput
                     v-model="state.phone"
@@ -260,6 +259,7 @@ const contactPills = [
                   label="البريد الإلكتروني"
                   name="email"
                   size="lg"
+                  required
                 >
                   <UInput
                     v-model="state.email"
@@ -274,7 +274,7 @@ const contactPills = [
 
               <div class="animate-fade-in animation-delay-400">
                 <UFormField
-                  label="تفاصيل مشروعك"
+                  label="رسالتك"
                   name="description"
                   size="lg"
                   required
@@ -282,7 +282,7 @@ const contactPills = [
                 >
                   <UTextarea
                     v-model="state.description"
-                    placeholder="أخبرني عن مشروعك، أهدافك، والجدول الزمني المتوقع..."
+                    placeholder="احكيلي عن الفرصة أو المشروع..."
                     class="w-full"
                     :rows="5"
                     :disabled="loading"
