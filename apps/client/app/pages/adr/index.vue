@@ -140,7 +140,7 @@ const adrs = [
     title: 'إدارة البيانات العامة',
     subtitle: 'useGlobal Composable',
     description: 'نمط composable مركزي يوفر وصولاً موحداً لبيانات الجلسة (بيانات المستخدم + lookup lists) في أي مكان بالتطبيق — بدون نسخ البيانات أو مزامنة يدوية.',
-    topics: ['Computed Reactivity', 'Session Management', 'Single Source of Truth', 'API Design'],
+    topics: ['Computed Reactivity', 'Session Management', 'Single Source of Truth', 'API Design', 'البدائل المدروسة'],
     sections: 9,
     readTime: '8 دقائق قراءة'
   },
@@ -150,7 +150,7 @@ const adrs = [
     title: 'نظام الأوضاع المتعددة',
     subtitle: 'Multi-Mode Architecture',
     description: 'بنية تدعم أوضاع تشغيل متعددة (خاص، حكومي، مختلط) تُحدد في وقت التشغيل — مع فصل كامل بالملفات بدون أي شروط في الكود.',
-    topics: ['Runtime Switching', 'File Separation', 'Orchestrator Pattern', 'Zero Conditionals'],
+    topics: ['Runtime Switching', 'File Separation', 'Orchestrator Pattern', 'Zero Conditionals', 'البدائل المدروسة'],
     sections: 12,
     readTime: '15 دقيقة قراءة'
   }
