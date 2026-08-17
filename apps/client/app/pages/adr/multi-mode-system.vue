@@ -2,9 +2,9 @@
   <UPage dir="rtl">
     <AdrHero
       badge="Architecture Decision Record"
-      title="نظام الأوضاع"
-      highlight="المتعددة"
-      description="بنية تدعم أوضاع تشغيل متعددة (خاص، حكومي، مختلط) تُحدد في وقت التشغيل — مع فصل كامل بالملفات بدون أي شروط في الكود."
+      title="نظام"
+      highlight="الأوضاع"
+      description="بنية تدعم وضعين (خاص وعام) تُحدد في وقت التشغيل — مع Keyed Remount للتبديل الآمن، وهيلبر useModeVariant لعزل الفروقات الحقيقية بس."
     />
 
     <UPageSection :ui="{ container: '!pt-0 pb-12 sm:pb-16' }">
@@ -44,12 +44,12 @@
             title="نظرة عامة"
             icon="i-lucide-eye"
           >
-            <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 mb-4">
+            <div class="rounded-xl border border-primary/30 bg-primary/5 p-5">
               <div class="flex items-start gap-3">
-                <div class="size-9 rounded-xl bg-muted flex items-center justify-center shrink-0">
+                <div class="size-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                   <UIcon
                     name="i-lucide-lightbulb"
-                    class="size-5 text-muted"
+                    class="size-5 text-primary"
                   />
                 </div>
                 <div>
@@ -57,144 +57,147 @@
                     المبدأ الأساسي
                   </div>
                   <p class="text-base text-muted leading-relaxed">
-                    فصل كامل — كل ملف نظيف 100% بدون شروط. الـ mode logic موجود في <strong class="text-highlighted">4 أماكن فقط</strong> في النظام بأكمله.
+                    النظام بيخدم نوعين من الجهات — <strong class="text-highlighted">خاص</strong> و<strong class="text-highlighted">عام</strong> — بفورمات وحقول مختلفة. الـ mode بيتحدد <strong class="text-highlighted">runtime</strong> بعد تسجيل الدخول، وكل فرق حقيقي بين الوضعين بيتعزل في ملف "variant" نظيف بدل شروط متناثرة في الكود.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="grid sm:grid-cols-3 gap-3">
+            <div class="grid sm:grid-cols-3 gap-3 mt-4">
               <div
-                v-for="(impact, index) in impacts"
-                :key="impact.title"
+                v-for="(principle, index) in principles"
+                :key="principle.title"
                 class="animate-fade-in"
                 :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
               >
-                <div class="rounded-xl border border-default/60 bg-elevated/30 p-4 hover:bg-elevated/60 transition-colors duration-300 h-full">
+                <div class="rounded-lg border border-default/60 bg-elevated/30 p-4 text-right h-full">
                   <div class="flex items-center gap-2 mb-2">
                     <UIcon
-                      :name="impact.icon"
-                      class="size-4 text-muted"
+                      :name="principle.icon"
+                      class="size-4 text-primary"
                     />
-                    <span class="text-base font-semibold">{{ impact.title }}</span>
+                    <span class="text-base font-semibold">{{ principle.title }}</span>
                   </div>
-                  <p class="text-base text-muted">
-                    {{ impact.description }}
-                  </p>
+                  <div class="text-base text-muted">
+                    {{ principle.description }}
+                  </div>
                 </div>
               </div>
             </div>
           </AdrSection>
 
-          <!-- Mode Detection -->
+          <!-- Mode Resolution -->
           <AdrSection
-            id="mode-detection"
-            title="كشف النظام — useMode.js"
+            id="mode-resolution"
+            title="حل الـ Mode — useMode"
             icon="i-lucide-scan"
-            description="يقرأ الـ mode من session data ويوحد الصيغة"
+            description="يقرأ الـ mode من بيانات الـ session ويوحّد الصيغة لقيمة واحدة"
           >
             <AdrDecisionTable
               title="قواعد التحويل"
               :headers="['المصدر', 'القيمة', 'النتيجة']"
-              :rows="modeDetectionRules"
+              :rows="modeResolutionRules"
               icon="i-lucide-arrow-right-left"
             />
             <AdrCodeBlock
-              title="useMode.js — Implementation"
+              title="useMode.js — الشكل العام"
               language="js"
               :code="useModeCode"
               class="mt-4"
             />
+            <div class="rounded-lg border border-default/60 bg-elevated/30 p-4 mt-4">
+              <p class="text-base text-muted leading-relaxed">
+                لو شكل بيانات الـ session جه بصيغة مش متعارف عليها، النظام بيرجع لـ <code
+                  class="font-mono text-primary"
+                  dir="ltr"
+                >public</code> كـ fallback آمن بدل ما يفشل، مع تحذير واضح في الكونسول يساعد في التشخيص السريع.
+              </p>
+            </div>
           </AdrSection>
 
-          <!-- API Reference -->
+          <!-- Keyed Remount -->
           <AdrSection
-            id="api-reference"
-            title="مرجع الـ API"
-            icon="i-lucide-book-open"
-            description="الدوال والثوابت التي يصدّرها useMode"
+            id="keyed-remount"
+            title="آلية التبديل — Keyed Remount"
+            icon="i-lucide-refresh-cw"
+            description="الـ mode ثابت طوال حياة شجرة المكونات — التبديل بينهم هدم وإعادة بناء كاملة، مش تحديث تفاعلي"
           >
-            <div class="grid sm:grid-cols-1 gap-4">
-              <AdrApiCard
-                v-for="api in apiReference"
-                :key="api.name"
-                v-bind="api"
+            <AdrFlowDiagram :steps="remountSteps" />
+            <AdrCodeBlock
+              title="app.vue — الآلية"
+              language="vue"
+              :code="appVueCode"
+              class="mt-4"
+            />
+            <div class="rounded-xl border border-warning/30 bg-warning/5 p-5 mt-4">
+              <div class="text-base font-semibold mb-2 text-warning">
+                القاعدة المعمارية
+              </div>
+              <p class="text-base text-muted leading-relaxed">
+                اقرأ الـ mode في أي وقت، لكن <strong class="text-highlighted">لا تخزّن نسخة منه</strong> (أو من أي قيمة محسوبة منه) في مكان بيعيش برّه شجرة المكونات — أي نسخة زي كده بتنجو من عملية الهدم وبتفضل شايلة قيمة الوضع القديم بصمت.
+              </p>
+            </div>
+          </AdrSection>
+
+          <!-- useModeVariant -->
+          <AdrSection
+            id="mode-variant"
+            title="الـ Helper الرسمي — useModeVariant"
+            icon="i-lucide-shuffle"
+            description="يختار الـ variant المناسب للوضع الحالي، مرة واحدة وقت بناء الـ composable"
+          >
+            <AdrCodeBlock
+              title="useModeVariant.js"
+              language="js"
+              :code="useModeVariantCode"
+            />
+            <div class="space-y-4 mt-4">
+              <AdrCodeBlock
+                title="موديول فيه فروقات حقيقية — مثال: التوظيف (Employment)"
+                language="js"
+                :code="employmentSchemaCode"
+              />
+              <AdrCodeBlock
+                title="موديول من غير فروقات — ملف عادي بالكامل"
+                language="js"
+                :code="noVariantCode"
               />
             </div>
           </AdrSection>
 
-          <!-- Components -->
+          <!-- Artifact Philosophy -->
           <AdrSection
-            id="components"
-            title="المكوّنات"
-            icon="i-lucide-component"
-            description="مكوّنات Vue للتعامل مع الأوضاع المتعددة"
+            id="artifact-philosophy"
+            title="فلسفة الدمج — مش قاعدة واحدة شاملة"
+            icon="i-lucide-layout-grid"
+            description="المبدأ الحاكم: هل الترتيب/التكوين الكامل جزء من العقد المرئي؟"
           >
-            <div class="space-y-4">
-              <div class="rounded-xl border border-default/60 bg-elevated/30 p-5">
-                <div class="flex items-center gap-2 mb-3">
-                  <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
-                    <UIcon
-                      name="i-lucide-repeat"
-                      class="size-4 text-muted"
-                    />
-                  </div>
-                  <div>
-                    <span class="text-base font-semibold">BaseModeSwitch</span>
-                    <UBadge
-                      label="Dynamic Component"
-                      color="neutral"
-                      variant="subtle"
-                      size="xs"
-                      class="ms-2"
-                    />
-                  </div>
-                </div>
-                <p class="text-base text-muted leading-relaxed mb-3">
-                  يستقبل map من المكوّنات ويرسم الصحيح تلقائياً حسب الـ mode. يمرر <code
-                    class="font-mono text-primary"
-                    dir="ltr"
-                  >$attrs</code> و <code
-                    class="font-mono text-primary"
-                    dir="ltr"
-                  >$slots</code> للمكوّن المختار.
-                </p>
-                <AdrCodeBlock
-                  title="Usage"
-                  language="vue"
-                  :code="modeSwitchUsageCode"
-                />
-              </div>
+            <AdrDecisionTable
+              title="شكل كل Artifact"
+              :headers="['الـ Artifact', 'الفلسفة', 'الشكل']"
+              :rows="artifactPhilosophyRows"
+            />
+          </AdrSection>
 
-              <div class="rounded-xl border border-default/60 bg-elevated/30 p-5">
-                <div class="flex items-center gap-2 mb-3">
-                  <div class="size-8 rounded-xl bg-muted flex items-center justify-center shrink-0">
-                    <UIcon
-                      name="i-lucide-eye"
-                      class="size-4 text-muted"
-                    />
-                  </div>
-                  <div>
-                    <span class="text-base font-semibold">BaseModeShow</span>
-                    <UBadge
-                      label="Conditional Render"
-                      color="neutral"
-                      variant="subtle"
-                      size="xs"
-                      class="ms-2"
-                    />
-                  </div>
-                </div>
-                <p class="text-base text-muted leading-relaxed mb-3">
-                  للحالات البسيطة — إظهار/إخفاء محتوى حسب الـ mode. يُستخدم خارج الفورمات فقط.
-                </p>
-                <AdrCodeBlock
-                  title="Usage"
-                  language="vue"
-                  :code="modeShowUsageCode"
-                />
-              </div>
-            </div>
+          <!-- BaseModeShow -->
+          <AdrSection
+            id="mode-show"
+            title="المكوّن الرسمي للفروقات الصغيرة — BaseModeShow"
+            icon="i-lucide-eye-off"
+            description="إظهار/إخفاء عنصر أو حقل واحد حسب الوضع، بدون فصل ملف كامل"
+          >
+            <AdrCodeBlock
+              title="BaseModeShow — Usage"
+              language="vue"
+              :code="modeShowUsageCode"
+            />
+            <AdrDecisionTable
+              title="سلّم الفروقات"
+              :headers="['حجم الفرق', 'الأداة']"
+              :rows="differenceScaleRows"
+              icon="i-lucide-compass"
+              class="mt-4"
+            />
           </AdrSection>
 
           <!-- Middleware -->
@@ -202,218 +205,41 @@
             id="middleware"
             title="حماية الصفحات — Middleware"
             icon="i-lucide-shield"
-            description="middleware عام يحمي الصفحات المقيدة بنظام معين"
+            description="middleware عام بيحمي الصفحات المقيدة بوضع معين"
           >
-            <div class="grid sm:grid-cols-2 gap-4 mb-4">
-              <div
-                v-for="(rule, index) in middlewareRules"
-                :key="rule.title"
-                class="animate-fade-in"
-                :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
-              >
-                <div
-                  class="rounded-xl border p-4 transition-colors duration-300"
-                  :class="rule.style"
-                >
-                  <div
-                    class="text-base font-semibold mb-1"
-                    :class="rule.textStyle"
-                  >
-                    {{ rule.title }}
-                  </div>
-                  <p class="text-base text-muted">
-                    {{ rule.description }}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <AdrCodeBlock
+              title="mode.global.js"
+              language="js"
+              :code="middlewareCode"
+            />
             <AdrCodeBlock
               title="definePageMeta — أمثلة"
               language="js"
               :code="pageMetaExamples"
+              class="mt-4"
             />
-          </AdrSection>
-
-          <!-- Sidebar Filtering -->
-          <AdrSection
-            id="sidebar-filtering"
-            title="تصفية الـ Sidebar"
-            icon="i-lucide-sidebar"
-            description="إضافة خاصية modes اختيارية لعناصر الـ sidebar"
-          >
-            <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 mb-4">
+            <div class="rounded-lg border border-default/60 bg-elevated/30 p-4 mt-4">
               <p class="text-base text-muted leading-relaxed">
-                <strong class="text-highlighted">القاعدة:</strong> عنصر بدون <code
-                  class="font-mono text-primary"
-                  dir="ltr"
-                >modes</code> = يظهر في كل الأنظمة. عنصر مع <code
-                  class="font-mono text-primary"
-                  dir="ltr"
-                >modes</code> = يظهر فقط في الأنظمة المحددة.
+                الـ mode في الواجهة أداة عرض (UX) بس — الحماية دي بتنظّم التنقل، مش بديل عن أي تحقق أمني حقيقي على مستوى الـ backend.
               </p>
             </div>
-            <AdrCodeBlock
-              title="filterByMode — Sidebar Usage"
-              language="js"
-              :code="sidebarCode"
-            />
           </AdrSection>
 
           <!-- Module Pattern -->
           <AdrSection
             id="module-pattern"
-            title="نمط الموديول — الفصل الكامل"
+            title="نمط الموديول — مثال حقيقي (Employment)"
             icon="i-lucide-puzzle"
-            description="للموديولات التي تختلف بين الأنظمة: ملف منفصل لكل نظام"
-          >
-            <div class="grid sm:grid-cols-1 gap-4 mb-4">
-              <div class="animate-fade-in animation-delay-100">
-                <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 h-full">
-                  <div class="flex items-center gap-2 mb-3">
-                    <UBadge
-                      label="موديول مختلف"
-                      color="primary"
-                      variant="soft"
-                      size="xs"
-                    />
-                  </div>
-                  <AdrCodeBlock
-                    language="text"
-                    :code="moduleStructureDifferent"
-                  />
-                </div>
-              </div>
-              <div class="animate-fade-in animation-delay-200">
-                <div class="rounded-xl border border-default/60 bg-elevated/30 p-5 h-full">
-                  <div class="flex items-center gap-2 mb-3">
-                    <UBadge
-                      label="موديول مشترك"
-                      color="success"
-                      variant="soft"
-                      size="xs"
-                    />
-                  </div>
-                  <AdrCodeBlock
-                    language="text"
-                    :code="moduleStructureShared"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <AdrDecisionTable
-              title="Naming Conventions"
-              :headers="['النوع', 'المشترك', 'الخاص بنظام']"
-              :rows="namingConventions"
-              icon="i-lucide-tag"
-            />
-          </AdrSection>
-
-          <!-- Orchestrator Pattern -->
-          <AdrSection
-            id="orchestrator"
-            title="نمط الأوركسترا — index.js"
-            icon="i-lucide-music"
-            description="المكان الوحيد في الموديول فيه mode logic — يستخدم map بسيط لاختيار الملفات الصحيحة"
+            description="موديول التوظيف فيه فروقات حقيقية بين الوضعين، فبيستخدم نمط الـ variant الكامل"
           >
             <AdrCodeBlock
-              title="Orchestrator — index.js"
-              language="js"
-              :code="orchestratorCode"
+              language="text"
+              :code="moduleStructureCode"
             />
-          </AdrSection>
-
-          <!-- Where Mode Logic Exists -->
-          <AdrSection
-            id="mode-logic-locations"
-            title="أين يوجد Mode Logic؟"
-            icon="i-lucide-map-pin"
-            description="في النظام بأكمله، الـ mode logic موجود في 4 أماكن فقط"
-          >
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div
-                v-for="(location, index) in modeLocations"
-                :key="location.file"
-                class="animate-fade-in"
-                :style="{ animationDelay: `${0.1 + index * 0.1}s` }"
-              >
-                <div class="rounded-xl border border-default/60 bg-elevated/30 p-4 hover:bg-elevated/60 transition-colors duration-300">
-                  <div class="flex items-center gap-2 mb-2">
-                    <UBadge
-                      :label="`${index + 1}`"
-                      color="primary"
-                      variant="subtle"
-                      size="xs"
-                    />
-                    <code
-                      class="text-xs font-mono text-primary"
-                      dir="ltr"
-                    >{{ location.file }}</code>
-                  </div>
-                  <p class="text-base text-muted">
-                    {{ location.purpose }}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="rounded-lg border border-success/30 bg-success/5 p-4 mt-4">
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-lucide-circle-check"
-                  class="size-4 text-success"
-                />
-                <span class="text-base font-semibold text-success">كل ملف آخر (schema, form, component, table, columns, service) = كود نظيف 100% بدون أي شرط.</span>
-              </div>
-            </div>
-          </AdrSection>
-
-          <!-- Adding a New Mode -->
-          <AdrSection
-            id="adding-new-mode"
-            title="إضافة نظام جديد"
-            icon="i-lucide-plus-circle"
-            description="خطوات إضافة نظام mixed (mode: 3) — بدون إعادة هيكلة أو تعديل ملفات الأنظمة الموجودة"
-          >
-            <div class="space-y-0">
-              <div
-                v-for="(step, index) in addModeSteps"
-                :key="step.title"
-              >
-                <div
-                  class="animate-fade-in"
-                  :style="{ animationDelay: `${0.1 + index * 0.08}s` }"
-                >
-                  <div class="rounded-xl border border-default/60 bg-elevated/30 p-4 hover:bg-elevated/60 transition-colors duration-300">
-                    <div class="flex items-center gap-3 mb-2">
-                      <UBadge
-                        :label="`${index + 1}`"
-                        color="primary"
-                        variant="soft"
-                        size="sm"
-                      />
-                      <span class="text-base font-semibold">{{ step.title }}</span>
-                    </div>
-                    <p class="text-base text-muted leading-relaxed">
-                      {{ step.description }}
-                    </p>
-                    <AdrCodeBlock
-                      v-if="step.code"
-                      :language="step.language || 'js'"
-                      :code="step.code"
-                      class="mt-3"
-                    />
-                  </div>
-                </div>
-                <div
-                  v-if="index < addModeSteps.length - 1"
-                  class="flex justify-center py-1"
-                >
-                  <UIcon
-                    name="i-lucide-arrow-down"
-                    class="size-4 text-primary/30"
-                  />
-                </div>
-              </div>
+            <div class="rounded-lg border border-default/60 bg-elevated/30 p-4 mt-4">
+              <p class="text-base text-muted leading-relaxed">
+                موديولات تانية بلا فروقات حقيقية (زي المؤهلات) — ملفات عادية بلا أي variant، وكأن نظام الـ mode مش موجود خالص.
+              </p>
             </div>
           </AdrSection>
 
@@ -422,29 +248,29 @@
             id="design-decisions"
             title="القرارات التصميمية"
             icon="i-lucide-scale"
-            description="لماذا اخترنا الفصل بالملفات وليس البدائل الأخرى"
+            description="لماذا اخترنا هذا النمط وليس البدائل الأخرى"
           >
-            <div class="space-y-4">
-              <AdrDecisionTable
-                title="لماذا الفصل الكامل وليس شروط في template؟"
-                :headers="['المعيار', 'ModeShow / شروط', 'فصل بالملفات']"
-                :rows="separationComparison"
-              />
+            <AdrDecisionTable
+              title="البدائل التي درسناها"
+              :headers="['البديل', 'المشكلة']"
+              :rows="rejectedAlternatives"
+              icon="i-lucide-x-circle"
+            />
+          </AdrSection>
 
-              <AdrDecisionTable
-                title="التكرار الوحيد = HTML الـ template"
-                :headers="['ما يتكرر', 'خطورته']"
-                :rows="duplicationAnalysis"
-                icon="i-lucide-copy"
-              />
-
-              <AdrDecisionTable
-                title="لماذا ليس Config-Driven أو Nuxt Layers؟"
-                :headers="['البديل', 'المشكلة']"
-                :rows="alternativesComparison"
-                icon="i-lucide-x-circle"
-              />
-            </div>
+          <!-- What Changed During Build -->
+          <AdrSection
+            id="what-changed"
+            title="ما تغيّر أثناء البناء"
+            icon="i-lucide-history"
+            description="حاجتان اتبنوا بالكود فعلاً، واتراجعوا أثناء المراجعة الداخلية للبناء — قبل أي استخدام إنتاج حقيقي"
+          >
+            <AdrDecisionTable
+              title="التغييرات"
+              :headers="['التغيير', 'كان مصمَّم', 'اتضح في المراجعة', 'التعديل وليه']"
+              :rows="whatChangedRows"
+              icon="i-lucide-history"
+            />
           </AdrSection>
 
           <!-- Related Files -->
@@ -459,7 +285,7 @@
                 :files="coreFiles"
               />
               <AdrFileReference
-                title="Module Example (Signatures)"
+                title="Module Example (Employment)"
                 :files="moduleFiles"
               />
             </div>
@@ -472,33 +298,33 @@
 
 <script setup>
 definePageMeta({
-  title: 'نظام الأوضاع المتعددة'
+  title: 'نظام الأوضاع'
 })
 
 useHead({
-  title: 'نظام الأوضاع المتعددة — Multi-Mode Architecture',
+  title: 'نظام الأوضاع — Mode System',
   meta: [
     {
       name: 'description',
-      content: 'قرار معماري: بنية أوضاع تشغيل متعددة تُحدد runtime مع فصل كامل بالملفات — بدون شروط في الكود.'
+      content: 'قرار معماري: نظام بوضعين (خاص وعام) يُحدد runtime، مع Keyed Remount للتبديل الآمن وuseModeVariant لعزل الفروقات الحقيقية فقط.'
     }
   ]
 })
 
 useSeoMeta({
-  ogTitle: 'نظام الأوضاع المتعددة — Multi-Mode Architecture',
-  ogDescription: 'بنية أوضاع تشغيل متعددة تُحدد runtime مع فصل كامل بالملفات.',
+  ogTitle: 'نظام الأوضاع — Mode System',
+  ogDescription: 'قرار معماري: نظام بوضعين يُحدد runtime، مع Keyed Remount وuseModeVariant.',
   ogType: 'article',
   ogLocale: 'ar_EG',
   twitterCard: 'summary_large_image',
-  twitterTitle: 'نظام الأوضاع المتعددة',
-  twitterDescription: 'بنية أوضاع تشغيل متعددة مع فصل كامل بالملفات.',
+  twitterTitle: 'نظام الأوضاع — Mode System',
+  twitterDescription: 'نظام بوضعين يُحدد runtime، مع Keyed Remount وuseModeVariant.',
   twitterSite: '@beingmomen'
 })
 
 useBreadcrumbSchema([
   { name: 'القرارات المعمارية', path: '/adr' },
-  { name: 'نظام الأوضاع المتعددة', path: '/adr/multi-mode-system' }
+  { name: 'نظام الأوضاع', path: '/adr/multi-mode-system' }
 ])
 
 const config = useRuntimeConfig()
@@ -510,8 +336,8 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'TechArticle',
-        'headline': 'نظام الأوضاع المتعددة — Multi-Mode Architecture',
-        'description': 'قرار معماري: بنية أوضاع تشغيل متعددة تُحدد runtime مع فصل كامل بالملفات، بدون شروط في الكود.',
+        'headline': 'نظام الأوضاع — Mode System',
+        'description': 'قرار معماري: نظام بوضعين (خاص وعام) يُحدد runtime، مع Keyed Remount للتبديل الآمن وuseModeVariant لعزل الفروقات الحقيقية فقط.',
         'url': `${config.public.siteUrl}/adr/multi-mode-system`,
         'inLanguage': 'ar',
         'author': {
@@ -531,400 +357,199 @@ useHead({
 
 const tocSections = [
   { id: 'overview', label: 'نظرة عامة' },
-  { id: 'mode-detection', label: 'كشف النظام' },
-  { id: 'api-reference', label: 'مرجع الـ API' },
-  { id: 'components', label: 'المكوّنات' },
+  { id: 'mode-resolution', label: 'حل الـ Mode' },
+  { id: 'keyed-remount', label: 'آلية التبديل' },
+  { id: 'mode-variant', label: 'useModeVariant' },
+  { id: 'artifact-philosophy', label: 'فلسفة الدمج' },
+  { id: 'mode-show', label: 'BaseModeShow' },
   { id: 'middleware', label: 'حماية الصفحات' },
-  { id: 'sidebar-filtering', label: 'تصفية الـ Sidebar' },
   { id: 'module-pattern', label: 'نمط الموديول' },
-  { id: 'orchestrator', label: 'نمط الأوركسترا' },
-  { id: 'mode-logic-locations', label: 'أين يوجد Mode Logic؟' },
-  { id: 'adding-new-mode', label: 'إضافة نظام جديد' },
   { id: 'design-decisions', label: 'القرارات التصميمية' },
+  { id: 'what-changed', label: 'ما تغيّر أثناء البناء' },
   { id: 'related-files', label: 'الملفات ذات الصلة' }
 ]
 
-const impacts = [
+const principles = [
   {
-    title: 'الصفحات المتاحة',
-    description: 'بعض الصفحات خاصة بنظام معين — يحميها middleware تلقائياً',
-    icon: 'i-lucide-file-lock'
+    title: 'هوية الشجرة',
+    description: 'الـ mode بيتحدد مرة واحدة، وأي تغيير فيه يعني إعادة بناء الشجرة من الصفر — مش تحديث تفاعلي.',
+    icon: 'i-lucide-tree-pine'
   },
   {
-    title: 'عناصر الـ Sidebar',
-    description: 'تظهر أو تختفي حسب النظام عبر filterByMode',
-    icon: 'i-lucide-sidebar'
+    title: 'Lazy Creation',
+    description: 'ملف الـ variant يتعمل بس لو فيه فرق فعلي — موديول من غير فروقات = ملفات عادية بالكامل.',
+    icon: 'i-lucide-file-plus'
   },
   {
-    title: 'محتوى الصفحات',
-    description: 'نفس الصفحة بحقول/سكيمة/state مختلف لكل نظام',
-    icon: 'i-lucide-layout-template'
+    title: 'أداة واحدة لكل حجم فرق',
+    description: 'نص → مفتاح ترجمة. حقل واحد → BaseModeShow. هيكل مختلف → ملف variant مستقل.',
+    icon: 'i-lucide-ruler'
   }
 ]
 
-const modeDetectionRules = [
+const modeResolutionRules = [
   ['privateCompanyMode', 'true', 'private'],
-  ['privateCompanyMode', 'false', 'government'],
+  ['privateCompanyMode', 'false', 'public'],
   ['mode', '1', 'private'],
-  ['mode', '2', 'government'],
-  ['mode', '3', 'mixed'],
-  ['fallback', '—', 'private']
+  ['mode', '2', 'public'],
+  ['شكل غير متعارف عليه', '—', 'public (مع تحذير)']
 ]
 
-const useModeCode = `export const MODES = {
-  PRIVATE: 'private',
-  GOVERNMENT: 'government',
-  MIXED: 'mixed'
-}
-
-export const useMode = () => {
+const useModeCode = `export const useMode = () => {
   const { data: session } = useAuth()
 
-  const mode = computed(() => {
-    const raw = session.value
-    if (raw?.mode !== undefined) {
-      return {
-        1: MODES.PRIVATE,
-        2: MODES.GOVERNMENT,
-        3: MODES.MIXED
-      }[raw.mode] || MODES.PRIVATE
-    }
-    if (raw?.privateCompanyMode !== undefined) {
-      return raw.privateCompanyMode
-        ? MODES.PRIVATE : MODES.GOVERNMENT
-    }
-    return MODES.PRIVATE
-  })
+  const mode = computed(() => resolveMode(session.value))
 
   const isMode = (...modes) => modes.includes(mode.value)
 
-  const filterByMode = (items) => items.filter(item => {
-    if (!item.modes || item.modes.length === 0) return true
-    return item.modes.includes(mode.value)
-  })
-
-  return { mode, isMode, filterByMode, MODES }
+  return { mode, isMode }
 }`
 
-const apiReference = [
+const remountSteps = [
   {
-    name: 'MODES',
-    type: 'Object',
-    description: 'ثوابت أسماء الأنظمة — PRIVATE, GOVERNMENT, MIXED.',
-    example: `import { MODES } from '~/composables/core/useMode'
-
-MODES.PRIVATE     // 'private'
-MODES.GOVERNMENT  // 'government'
-MODES.MIXED       // 'mixed'`
+    title: 'تغيّر الـ mode',
+    description: 'مصدر التغيير (مثلاً: حفظ إعدادات) يحدّث بيانات الـ session',
+    icon: 'i-lucide-git-commit-horizontal'
   },
   {
-    name: 'mode',
-    type: 'ComputedRef',
-    description: 'الـ mode الحالي كـ string — يتحدث تلقائياً عند تغيير session.',
-    example: `const { mode } = useMode()
-console.log(mode.value)
-// 'private' | 'government' | 'mixed'`
+    title: 'المراقب المركزي',
+    description: 'watch(mode) في app.vue بيلتقط التغيير',
+    icon: 'i-lucide-radar'
   },
   {
-    name: 'isMode(...modes)',
-    type: 'Function',
-    description: 'يتحقق هل النظام الحالي ضمن القائمة المحددة — يقبل عدة أنظمة.',
-    example: `const { isMode } = useMode()
-
-isMode('private')              // true لو خاص
-isMode('private', 'mixed')     // true لو خاص أو مختلط
-isMode('government')           // true لو حكومي`
+    title: 'تنظيف وفحص',
+    description: 'مسح الكاش القديم + التأكد إن الصفحة الحالية مسموحة في الوضع الجديد',
+    icon: 'i-lucide-eraser'
   },
   {
-    name: 'filterByMode(items)',
-    type: 'Function',
-    description: 'يصفي array من العناصر حسب خاصية modes الاختيارية — عنصر بدون modes يظهر دائماً.',
-    example: `const { filterByMode } = useMode()
-
-const items = [
-  { label: 'Dashboard' },
-  { label: 'Invoices', modes: ['private'] },
-  { label: 'Tenders', modes: ['government'] },
-]
-
-filterByMode(items)
-// → العناصر المناسبة للنظام الحالي`
+    title: 'Remount كامل',
+    description: 'الـ key بتاع NuxtLayout بيتغيّر → هدم وبناء الشجرة من الصفر',
+    icon: 'i-lucide-refresh-cw'
   }
 ]
 
-const modeSwitchUsageCode = '<' + `script setup>
-import FormPrivate from '~/components/.../FormPrivate.vue'
-import FormGovernment from '~/components/.../FormGovernment.vue'
+const appVueCode = '<' + `script setup>
+const { mode } = useMode()
+const route = useRoute()
 
-const formComponents = {
-  private: FormPrivate,
-  government: FormGovernment
-}
+watch(mode, async () => {
+  clearNuxtData()
+  const allowed = route.meta.modes
+  if (allowed && !allowed.includes(mode.value)) {
+    await navigateTo('/')
+  }
+})
   <` + `/script>
 
 <template>
-  <BaseModeSwitch :is="formComponents" />
+  <NuxtLayout :key="mode">
+    <NuxtPage />
+  </NuxtLayout>
 </template>`
 
-const modeShowUsageCode = `<!-- إظهار للنظام الخاص فقط -->
-<BaseModeShow :modes="['private']">
-  <div>محتوى خاص بالنظام الخاص</div>
-</BaseModeShow>
+const useModeVariantCode = `export const useModeVariant = (variants) => {
+  const { mode } = useMode()
+  return variants[mode.value]?.() ?? {}
+}`
 
-<!-- إظهار للجميع ما عدا الحكومي -->
-<BaseModeShow :except="['government']">
-  <div>يظهر لكل الأنظمة إلا الحكومي</div>
+const employmentSchemaCode = `export const useEmployeeEmploymentSchema = () => {
+  const modeSpecific = useModeVariant({
+    private: useEmployeeEmploymentSchemaPrivate,
+    public: useEmployeeEmploymentSchemaPublic
+  })
+
+  const baseSchema = z.object({ /* الحقول المشتركة */ })
+
+  const schema = computed(() =>
+    modeSpecific.extension
+      ? baseSchema.extend(modeSpecific.extension.shape)
+      : baseSchema
+  )
+
+  return { schema }
+}`
+
+const noVariantCode = `export const useQualificationsSchema = () => {
+  const schema = z.object({ /* ... */ })
+  return { schema }
+}`
+
+const artifactPhilosophyRows = [
+  ['Schema / Form State', 'base + extension', 'ملف الـ variant يصدّر الفرق (delta) بس — المشترك مُعرَّف مرة واحدة'],
+  ['Columns', 'تعريف كامل لكل وضع', 'ترتيب الأعمدة عقد مرئي — كل variant بيعرّف الأعمدة كاملة'],
+  ['Sidebar', 'تعريف كامل عند ظهور فرق', 'نفس منطق الـ Columns — الترتيب والتجميع مرئيين'],
+  ['Components', 'فصل كامل بالملفات', 'هيكل مختلف يستحق ملفات مستقلة عبر componentsMap']
+]
+
+const modeShowUsageCode = `<!-- إظهار للوضع الخاص فقط -->
+<BaseModeShow :modes="['private']">
+  <BaseInput v-model="state.someField" label="حقل خاص بالوضع الخاص" />
 </BaseModeShow>`
 
-const middlewareRules = [
-  {
-    title: 'صفحة بدون modes',
-    description: 'مسموحة لكل الأنظمة — لا حاجة لتحديد modes',
-    style: 'border-success/30 bg-success/5',
-    textStyle: 'text-success'
-  },
-  {
-    title: 'صفحة مع modes',
-    description: 'مسموحة فقط للأنظمة المحددة — باقي الأنظمة يتم تحويلها لـ /',
-    style: 'border-warning/30 bg-warning/5',
-    textStyle: 'text-warning'
-  }
+const differenceScaleRows = [
+  ['نص فقط (عنوان، label)', 'مفتاح ترجمة بلاحقة الوضع'],
+  ['حقل أو عنصر واحد', 'BaseModeShow'],
+  ['هيكل مختلف بالكامل', 'ملف variant مستقل عبر componentsMap']
 ]
 
-const pageMetaExamples = `// صفحة متاحة لكل الأنظمة
-definePageMeta({
-  title: 'pages.activities'
-})
-
-// صفحة خاصة بالنظام الخاص فقط
-definePageMeta({
-  title: 'pages.invoices',
-  modes: ['private']
-})
-
-// صفحة متاحة للخاص والمختلط
-definePageMeta({
-  title: 'pages.tax',
-  modes: ['private', 'mixed']
+const middlewareCode = `export default defineNuxtRouteMiddleware((to) => {
+  const allowedModes = to.meta?.modes
+  if (!allowedModes || !Array.isArray(allowedModes) || allowedModes.length === 0) return
+  const { isMode } = useMode()
+  if (!isMode(...allowedModes)) return navigateTo('/')
 })`
 
-const sidebarCode = `export const useSidebar = () => {
-  const { filterByMode } = useMode()
+const pageMetaExamples = `// صفحة متاحة لكل الأوضاع
+definePageMeta({ title: 'pages.qualifications' })
 
-  const filterLinks = (items) => {
-    return filterByMode(items).map(item => {
-      if (item.children)
-        return { ...item, children: filterByMode(item.children) }
-      return item
-    }).filter(item => !(item.children?.length === 0))
-  }
+// صفحة خاصة بالوضع الخاص فقط
+definePageMeta({ title: 'pages.employment', modes: ['private'] })`
 
-  const rawLinks = computed(() => [
-    {
-      label: t('sidebar.dashboard'),
-      icon: 'i-lucide-house',
-      to: localePath('/')
-      // بدون modes → يظهر دائماً
-    },
-    {
-      label: t('sidebar.invoices'),
-      icon: 'i-lucide-file-text',
-      to: localePath('/invoices'),
-      modes: ['private']  // ← خاص فقط
-    },
-    // ...
-  ])
+const moduleStructureCode = `composables/modules/administration/employees/_employment/
+├── schema/
+│   ├── index.js                    ← الأوركسترا (useModeVariant)
+│   ├── schema.private.js           ← extension الوضع الخاص
+│   └── schema.public.js            ← extension الوضع العام
+├── form/
+│   ├── index.js
+│   ├── form.private.js
+│   └── form.public.js
+└── lists/
+    └── index.js                    ← مشترك، بدون فروقات`
 
-  const links = computed(() => [filterLinks(rawLinks.value), []])
-  return { links }
-}`
-
-const moduleStructureDifferent = `composables/modules/settings/signatures/
-├── index.js              ← الأوركسترا
-├── schema.private.js     ← سكيمة نظيفة
-├── schema.government.js  ← سكيمة نظيفة
-├── form.private.js       ← state نظيف
-├── form.government.js    ← state نظيف
-├── table.js              ← مشترك
-└── columns.js            ← مشترك
-
-components/modules/settings/signatures/
-├── SignaturesFormPrivate.vue
-├── SignaturesFormGovernment.vue
-└── SignaturesTable.vue`
-
-const moduleStructureShared = `composables/modules/settings/activities/
-├── index.js
-├── schema.js       ← ملف واحد
-├── form.js         ← ملف واحد
-├── table.js
-└── columns.js
-
-components/modules/settings/activities/
-├── ActivitiesForm.vue   ← ملف واحد
-└── ActivitiesTable.vue`
-
-const namingConventions = [
-  ['Schema composable', 'schema.js', 'schema.private.js / schema.government.js'],
-  ['Form composable', 'form.js', 'form.private.js / form.government.js'],
-  ['Columns composable', 'columns.js', 'columns.private.js / columns.government.js'],
-  ['Vue Component', 'SignaturesForm.vue', 'SignaturesFormPrivate.vue / SignaturesFormGovernment.vue'],
-  ['Export function', 'useSignaturesSchema()', 'useSignaturesSchemaPrivate() / ...Government()']
+const rejectedAlternatives = [
+  ['Config-Driven (حقول كـ array)', 'يفقد مرونة الـ template — لا slots مخصصة، لا layouts معقدة، كل نوع حقل جديد يحتاج case جديد في الـ renderer'],
+  ['Nuxt Layers (طبقة منفصلة لكل وضع)', 'الـ mode بييجي runtime من بيانات الـ session — Layers بتشتغل build-time بس، مش مناسبة للسيناريو ده']
 ]
 
-const orchestratorCode = `export const useSignatures = () => {
-  const { mode } = useMode()
-
-  // ← الشرط الوحيد: اختيار النسخة الصحيحة
-  const schemaMap = {
-    private: useSignaturesSchemaPrivate,
-    government: useSignaturesSchemaGovernment
-  }
-  const formMap = {
-    private: useSignaturesFormPrivate,
-    government: useSignaturesFormGovernment
-  }
-
-  const { schema } = schemaMap[mode.value]()
-  const form = formMap[mode.value]()
-
-  // ← مشترك — بدون أي شرط
-  const table = useSignaturesTable()
-  const { createColumns } = useSignaturesColumns()
-
-  const editHandler = (item) => {
-    form.state.id = item.id
-  }
-
-  const columns = createColumns({ onEdit: editHandler })
-
-  const resetState = () => form.resetForm()
-
-  const submitHandler = async () => {
-    table.loadingSave.value = true
-    try {
-      const body = form.prepareSubmitData()
-      await table.updateSignature(form.state.id, body)
-      form.resetForm()
-    } catch {
-      // handled by base service
-    } finally {
-      table.loadingSave.value = false
-    }
-  }
-
-  return {
-    schema, state: form.state,
-    reportsList: form.reportsList,
-    items: table.items,
-    loadingSave: table.loadingSave,
-    columns, resetState, submitHandler
-  }
-}`
-
-const modeLocations = [
-  { file: 'composables/core/useMode.js', purpose: 'قراءة الـ mode من session وتوحيد الصيغة' },
-  { file: 'middleware/mode.global.js', purpose: 'حماية الصفحات المقيدة بنظام معين' },
-  { file: 'composables/layout/useSidebar.js', purpose: 'تصفية عناصر الـ sidebar حسب النظام' },
-  { file: 'composables/modules/*/index.js', purpose: 'اختيار schema/form/component الصحيح (الأوركسترا)' }
-]
-
-const addModeSteps = [
-  {
-    title: 'تحديث useMode.js',
-    description: 'إضافة النظام الجديد للثوابت وقاعدة التحويل.',
-    code: `export const MODES = {
-  PRIVATE: 'private',
-  GOVERNMENT: 'government',
-  MIXED: 'mixed'  // ← جديد
-}
-
-// في computed:
-{ 1: MODES.PRIVATE, 2: MODES.GOVERNMENT, 3: MODES.MIXED }`
-  },
-  {
-    title: 'إنشاء ملفات النظام الجديد',
-    description: 'لكل موديول مختلف — schema, form, component.',
-    code: `schema.mixed.js
-form.mixed.js
-SignaturesFormMixed.vue`,
-    language: 'text'
-  },
-  {
-    title: 'تحديث الأوركسترا',
-    description: 'إضافة النظام الجديد في الـ map.',
-    code: `const schemaMap = {
-  private: useSignaturesSchemaPrivate,
-  government: useSignaturesSchemaGovernment,
-  mixed: useSignaturesSchemaMixed  // ← جديد
-}`
-  },
-  {
-    title: 'تحديث الصفحة',
-    description: 'إضافة المكوّن الجديد في formComponents.',
-    code: `const formComponents = {
-  private: FormPrivate,
-  government: FormGovernment,
-  mixed: FormMixed  // ← جديد
-}`
-  },
-  {
-    title: 'تحديث Sidebar',
-    description: 'إضافة عناصر جديدة مع modes: [\'mixed\'].',
-    code: `{
-  label: t('sidebar.mixedReport'),
-  to: localePath('/mixed-report'),
-  modes: ['mixed']  // ← جديد
-}`
-  },
-  {
-    title: 'تحديث Page Meta',
-    description: 'حماية الصفحات المقيدة بالنظام الجديد.',
-    code: `definePageMeta({
-  title: 'pages.mixedReport',
-  modes: ['mixed']  // ← حماية بالـ middleware
-})`
-  }
-]
-
-const separationComparison = [
-  ['مع مئات الحقول', 'مئات الشروط في template', 'كل ملف نظيف 100%'],
-  ['مع 3+ أنظمة', 'تعقيد أسّي', 'ملف جديد فقط'],
-  ['فهم نظام واحد', 'فلترة ذهنية لكل سطر', 'فتح ملف واحد = كل شيء'],
-  ['إضافة نظام جديد', 'تعديل ملفات موجودة', 'إضافة ملفات فقط']
-]
-
-const duplicationAnalysis = [
-  ['HTML الحقول في template', 'منخفضة — تصريحي وليس لوجك'],
-  ['Labels', 'صفر — من i18n (ملف واحد مشترك)'],
-  ['سلوك الحقول', 'صفر — في Base Components'],
-  ['Schema', 'صفر — ملف مستقل لكل نظام'],
-  ['Form state', 'صفر — ملف مستقل لكل نظام'],
-  ['Services/API', 'صفر — مشترك دائماً'],
-  ['Save/Submit', 'صفر — مشترك في الأوركسترا']
-]
-
-const alternativesComparison = [
-  ['Config-Driven (حقول كـ array)', 'يفقد مرونة الـ template — لا slots مخصصة، لا layouts معقدة، كل نوع حقل جديد يحتاج case'],
-  ['Nuxt Layers (طبقة لكل نظام)', 'الـ mode يأتي runtime من API بعد تسجيل الدخول — Layers تعمل build-time فقط']
+const whatChangedRows = [
+  [
+    'من 3 أوضاع لوضعين',
+    'نظام بتلات أوضاع منفصلة — خاص، حكومي، ومختلط — كل واحد بملفات ومنطق مستقل خاص بيه.',
+    'الوضع "المختلط" ما كانش له تمايز فعلي كافي يستاهل مسار كامل مستقل، والفرق الحقيقي بين "الحكومي" وباقي الحالات كان بيتلخص عملياً في نفس منطق الوضع "العام".',
+    'تقليص النظام لوضعين بس. تبسيط حقيقي في عدد المسارات المطلوب صيانتها، مش فقدان قدرة فعلية كانت مستخدَمة.'
+  ],
+  [
+    'حذف ModeSwitch وfilterByMode',
+    'مكوّن ModeSwitch (Dynamic component يختار الشكل المناسب حسب الوضع تلقائياً) ودالة filterByMode (تصفية عناصر قائمة حسب الوضع) — كأدوات مساعدة عامة.',
+    'ModeSwitch كان بيكرر بالظبط نفس وظيفة نمط componentsMap المستخدَم أصلاً في كل أوركسترا. filterByMode طلعت dead code فعلياً — صفر استخدامات حقيقية في الكود وقت المراجعة.',
+    'الاتنين اتشالوا بالكامل. ModeSwitch استُبدل بـ componentsMap مباشرة، وfilterByMode اتشالت من غير أي بديل — مكنش ليها استخدام حقيقي أصلاً.'
+  ]
 ]
 
 const coreFiles = [
-  { path: 'composables/core/useMode.js', description: 'قراءة الـ mode من session' },
-  { path: 'composables/core/useGlobal.js', description: 'يصدّر mode و isMode من useMode' },
-  { path: 'components/base/ModeSwitch.vue', description: 'Dynamic component حسب الـ mode' },
-  { path: 'components/base/ModeShow.vue', description: 'Conditional render حسب الـ mode' },
-  { path: 'middleware/mode.global.js', description: 'حماية الصفحات المقيدة' },
-  { path: 'composables/layout/useSidebar.js', description: 'تصفية عناصر الـ sidebar' }
+  { path: 'composables/core/useMode.js', description: 'قراءة الـ mode من الـ session وتوحيد الصيغة' },
+  { path: 'composables/core/useModeVariant.js', description: 'اختيار الـ variant المناسب للوضع الحالي' },
+  { path: 'components/base/ModeShow.vue', description: 'إظهار/إخفاء شرطي للفروقات الصغيرة' },
+  { path: 'middleware/mode.global.js', description: 'حماية الصفحات المقيدة بوضع معين' },
+  { path: 'app.vue', description: 'الـ NuxtLayout key="mode" + المراقب المركزي' }
 ]
 
 const moduleFiles = [
-  { path: 'composables/modules/settings/signatures/index.js', description: 'الأوركسترا' },
-  { path: 'composables/modules/settings/signatures/schema.private.js', description: 'سكيمة النظام الخاص' },
-  { path: 'composables/modules/settings/signatures/schema.government.js', description: 'سكيمة النظام الحكومي' },
-  { path: 'composables/modules/settings/signatures/form.private.js', description: 'State النظام الخاص' },
-  { path: 'composables/modules/settings/signatures/form.government.js', description: 'State النظام الحكومي' },
-  { path: 'composables/modules/settings/signatures/table.js', description: 'مشترك' },
-  { path: 'composables/modules/settings/signatures/columns.js', description: 'مشترك' }
+  { path: 'composables/modules/administration/employees/_employment/schema/index.js', description: 'الأوركسترا (useModeVariant)' },
+  { path: 'composables/modules/administration/employees/_employment/schema/schema.private.js', description: 'Extension الوضع الخاص' },
+  { path: 'composables/modules/administration/employees/_employment/schema/schema.public.js', description: 'Extension الوضع العام' },
+  { path: 'composables/modules/administration/employees/_employment/form/index.js', description: 'الأوركسترا (useModeVariant)' },
+  { path: 'composables/modules/administration/employees/_employment/lists/index.js', description: 'مشترك، بدون فروقات' }
 ]
 </script>

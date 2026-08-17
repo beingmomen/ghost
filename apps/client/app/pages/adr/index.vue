@@ -147,12 +147,12 @@ const adrs = [
   {
     slug: 'multi-mode-system',
     icon: 'i-lucide-layers',
-    title: 'نظام الأوضاع المتعددة',
+    title: 'نظام الأوضاع',
     subtitle: 'Multi-Mode Architecture',
-    description: 'بنية تدعم أوضاع تشغيل متعددة (خاص، حكومي، مختلط) تُحدد في وقت التشغيل — مع فصل كامل بالملفات بدون أي شروط في الكود.',
-    topics: ['Runtime Switching', 'File Separation', 'Orchestrator Pattern', 'Zero Conditionals', 'البدائل المدروسة'],
-    sections: 12,
-    readTime: '15 دقيقة قراءة'
+    description: 'بنية تدعم وضعين (خاص وعام) تُحدد في وقت التشغيل — مع Keyed Remount للتبديل الآمن، وuseModeVariant لعزل الفروقات الحقيقية بس.',
+    topics: ['Runtime Switching', 'Keyed Remount', 'useModeVariant', 'Base + Extension', 'البدائل المدروسة'],
+    sections: 11,
+    readTime: '12 دقيقة قراءة'
   }
 ]
 
