@@ -28,7 +28,7 @@
               v-for="section in tocSections"
               :key="`m-${section.id}`"
               :href="`#${section.id}`"
-              class="flex items-center justify-end gap-2 px-2 py-1.5 rounded-lg text-base text-muted hover:text-highlighted hover:bg-elevated/60 transition-colors"
+              class="flex items-center justify-start gap-2 px-2 py-1.5 rounded-lg text-base text-muted hover:text-highlighted hover:bg-elevated/60 transition-colors"
             >
               <span class="size-1.5 rounded-full bg-muted/40 shrink-0" />
               {{ section.label }}
