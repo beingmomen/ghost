@@ -33,7 +33,7 @@
     </UPageHero>
 
     <UPageSection :ui="{ container: '!pt-0 pb-12 sm:pb-16 lg:pb-20' }">
-      <div class="grid sm:grid-cols-2 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="(adr, index) in adrs"
           :key="adr.slug"
@@ -153,6 +153,16 @@ const adrs = [
     topics: ['Runtime Switching', 'Keyed Remount', 'useModeVariant', 'Base + Extension', 'البدائل المدروسة'],
     sections: 11,
     readTime: '12 دقيقة قراءة'
+  },
+  {
+    slug: 'monorepo-deployment',
+    icon: 'i-lucide-box',
+    title: 'نشر المونوريبو',
+    subtitle: 'pnpm Workspace Monorepo',
+    description: 'ثلاثة تطبيقات في workspace واحد، لكل واحد ديبلوي مستقل — قرار الاستضافة الذاتية، والتقسيم حسب المسار، وعطل إنتاج حقيقي غيّر طريقة كتابة متغيّرات البيئة.',
+    topics: ['pnpm Workspaces', 'CI/CD', 'Selective Deploy', 'حادثة إنتاج'],
+    sections: 7,
+    readTime: '6 دقائق قراءة'
   }
 ]
 

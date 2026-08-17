@@ -5,9 +5,10 @@ its REST API, and the admin dashboard I use to manage its content.
 
 Built as a pnpm workspace so the three apps share tooling and a single
 lockfile, while each deploys independently: a push that only touches
-`apps/client` won't rebuild the API. Self-hosted on a VPS with Coolify
-and Traefik rather than a managed platform, which keeps SSL, routing,
-and process management under my control.
+`apps/client` won't rebuild the API. Self-hosted on a VPS running
+CloudPanel, with a GitHub Actions self-hosted runner and PM2 handling
+builds and process management rather than a managed platform, which
+keeps deployment under my control.
 
 Arabic-first with full RTL support throughout.
 
@@ -39,16 +40,18 @@ pnpm build:db
 
 ## Deployment
 
-Each app deploys independently via Coolify on push to `main`. Auto-deploy triggers:
+Each app deploys independently on push to `main`, via a self-hosted GitHub
+Actions runner that builds only the changed apps, sequentially:
 
-- `apps/client/**` or `pnpm-lock.yaml` → redeploys client
-- `apps/server/**` or `pnpm-lock.yaml` → redeploys server
-- `apps/db/**` or `pnpm-lock.yaml` → redeploys db
+- `apps/client/**` → rebuilds client
+- `apps/server/**` → restarts server
+- `apps/db/**` → rebuilds db
+- `pnpm-lock.yaml` → reinstalls and rebuilds all three
 
 ## Stack
 
 - **Runtime**: Node.js 24 (see `.nvmrc`) + pnpm 10
 - **Frontend**: Nuxt 4, Nuxt UI v4, Tailwind CSS v4
 - **Backend**: Express.js
-- **Proxy**: Traefik + Let's Encrypt (SSL)
-- **Platform**: Coolify (self-hosted)
+- **Proxy**: CloudPanel (nginx) + Let's Encrypt (SSL)
+- **Platform**: CloudPanel VPS + PM2 (self-hosted)
