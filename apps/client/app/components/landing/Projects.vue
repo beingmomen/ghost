@@ -21,7 +21,8 @@ const featuredProjects = computed(() => {
       : `${cloudinary.cloudinaryUrl}${project.image}`
     return {
       ...project,
-      image: optimizeCloudinary(src, cloudinaryTransformFor(src, 'thumb'))
+      image: optimizeCloudinary(src, cloudinaryTransformFor(src, 'thumb')),
+      link: projectLink(project)
     }
   })
 })
@@ -53,13 +54,10 @@ const featuredProjects = computed(() => {
       />
 
       <div class="lg:col-span-8 space-y-4">
-        <NuxtLink
+        <div
           v-for="(project, i) in featuredProjects"
           :key="project._id"
-          :to="project.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          :class="`animate-fade-in group flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 ${hover.card}`"
+          :class="`animate-fade-in group relative flex items-start gap-4 rounded-xl border border-default/60 bg-elevated/30 p-4 sm:p-5 ${hover.card}`"
           :style="`animation-delay: ${i * 0.12}s`"
         >
           <div class="flex-1 min-w-0 text-right">
@@ -71,13 +69,13 @@ const featuredProjects = computed(() => {
               {{ project.description }}
             </p>
             <div
-              v-if="project.tags?.length"
+              v-if="project.skills?.length"
               class="flex flex-wrap justify-end gap-1.5 mt-2.5"
             >
               <UBadge
-                v-for="tag in project.tags.slice(0, 3)"
-                :key="tag._id"
-                :label="tag.title"
+                v-for="skill in project.skills.slice(0, 3)"
+                :key="skill._id"
+                :label="skill.title"
                 color="primary"
                 variant="subtle"
                 size="xs"
@@ -97,11 +95,21 @@ const featuredProjects = computed(() => {
             />
           </div>
 
+          <CommonProjectExternalLink :project="project" />
+
           <UIcon
             name="i-lucide-arrow-left"
             :class="`size-4 text-primary self-center shrink-0 ${hover.arrow}`"
           />
-        </NuxtLink>
+
+          <NuxtLink
+            :to="project.link.to"
+            :target="project.link.target"
+            :rel="project.link.rel"
+            :aria-label="project.title"
+            class="absolute inset-0"
+          />
+        </div>
       </div>
     </div>
   </section>
