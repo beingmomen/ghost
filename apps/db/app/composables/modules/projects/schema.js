@@ -16,6 +16,20 @@ export const useProjectSchema = () => {
         })
         .min(3, 'يجب اختيار 3 مهارات على الأقل'),
       isActive: z.boolean().optional(),
+      detailSlug: z
+        .string()
+        .regex(
+          /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          'الرابط يجب أن يحتوي على حروف إنجليزية صغيرة وأرقام وشرطات فقط'
+        )
+        .optional()
+        .or(z.literal('')),
+      isProductionWork: z.boolean().optional(),
+      productionOrder: z
+        .number({ message: 'الترتيب يجب أن يكون رقم' })
+        .int()
+        .min(0)
+        .optional(),
       altText: z
         .string({ message: 'النص البديل مطلوب' })
         .min(1, 'النص البديل مطلوب'),

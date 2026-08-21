@@ -31,6 +31,20 @@ exports.createProjectRules = [
     .isArray({ min: 3 })
     .withMessage('Project must have at least 3 skills.'),
   body('skillIds.*').isMongoId().withMessage('Each skill must be a valid ID.'),
+  body('detailSlug')
+    .customSanitizer(v => (v === '' || v == null ? undefined : v))
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('detailSlug must be between 2 and 50 characters.')
+    .matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+    .withMessage(
+      'detailSlug must be lowercase letters, numbers, and hyphens only.'
+    ),
+  body('productionOrder')
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage('productionOrder must be a non-negative integer.'),
   body('altText')
     .trim()
     .notEmpty()
@@ -71,6 +85,20 @@ exports.updateProjectRules = [
     .optional()
     .isMongoId()
     .withMessage('Each skill must be a valid ID.'),
+  body('detailSlug')
+    .customSanitizer(v => (v === '' || v == null ? undefined : v))
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('detailSlug must be between 2 and 50 characters.')
+    .matches(/^[a-z0-9]+(-[a-z0-9]+)*$/)
+    .withMessage(
+      'detailSlug must be lowercase letters, numbers, and hyphens only.'
+    ),
+  body('productionOrder')
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage('productionOrder must be a non-negative integer.'),
   body('altText')
     .optional()
     .trim()

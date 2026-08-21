@@ -58,6 +58,26 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
+    detailSlug: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      sparse: true,
+      index: true,
+      match: [
+        /^[a-z0-9]+(-[a-z0-9]+)*$/,
+        'detailSlug must be lowercase letters, numbers, and hyphens only'
+      ]
+    },
+    isProductionWork: {
+      type: Boolean,
+      default: false
+    },
+    productionOrder: {
+      type: Number,
+      default: 0
+    },
     altText: {
       type: String,
       required: [true, 'Alt text is required'],
@@ -84,6 +104,7 @@ const schema = new mongoose.Schema(
 schema.index({ slug: 1, user: 1 });
 schema.index({ createdAt: -1, title: 1 });
 schema.index({ isActive: 1, createdAt: -1 });
+schema.index({ isProductionWork: 1, productionOrder: 1 });
 
 schema.pre('save', function (next) {
   if (this.isModified('title')) {

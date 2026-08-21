@@ -66,6 +66,27 @@ const { label: descCounter, colorClass: descCounterClass } = useCharacterCounter
           checked-label="نشط"
           unchecked-label="غير نشط"
         />
+        <BaseInput
+          v-model="state.detailSlug"
+          name="detailSlug"
+          label="رابط صفحة التفاصيل"
+          placeholder="مثل: warraq"
+          help="لو اتملى، الكارت في الموقع هيودّي لصفحة تفاصيل داخلية بدل اللينك الخارجي"
+        />
+        <BaseSwitch
+          v-model="state.isProductionWork"
+          name="isProductionWork"
+          label="أعمال الإنتاج"
+          checked-label="ظاهر في القسم"
+          unchecked-label="غير ظاهر في القسم"
+        />
+        <BaseInput
+          v-model.number="state.productionOrder"
+          name="productionOrder"
+          label="ترتيب العرض"
+          type="number"
+          placeholder="0"
+        />
 
         <BaseTextarea
           v-model="state.description"

@@ -17,7 +17,8 @@ exports.getHomeFeatured = catchAsync(async (req, res, next) => {
 exports.getHomeFeaturedPopulated = catchAsync(async (req, res, next) => {
   const doc = await Model.findOne().populate({
     path: 'projects',
-    match: { isActive: true }
+    match: { isActive: true },
+    populate: [{ path: 'skills' }]
   });
 
   // الـ singleton ممكن ما يكونش موجود على deploy جديد قبل أول POST →

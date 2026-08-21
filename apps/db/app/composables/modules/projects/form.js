@@ -5,6 +5,9 @@ const INITIAL_STATE = {
   url: undefined,
   skillIds: [],
   isActive: true,
+  detailSlug: undefined,
+  isProductionWork: false,
+  productionOrder: 0,
   altText: undefined,
   image: undefined
 };
@@ -36,6 +39,9 @@ export const useProjectForm = () => {
       altText: data.altText,
       skillIds: data.skillIds || [],
       isActive: data.isActive ?? true,
+      detailSlug: data.detailSlug,
+      isProductionWork: data.isProductionWork ?? false,
+      productionOrder: data.productionOrder ?? 0,
       image: data.image
     });
   };
@@ -48,7 +54,10 @@ export const useProjectForm = () => {
       url: state.url,
       altText: state.altText,
       skillIds: state.skillIds,
-      isActive: state.isActive
+      isActive: state.isActive,
+      detailSlug: state.detailSlug,
+      isProductionWork: state.isProductionWork,
+      productionOrder: state.productionOrder
     };
     if (state.image instanceof File) {
       data.image = state.image;
