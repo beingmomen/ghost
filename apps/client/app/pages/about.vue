@@ -42,7 +42,7 @@ const page = computed(() => {
 })
 
 useSeoMeta({
-  title: 'نبذة عني | عبدالمؤمن الشطوري',
+  title: 'نبذة عني',
   ogTitle: 'نبذة عني | عبدالمؤمن الشطوري',
   description: pageDescription,
   ogDescription: pageDescription,

@@ -12,12 +12,6 @@ const { error: landingError, refresh: refreshLanding } = await useAPI('/landing'
 })
 
 useHead({
-  // The global titleTemplate (from `site.name` in nuxt.config) appends
-  // " | <fullName>" to every page title. This page's own title already
-  // contains the full name, so without this override it renders twice
-  // ("... | Frontend Engineer | عبدالمؤمن الشطوري"). `%s` disables the
-  // template for this page only, keeping the literal `pageTitle` string.
-  titleTemplate: '%s',
   script: [
     {
       type: 'application/ld+json',

@@ -40,7 +40,7 @@ const config = useRuntimeConfig()
 const pageDescription = 'مقالات تقنية عن تطوير الويب وأنظمة التصميم والأداء، من واقع الشغل.'
 
 useSeoMeta({
-  title: 'المدونة | عبدالمؤمن الشطوري',
+  title: 'المدونة',
   ogTitle: 'المدونة | عبدالمؤمن الشطوري',
   description: pageDescription,
   ogDescription: pageDescription,

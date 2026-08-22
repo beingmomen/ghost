@@ -17,7 +17,11 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'عبدالمؤمن الشطوري | Frontend Engineer',
+      // عنوان افتراضي لو صفحة ما حددتش عنوان بتاعها (مثلاً صفحة خطأ نادرة).
+      // titleTemplate الفعلي (اللي بيضيف اسم الموقع) معرّف في app.vue —
+      // لازم يكون جوه useHead عشان يتطبّق فعلياً على عناوين الصفحات
+      // (تعريفه هنا كـ function جوه nuxt.config اتجرّب وماخدش تأثير).
+      title: `${IDENTITY.fullName} | ${IDENTITY.title}`,
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       meta: [

@@ -6,7 +6,7 @@ const { global } = useAppConfig()
 const { loading, post } = useApiRequest()
 
 useSeoMeta({
-  title: 'تواصل معنا | عبدالمؤمن الشطوري',
+  title: 'تواصل معنا',
   description: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',
   ogTitle: 'تواصل معنا | عبدالمؤمن الشطوري',
   ogDescription: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',

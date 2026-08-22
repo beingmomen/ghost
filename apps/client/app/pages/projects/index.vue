@@ -47,10 +47,10 @@ const openSourceProjects = [
   }
 ]
 
-const pageDescription = 'مشاريع ويب حقيقية اشتغلت عليها — واجهات وتطبيقات بُنيت بإتقان.'
+const pageDescription = 'مشاريع ويب حقيقية اشتغلت عليها — أنظمة وواجهات بُنيت لعملاء وشركات.'
 
 useSeoMeta({
-  title: 'المشاريع | عبدالمؤمن الشطوري',
+  title: 'المشاريع',
   ogTitle: 'المشاريع | عبدالمؤمن الشطوري',
   description: pageDescription,
   ogDescription: pageDescription,

@@ -24,7 +24,7 @@ const sanitizedContent = computed(() =>
 )
 
 const blogTitle = computed(
-  () => singleBlog.value.title || 'مقال - عبدالمؤمن الشطوري'
+  () => singleBlog.value.title || 'مقال'
 )
 const blogDescription = computed(
   () => singleBlog.value.description || 'مقال من مدونة عبدالمؤمن الشطوري'

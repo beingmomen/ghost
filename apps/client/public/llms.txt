@@ -1,6 +1,6 @@
 # عبدالمؤمن الشطوري - Abdelmomen Elshatory
 
-> Frontend Engineer يبني واجهات وتطبيقات ويب حديثة وعالية الأداء منذ 2021
+> Frontend Engineer يبني أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue منذ 2021
 
 ## About
 Abdelmomen Elshatory (عبدالمؤمن الشطوري) is a frontend engineer building modern, high-performance web applications with a focus on user experience since 2021. Available for full-time roles and freelance projects.
