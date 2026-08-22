@@ -2,12 +2,12 @@
 
 > 🔗 جزء من ميزة «إعادة هيكلة صفحة المشاريع» بتشمل كمان: server و client.
 > الملفات المرتبطة:
-> - [../../server/Plan/2026-08-19-projects-restructure.md](../../server/Plan/2026-08-19-projects-restructure.md)
-> - [../../client/Plan/2026-08-19-projects-restructure.md](../../client/Plan/2026-08-19-projects-restructure.md)
+> - [../../../server/Plan/Done/2026-08-19-projects-restructure.md](../../../server/Plan/Done/2026-08-19-projects-restructure.md)
+> - [../../../client/Plan/Done/2026-08-19-projects-restructure.md](../../../client/Plan/Done/2026-08-19-projects-restructure.md)
 
 - **التاريخ:** 2026-08-19
 - **المشروع:** apps/db (Nuxt 4 dashboard، وحدة `projects`)
-- **الحالة العامة:** 🔒 مراجعة مقفولة — جاهزة للتنفيذ (11 جولة، [سجل المراجعة](../../client/Plan/2026-08-19-projects-restructure.review-log.md))
+- **الحالة العامة:** ✅ مُنفَّذ بالكامل، منشور على الإنتاج، وكل معايير القبول مؤكَّدة حياً (`/my-test` 2026-08-22) — صفر مُرحَّل (11 جولة، [سجل المراجعة](../../../client/Plan/Done/2026-08-19-projects-restructure.review-log.md))
 - **⛔ شرط مسبق صارم:** خطة الـ server (رابط أعلاه) لازم تكون نزلت فعلياً وتأكدت حيّة — راجع قسم المخاطر تحت لسبب الترتيب.
 
 ## نظرة عامة
@@ -47,11 +47,11 @@
 ## معايير القبول
 
 - [x] ✔️ فورم مشروع جديد يفتح وفيه الحقول الثلاثة الجديدة، وحقل `detailSlug` فاضي ابتدائياً (مش نص "undefined" ظاهر في الحقل). فُحص live في متصفح حقيقي (Chrome DevTools).
-- [ ] حفظ مشروع من غير `detailSlug` (سيبته فاضي) → ينجح، و`GET /projects` يورّي المشروع بدون `detailSlug` خالص. **مُرحَّل: محتاج فحص بصري كامل عبر الفورم (اختيار المهارات) — متروك لـ `/my-test`.** الـ pipeline نفسه (نفس آلية السيرفر) مُتحقَّق مسبقاً في خطة السيرفر.
+- [x] ✔️ فحص حي: حفظ مشروع من غير `detailSlug` (سيبته فاضي) → ينجح، و`GET /projects` يورّي المشروع بدون `detailSlug` خالص. فُحص عبر Chrome DevTools (متصفح حقيقي، تسجيل دخول فعلي): مشروع تجريبي "TEST my-test project A" اتحفظ بنجاح ("Created successfully")، `GET /projects` أكّد `'detailSlug' in p == False` (الحقل غايب تماماً، مش `null`). المشروع اتمسح بعد الفحص مباشرة (صفر أثر متبقٍّ).
 - [x] ✔️ كتابة `detailSlug` بحرف كبير أو مسافة → رفض inline في الفورم قبل الإرسال، برسالة توضّح الصيغة المسموحة. فُحص live: `Test Slug X` → خطأ أحمر "الرابط يجب أن يحتوي على حروف إنجليزية صغيرة وأرقام وشرطات فقط" فوراً عند الـ blur.
-- [ ] حفظ مشروعين مختلفين من غير `detailSlug` (الاتنين فاضيين) → الاتنين ينجحوا، صفر خطأ 500، صفر تصادم على قيد الـ `unique`. **مُرحَّل: محتاج فحص بصري عبر الفورم — متروك لـ `/my-test`.** آلية السيرفر (نفس الحماية الثلاثية) مُتحقَّقة مسبقاً.
+- [x] ✔️ فحص حي: حفظ مشروعين مختلفين من غير `detailSlug` (الاتنين فاضيين) → الاتنين ينجحوا، صفر خطأ 500، صفر تصادم على قيد الـ `unique`. فُحص عبر Chrome DevTools: مشروعين تجريبيين ("TEST my-test project A" و"B") اتحفظوا بنجاح ورا بعض، الاتنين بـ"Created successfully"، صفر أي خطأ. `GET /projects` أكّد الاتنين موجودين بدون `detailSlug` معاً في نفس اللحظة. اتمسحوا بعد الفحص.
 - [x] ✔️ تفعيل `isProductionWork` وضبط `productionOrder` رقم → يُحفظا ويظهرا صح في `GET /projects`. فُحص live على الثلاثة مشاريع الحقيقية (Milestone 3).
-- [ ] مشروع جديد يُنشأ بدون لمس `isProductionWork` → يُحفظ بـ `false`. **مُرحَّل: محتاج فحص بصري عبر الفورم — متروك لـ `/my-test`.**
+- [x] ✔️ فحص حي: مشروع جديد يُنشأ بدون لمس `isProductionWork` → يُحفظ بـ `false`. فُحص عبر Chrome DevTools على نفس مشروعي الفحص أعلاه (السويتش فضل "غير ظاهر في القسم" من غير لمسه) — `GET /projects` أكّد `isProductionWork: False` و`productionOrder: 0` على الاتنين.
 - [x] ✔️ مشروع «دريم تي في بلاير» **موجود في `GET /projects/:id` (أو `GET /projects` العام) بحالة `isActive:false`، ومعاه سبب الأرشفة مكتوب صراحةً في الوصف** — مش محذوف. **قرار مُراجَع (2026-08-21):** الاحتفاظ به بدل المسح. فُحص live: الوصف بينتهي بـ"مؤرشف — شغل قديم بـ jQuery، غير معروض عمداً."، `isActive:false`، موجود في `GET /projects` غير المفلتر. ⚠️ **`GET /projects/all` مش صالح لهذا الفحص** (راجع Edge cases — مالوش `isActive`/`description` أصلاً).
 - [x] ✔️ `GET /projects` بترجع الثلاثة مشاريع (ورّاق، ترابط، عصام فهمي) بـ `isProductionWork:true`، وبـ `productionOrder`: ورّاق=1، ترابط=2، عصام فهمي=3 — فُحص live مباشرة ضد قاعدة الإنتاج الحقيقية (`GET /projects?isProductionWork=true&sort=productionOrder`)، النتيجة مطابقة بالظبط.
 
@@ -74,7 +74,7 @@
 ## Milestones
 
 ### Milestone 1: الحقول الثلاثة في الفورم
-- [ ] ⛔ تأكد من خطة الـ server: `detailSlug` تجريبي محفوظ عبر `POST`/`PATCH` مباشر ويرجع صح في `GET` — **مُرحَّل: خطة السيرفر لسه متعملهاش push فعلي على الـ VPS** (كودها متحقَّق live محلياً وموجود على فرع `feat/projects-restructure-server`، بس مش حيّة على `api.beingmomen.com` بعد — اتفحص مباشرة: `GET https://api.beingmomen.com/api/v1/projects` لسه من غير `detailSlug`/`isProductionWork`). **قرار المستخدم الصريح:** يكمّل بناء خطة الـ db على الكود المحلي دلوقتي، ومسؤولية توقيت النزول عليه. البند ده هيفضل مفتوح لحد ما السيرفر ينزل فعلاً.
+- [x] ✔️ تأكد من خطة الـ server: `detailSlug` تجريبي محفوظ عبر `POST`/`PATCH` مباشر ويرجع صح في `GET` — **الخطة بقت قديمة، اتحدّثت (جلسة مطابقة 2026-08-21):** السيرفر نزل فعلاً على `api.beingmomen.com` وتأكد حي — `GET https://api.beingmomen.com/api/v1/projects` بيرجّع `detailSlug`/`isProductionWork`/`productionOrder` على بيانات إنتاج حقيقية (ورّاق، ترابط، عصام فهمي).
 - [x] `app/composables/modules/projects/schema.js` — أضف `detailSlug` (نص اختياري، صيغة `/^[a-z0-9]+(-[a-z0-9]+)*$/`، بنمط `.optional().or(z.literal(''))` المنشور فعلاً في `experiences/schema.js:13-16`) و`isProductionWork` (boolean اختياري) و`productionOrder` (رقم اختياري)
 - [x] `app/composables/modules/projects/form.js` — وسّع `INITIAL_STATE` بـ `detailSlug: undefined`، `isProductionWork: false`، `productionOrder: 0`
 - [x] `app/composables/modules/projects/form.js` — وسّع `populateForm` لتمرير الحقول الثلاثة من الاستجابة
@@ -85,8 +85,8 @@
 - [x] مراجعة كود مستقلة (3 `code-reviewer` عبر عدسات bugs/conventions/simplicity) على الـ diff — **صفر اكتشافات في الثلاثة عدسات.** عدسة bugs تحديداً تتبعت 3 مخاطر افتراضية بعمق (تحويل sentinel، تركيب `.optional().or(z.literal(''))`، سلوك `v-model.number` عند مسح الحقل عبر قراءة `BaseInput`'s الحقيقي `Input.vue:67`) — كلها سليمة.
 - [x] `clean-code-guard` gate — صفر مخالفات.
 - [x] فحص حي في متصفح حقيقي (Chrome DevTools، سيرفر محلي على نفس الكود المُصحَّح): سجّلت دخول فعلي، فتحت فورم مشروع جديد. **AC1 مؤكَّد:** حقل `detailSlug` فاضي فعلاً ابتدائياً (مش نص "undefined")، `isProductionWork` مطفي بـ"غير ظاهر في القسم"، `productionOrder` بقيمة 0. **AC3 مؤكَّد:** كتابة `Test Slug X` وblur أظهرت خطأ inline أحمر بالظبط "الرابط يجب أن يحتوي على حروف إنجليزية صغيرة وأرقام وشرطات فقط"، ومسح الحقل شال الخطأ فوراً (القيمة الفاضية مقبولة).
-- [ ] فحص يدوي: باقي معايير القبول (الحفظ الفعلي/round-trip عبر الفورم) — **مُرحَّل: محتاج تكملة فحص بصري (اختيار المهارات عبر الـ multiselect ما اتحلّش بأدوات المتصفح المتاحة هنا)** — الأساس منطقياً مؤكَّد (pipeline الكود مطابق لنمط `experiences`/`faqs` المُثبَت، والسلوك الأساسي لـ `toFormData`/`BaseInput` تحقّق مباشرة من الكود الحقيقي). فحص round-trip كامل عبر الفورم متروك لـ `/my-test`.
-- [ ] **انزل** (بعد التأكد من استقرار خطة الـ server) — **مُرحَّل**، معتمد على push الـ server أولاً
+- [x] ✔️ فحص يدوي: باقي معايير القبول (الحفظ الفعلي/round-trip عبر الفورم) — أُنجز عبر `/my-test` (2026-08-22): الـ multiselect اتحل بتعيين القيمة عبر `evaluate_script`/نقر حقيقي على الخيارات (مش تجاوز الفحص) بعد ما اكتُشف إن hotkey عام في الداشبورد (على الأرجح "/" لفتح بحث سريع) كان بيخطف التركيز أثناء كتابة أي نص فيه "/" (زي رابط https://) — راجع "ملاحظة عابرة" في جلسة الاختبار بسجل المراجعة. round-trip كامل (مشروعين تجريبيين حقيقيين، صفر detailSlug، صفر لمس isProductionWork) نجح بالكامل، اتفحص عبر GET، واتمسح بعدها بصفر أثر متبقٍّ.
+- [x] ✔️ **انزل** (بعد التأكد من استقرار خطة الـ server) — **الخطة بقت قديمة، اتحدّثت:** الفورم نزل فعلاً واستُخدم مباشرة لإنتاج بيانات حقيقية على الموقع (تفعيل `isProductionWork`/`productionOrder` لورّاق/ترابط/عصام فهمي، وأرشفة "دريم تي في بلاير" بالنص الموثَّق) — مؤكَّد `GET`، مش مجرد افتراض
 
 ### Milestone 2: توثيق أرشفة «دريم تي في بلاير» (بيانات)
 - [x] افتح المشروع، تأكد إنه فعلاً «دريم تي في بلاير» بحالة غير نشط — مُتحقَّق (`isActive:false`)

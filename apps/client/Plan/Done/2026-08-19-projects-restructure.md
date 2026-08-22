@@ -2,8 +2,8 @@
 
 > 🔗 جزء من ميزة «إعادة هيكلة صفحة المشاريع» بتشمل كمان: server و db.
 > الملفات المرتبطة:
-> - [../../server/Plan/2026-08-19-projects-restructure.md](../../server/Plan/2026-08-19-projects-restructure.md)
-> - [../../db/Plan/2026-08-19-projects-restructure.md](../../db/Plan/2026-08-19-projects-restructure.md)
+> - [../../../server/Plan/Done/2026-08-19-projects-restructure.md](../../../server/Plan/Done/2026-08-19-projects-restructure.md)
+> - [../../../db/Plan/Done/2026-08-19-projects-restructure.md](../../../db/Plan/Done/2026-08-19-projects-restructure.md)
 >
 > صفحتا دراسة الحالة (ورّاق وترابط) خطط منفصلة تعتمد على هذه الخطة (المسار + اللبنات المشتركة):
 > - [2026-08-19-projects-warraq.md](2026-08-19-projects-warraq.md)
@@ -11,7 +11,7 @@
 
 - **التاريخ:** 2026-08-19
 - **المشروع:** apps/client (Nuxt 4 + Nuxt UI 4)
-- **الحالة العامة:** 🔒 مراجعة مقفولة — جاهزة للتنفيذ (11 جولة، [سجل المراجعة](2026-08-19-projects-restructure.review-log.md))
+- **الحالة العامة:** ✅ مُنفَّذ بالكامل ومنشور على الإنتاج (11 جولة، [سجل المراجعة](2026-08-19-projects-restructure.review-log.md))
 - **⛔ شرط مسبق صارم:** خطتا الـ server والـ db (روابط أعلاه) لازم تكونا نزلتا فعلياً وتأكدتا حيّتين — راجع قسم المخاطر.
 
 ## نظرة عامة

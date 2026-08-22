@@ -2,16 +2,16 @@
 
 > 🔗 جزء من ميزة «إعادة هيكلة صفحة المشاريع» بتشمل كمان: db و client.
 > الملفات المرتبطة:
-> - [../../db/Plan/2026-08-19-projects-restructure.md](../../db/Plan/2026-08-19-projects-restructure.md)
-> - [../../client/Plan/2026-08-19-projects-restructure.md](../../client/Plan/2026-08-19-projects-restructure.md)
+> - [../../../db/Plan/Done/2026-08-19-projects-restructure.md](../../../db/Plan/Done/2026-08-19-projects-restructure.md)
+> - [../../../client/Plan/Done/2026-08-19-projects-restructure.md](../../../client/Plan/Done/2026-08-19-projects-restructure.md)
 >
 > صفحتا دراسة الحالة (ورّاق وترابط) خطط منفصلة تعتمد على هذه الخطة (المسار + الحقول) بعد نزولها:
-> - [../../client/Plan/2026-08-19-projects-warraq.md](../../client/Plan/2026-08-19-projects-warraq.md)
-> - [../../client/Plan/2026-08-19-projects-tarabot.md](../../client/Plan/2026-08-19-projects-tarabot.md)
+> - [../../../client/Plan/Done/2026-08-19-projects-warraq.md](../../../client/Plan/Done/2026-08-19-projects-warraq.md)
+> - [../../../client/Plan/Done/2026-08-19-projects-tarabot.md](../../../client/Plan/Done/2026-08-19-projects-tarabot.md)
 
 - **التاريخ:** 2026-08-19
 - **المشروع:** apps/server (Express.js 4 + Mongoose/MongoDB، factory pattern)
-- **الحالة العامة:** 🔒 مراجعة مقفولة — جاهزة للتنفيذ (11 جولة، [سجل المراجعة](../../client/Plan/2026-08-19-projects-restructure.review-log.md))
+- **الحالة العامة:** ✅ مُنفَّذ بالكامل ومنشور على الإنتاج (11 جولة، [سجل المراجعة](../../../client/Plan/Done/2026-08-19-projects-restructure.review-log.md))
 
 ## نظرة عامة
 
@@ -106,7 +106,7 @@
   3. **📏 conventions (ثقة 82):** `productionOrder` من غير index، بينما كل حقول `order` المشابهة (`faqModel.js`, `roadmapTaskModel.js`, `experienceModel.js`) عندها index — ومعيار القبول نفسه بيستخدم `?isProductionWork=true&sort=productionOrder`. **اتصلح:** `schema.index({ isProductionWork: 1, productionOrder: 1 })`. فُحص live: الـ index `isProductionWork_1_productionOrder_1` موجود فعلاً على الـ DB الحقيقي.
   - **simplicity lens:** صفر اكتشافات.
 - [x] `clean-code-guard` gate على الـ diff كامل — صفر مخالفات. تكرار الـ regex عبر 3 أماكن (الموديل + الفاليديترين) موثّق كقرار دفاع-في-عمق مقصود في الخطة نفسها، مش تكرار عرضي.
-- [ ] **انزل لوحدك** (server-only PM2 restart) — الكود لسه في فرع `feat/projects-restructure-server` محلي، متعملوش push. الـ milestone ده مستقل، وباقي الخطتين مستنياه.
+- [x] ✔️ **انزل لوحدك** (server-only PM2 restart) — نزل فعلاً وتأكد حي: `GET https://api.beingmomen.com/api/v1/projects` بيرجّع `detailSlug`/`isProductionWork`/`productionOrder` على بيانات إنتاج حقيقية (جلسة مطابقة 2026-08-21)
 - [x] فحص يدوي: `db.projects.getIndexes()` على قاعدة `beingmomen` تُظهر `detailSlug_1` بـ `unique: true, sparse: true` — **الـ index موجود فعلاً على الـ DB الحقيقي** (بُني بمجرد اتصال أي عملية Mongoose بنفس السكيما، بما فيها السيرفر المحلي وقت الفحص؛ مش محتاج انتظار الـ push عشان الـ DB-level check ده، بس لسه محتاج الـ push عشان **كود** الـ VPS الحيّ يبقى محدَّث).
 - [x] فحص يدوي: تعديل مشروعين مختلفين من غير `detailSlug` — الاتنين نجحوا بدون `E11000` (فُحص محلي على نفس الـ DB).
 - [x] فحص يدوي: `GET /home-featured/populated` بترجع `skills` مليانة لكل مشروع (كانت `undefined`) — فُحص على الـ singleton الحقيقي (Warraq، ترابط).

@@ -2,12 +2,12 @@
 
 > 🔗 تعتمد على «إعادة هيكلة صفحة المشاريع» — المسار (`projects/index.vue`) وحقل `detailSlug` لازم يكونوا موجودين قبل هذه الخطة:
 > - [2026-08-19-projects-restructure.md](2026-08-19-projects-restructure.md) (apps/client)
-> - [../../server/Plan/2026-08-19-projects-restructure.md](../../server/Plan/2026-08-19-projects-restructure.md) (apps/server)
-> - [../../db/Plan/2026-08-19-projects-restructure.md](../../db/Plan/2026-08-19-projects-restructure.md) (apps/db)
+> - [../../../server/Plan/Done/2026-08-19-projects-restructure.md](../../../server/Plan/Done/2026-08-19-projects-restructure.md) (apps/server)
+> - [../../../db/Plan/Done/2026-08-19-projects-restructure.md](../../../db/Plan/Done/2026-08-19-projects-restructure.md) (apps/db)
 
 - **التاريخ:** 2026-08-19
 - **المشروع:** apps/client (Nuxt 4 + Nuxt UI 4)
-- **الحالة العامة:** 🔒 مراجعة مقفولة — جاهزة للتنفيذ (7 جولات، [سجل المراجعة](2026-08-19-projects-warraq.review-log.md))
+- **الحالة العامة:** ✅ مُنفَّذ بالكامل ومنشور على الإنتاج (7 جولات مراجعة، [سجل المراجعة](2026-08-19-projects-warraq.review-log.md)) — كل الـ Milestones والمعايير مؤكَّدة حياً على `beingmomen.com`
 
 ## نظرة عامة
 
@@ -165,7 +165,7 @@
 - [x] ✔️ الصور الأربعة تظهر بالترتيب الموثّق، بروابط Cloudinary بالضبط كما هي (مع `f_auto,q_auto`)، وبنصوص alt الحرفية. — HTML الخام أكّد الأربع `<img>` بنفس الترتيب (dashboard/invoices/bookshop-invoices/collection)، بنفس روابط `src`/`srcset`، ونصوص `alt` الحرفية. الأبعاد الحقيقية اتقاست من الـ PNG headers الفعلية: dashboard 1936×749، invoices 1930×1163، bookshop-invoices 1926×541، collection 1930×1094.
 - [x] ✔️ **فحص إفصاح — قراءة كاملة + بحث نصي معاً** على الصفحة والمصدر: صفر أي بند من القايمة السوداء. — بحث نصي على `PROJECTS/warraq.md` وعلى `warraq.vue` وعلى الـ HTML المرندر بالكامل (`1909|6431|3155|3156|Book_Shop|config.env|server/images|CloudPanel|self-hosted|runner|PM2`) → صفر تطابق في الثلاثة.
 - [x] ✔️ عنوان الصفحة، الوصف، الـ JSON-LD (`TechArticle`)، و`useBreadcrumbSchema` مطابقين للقيم الحرفية في "SEO / JSON-LD" أعلاه بالضبط. — HTML الخام أكّد: `<title>ورّاق — Warraq | عبدالمؤمن الشطوري</title>` (اللاحقة من `site.name` العام في `@nuxtjs/seo` — راجع ملاحظة تحت)، `meta description`/`og:description`/`twitter:description` كلهم `نظام إدارة توزيع الكتب بالجملة`، `og:type=article`، `og:locale=ar_EG`، `twitter:card=summary_large_image`، `twitter:site=@beingmomen`، JSON-LD كامل بالمفاتيح الثمانية بنفس الترتيب (`@context`→`publisher`)، و`BreadcrumbList` بعنصرين إضافيين لـ"المشاريع"/"ورّاق" (زائد "الرئيسية" اللي الـ composable نفسه بيضيفها تلقائياً لكل صفحات الموقع).
-- [ ] بعد تفعيل `detailSlug: 'warraq'` من الداشبورد: كارت ورّاق في `/projects` وفي الصفحة الرئيسية يودّي فعلياً على `/projects/warraq`، والأيقونة الثانوية تفتح `https://warraq.beingmomen.com` في تبويب جديد. — **مُرحَّل: محتاج نشر `/projects/warraq` على الإنتاج فعلياً الأول (شرط Milestone 3)، ولسه الفرع مش مدموج/منزول.**
+- [x] ✔️ بعد تفعيل `detailSlug: 'warraq'` من الداشبورد: كارت ورّاق في `/projects` وفي الصفحة الرئيسية يودّي فعلياً على `/projects/warraq`، والأيقونة الثانوية تفتح `https://warraq.beingmomen.com` في تبويب جديد. — `curl https://beingmomen.com/projects` و`curl https://beingmomen.com/` أكّدا `<a href="/projects/warraq" ...>` في الاتنين (اللينك الممتد للكارت في `/projects`، واللينك الممتد اليدوي في قسم "أبرز المشاريع" بالصفحة الرئيسية).
 
 > **ملاحظة اتكشفت أثناء التنفيذ (تصحيح توثيقي، مش خلل كود):** الخطة افترضت "مفيش `titleTemplate` عام في `nuxt.config.ts`" بناءً على قراءة كود صفحات `/adr/*` نفسها. الفحص الحي كشف إن موديول `@nuxtjs/seo` (`site.name` في `nuxt.config.ts`) بيضيف تلقائياً لاحقة `| عبدالمؤمن الشطوري` لعنوان الصفحة وقت الـ render — نفس السلوك ظاهر بالظبط في `/adr/monorepo-deployment` و`/projects` الحيّين (اتحقق مباشرة بفتح التلاتة في المتصفح). يعني صفحة ورّاق متسقة تماماً مع باقي الموقع، والخطة كانت غلط في افتراضها إن مفيش template — مش عيب في هذا التنفيذ.
 
@@ -198,5 +198,5 @@
 **مراجعة الكود:** 3 وكلاء `code-reviewer` (bugs/conventions/simplicity) — bugs وsimplicity رجّعوا صفر ملاحظات. conventions رجّع اتنين: (1) ترتيب عنوان الـ Hero "Warraq — ورّاق" — **رُفض**، قرار خطة محسوم وموثَّق صراحةً كمختلف عمداً عن ترتيب الـ SEO title بعد 7 جولات مراجعة ركّزت على القسم ده تحديداً؛ ملتزم بقاعدة "القرارات المحسومة متتغيّرش من غير قرار مستخدم". (2) زرار "جرّب النظام" ناقص `rel` صريح — **اتصلح**: أُضيف `rel: 'noopener noreferrer'` لـ`heroLinks` (كان شغّال أصلاً عبر auto-inject من Nuxt UI، لكن الإضافة الصريحة بتطابق النمط المستخدَم في باقي الموقع). Clean Code Guard: صفر مخالفات.
 
 ### Milestone 3: التفعيل (بيانات)
-- [ ] فعّل `detailSlug: 'warraq'` لمشروع ورّاق عبر فورم `apps/db` — بعد التأكد إن `/projects/warraq` حيّة ومنشورة فعلاً على الإنتاج — **مُرحَّل**: الفرع `feat/projects-warraq` لسه محلي، مش مدموج/منشور على الإنتاج بعد
-- [ ] فحص يدوي: كارت ورّاق في `/projects` وفي الصفحة الرئيسية يودّي داخلياً على `/projects/warraq`، والأيقونة الثانوية تفتح اللينك الخارجي — **مُرحَّل**: نفس السبب أعلاه
+- [x] ✔️ فعّل `detailSlug: 'warraq'` لمشروع ورّاق عبر فورم `apps/db` — بعد التأكد إن `/projects/warraq` حيّة ومنشورة فعلاً على الإنتاج — نُشر عبر `/my-ship` (كوميت `ed97fcb`) + push من المستخدم، `curl -I https://beingmomen.com/projects/warraq` → 200، وتفعيل `detailSlug` تم عبر الداشبورد. **ملاحظة تشغيلية اتحلّت أثناء الجلسة:** كانت قيمة `detailSlug` القديمة (`"test-slug"`، بقايا فحص حي سابق) بتسبب 404 حي على كارت ورّاق قبل ما الصفحة تُنشر؛ محاولة تفريغها عبر API فشلت بصمت (قرار محسوم في خطة الـ db: القيمة الفارغة بتتسنّط لـ`undefined` وmongoose بيتجاهل تحديثات `undefined`، فمفيش آلية مسح) — الحل الفعلي كان نشر الصفحة وضبط القيمة الصح مباشرة، مش محاولة المسح
+- [x] ✔️ فحص يدوي: كارت ورّاق في `/projects` وفي الصفحة الرئيسية يودّي داخلياً على `/projects/warraq`، والأيقونة الثانوية تفتح اللينك الخارجي — `curl https://beingmomen.com/projects` أكّد `<a href="/projects/warraq" aria-label="Warraq — ورّاق">` (لينك داخلي، الكارت كامل)؛ `GET /api/v1/projects/6a26d40deb4b836edaab83bb` أكّد `detailSlug:"warraq"`

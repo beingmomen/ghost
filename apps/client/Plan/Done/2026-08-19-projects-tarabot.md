@@ -2,12 +2,12 @@
 
 > 🔗 تعتمد على «إعادة هيكلة صفحة المشاريع» — المسار (`projects/index.vue`) وحقل `detailSlug` لازم يكونوا موجودين قبل هذه الخطة:
 > - [2026-08-19-projects-restructure.md](2026-08-19-projects-restructure.md) (apps/client)
-> - [../../server/Plan/2026-08-19-projects-restructure.md](../../server/Plan/2026-08-19-projects-restructure.md) (apps/server)
-> - [../../db/Plan/2026-08-19-projects-restructure.md](../../db/Plan/2026-08-19-projects-restructure.md) (apps/db)
+> - [../../../server/Plan/Done/2026-08-19-projects-restructure.md](../../../server/Plan/Done/2026-08-19-projects-restructure.md) (apps/server)
+> - [../../../db/Plan/Done/2026-08-19-projects-restructure.md](../../../db/Plan/Done/2026-08-19-projects-restructure.md) (apps/db)
 
 - **التاريخ:** 2026-08-19
 - **المشروع:** apps/client (Nuxt 4 + Nuxt UI 4)
-- **الحالة العامة:** 🔒 مراجعة مقفولة — جاهزة للتنفيذ (7 جولات، [سجل المراجعة](2026-08-19-projects-tarabot.review-log.md))
+- **الحالة العامة:** ✅ مُنفَّذ بالكامل ومنشور على الإنتاج (7 جولات مراجعة، [سجل المراجعة](2026-08-19-projects-tarabot.review-log.md)) — كل الـ Milestones والمعايير مؤكَّدة حياً على `beingmomen.com`
 
 ## نظرة عامة
 
@@ -139,7 +139,7 @@
 - [x] ✔️ الصور الأربعة تظهر بالترتيب الموثّق، بروابط Cloudinary بالضبط كما هي، وبنصوص alt الحرفية. — HTML الخام أكّد الترتيب والروابط والـ alt. الأبعاد الحقيقية اتقاست من الملفات الفعلية (PNG headers لأول 3، JPEG SOF0 marker لآخر واحدة): projects-list 1935×766، project-detail 1927×1036، join-requests 1930×1000، workshops 1933×808.
 - [x] ✔️ **فحص إفصاح** على الصفحة والمصدر والـ HTML المرندر: صفر أي بند من القايمة السوداء.
 - [x] ✔️ عنوان الصفحة، الوصف، الـ JSON-LD، و`useBreadcrumbSchema` مطابقين للقيم الحرفية في "SEO / JSON-LD" أعلاه بالضبط. — HTML الخام أكّد كل الحقول: `<title>ترابط | Tarabot | عبدالمؤمن الشطوري</title>` (اللاحقة من `site.name` العام، نفس ملاحظة ورّاق)، `og:description`/`twitter:description`/meta description كلهم الجملة الواحدة المعتمدة، JSON-LD بالمفاتيح الثمانية بالترتيب الصح.
-- [ ] بعد تفعيل `detailSlug: 'tarabot'` من الداشبورد: كارت ترابط في `/projects` وفي الصفحة الرئيسية يودّي فعلياً على `/projects/tarabot`. — **مُرحَّل: محتاج نشر الصفحة على الإنتاج فعلياً الأول (شرط Milestone 3)، ولسه الفرع مش مدموج/منزول.**
+- [x] ✔️ بعد تفعيل `detailSlug: 'tarabot'` من الداشبورد: كارت ترابط في `/projects` وفي الصفحة الرئيسية يودّي فعلياً على `/projects/tarabot`. — `curl https://beingmomen.com/projects` و`curl https://beingmomen.com/` أكّدا `<a href="/projects/tarabot" ...>` في الاتنين.
 
 > **ملاحظتان اتكشفوا أثناء التنفيذ:**
 > 1. **نفس ملاحظة `titleTemplate` الموثّقة في خطة ورّاق** — موديول `@nuxtjs/seo` بيضيف تلقائياً لاحقة `| عبدالمؤمن الشطوري` لكل صفحات الموقع، مش خلل في هذه الصفحة.
@@ -176,5 +176,5 @@
 **مراجعة الكود:** 3 وكلاء `code-reviewer` (bugs/conventions/simplicity) — bugs وsimplicity رجّعوا صفر ملاحظات. conventions رجّع ملاحظة واحدة (فاصل العنوان `|` بدل `—`، وترتيب مختلف عن ورّاق) — **رُفضت**، قرار خطة محسوم وموثَّق (راجع الملاحظة تحت معايير القبول أعلاه). Clean Code Guard: صفر مخالفات (نفس نمط ورّاق بالضبط).
 
 ### Milestone 3: التفعيل (بيانات)
-- [ ] فعّل `detailSlug: 'tarabot'` لمشروع ترابط عبر فورم `apps/db` — بعد التأكد إن `/projects/tarabot` حيّة ومنشورة فعلاً على الإنتاج — **مُرحَّل**: الفرع لسه محلي، مش مدموج/منشور على الإنتاج بعد
-- [ ] فحص يدوي: كارت ترابط في `/projects` وفي الصفحة الرئيسية يودّي داخلياً على `/projects/tarabot`، والأيقونة الثانوية تفتح اللينك الخارجي — **مُرحَّل**: نفس السبب أعلاه
+- [x] ✔️ فعّل `detailSlug: 'tarabot'` لمشروع ترابط عبر فورم `apps/db` — بعد التأكد إن `/projects/tarabot` حيّة ومنشورة فعلاً على الإنتاج — نُشر عبر `/my-ship` (كوميت `ed97fcb`) + push من المستخدم، `curl -I https://beingmomen.com/projects/tarabot` → 200، وتفعيل `detailSlug` تم عبر PATCH مباشر بعد تأكيد النشر
+- [x] ✔️ فحص يدوي: كارت ترابط في `/projects` وفي الصفحة الرئيسية يودّي داخلياً على `/projects/tarabot`، والأيقونة الثانوية تفتح اللينك الخارجي — `curl https://beingmomen.com/projects` و`curl https://beingmomen.com/` أكّدا `<a href="/projects/tarabot">` في الاتنين (بعد انتظار انتهاء الـ SWR cache على `/projects`)
