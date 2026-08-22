@@ -1,0 +1,24 @@
+{
+  "skill_name": "nafezly-apply",
+  "note": "No automated with-skill/baseline test runs were executed for this skill. Reasoning: (1) the workflow's only real effect — submitting a live proposal to a real client on nafezly.com — is not something that should be triggered multiple times as a 'test', since each submission spends real credibility with a real person and (per the platform) may cost the account's bidding credits; (2) the skill drives a single shared Chrome profile (one browser instance can hold the login lock at a time), so the usual parallel with-skill/baseline subagent runs aren't even mechanically possible here. The skill's logic is instead a direct distillation of one live, human-supervised run completed in the same session it was authored in (2026-08-23): ~50 real nafezly.com/projects listings across pages 1-3 of the development category were opened and read individually, and every filtering rule and rejection reason below traces back to a specific listing seen that day, not a hypothetical. Treat the user's first live invocation of this skill as iteration 1's real-world test; revise based on what actually happens then, per the skill-creator iteration loop.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "قدملي على نفذلي",
+      "expected_output": "Skill checks browser access, browses the development category on nafezly.com, applies the filter checklist to open projects, submits real proposals only to genuine matches (or reports zero if none clear the bar), and ends with a plain-language summary of what was bid on and what was skipped and why.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "في حاجة جديدة على نفذلي أقدر أشتغل عليها؟",
+      "expected_output": "Same end-to-end flow as eval 1, triggered by an indirect phrasing that doesn't name the skill or say 'قدم' explicitly.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "افتحلي نفذلي وشوف لو في مشاريع مناسبة، ولو مفيش متقدمش على حاجة ضعيفة",
+      "expected_output": "Skill applies the full filter (including the budget-to-scope and exclusion-list rules) and is willing to submit zero proposals with an honest explanation, rather than forcing a weak bid.",
+      "files": []
+    }
+  ]
+}
