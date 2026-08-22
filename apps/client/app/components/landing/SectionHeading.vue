@@ -51,6 +51,8 @@ defineProps({
       {{ description }}
     </p>
 
+    <slot />
+
     <UButton
       v-if="to"
       :to="to"

@@ -146,9 +146,11 @@ useHead({
     </UPageSection>
 
     <UPageSection
+      id="open-source"
       title="مفتوح المصدر"
       description="أدوات ومشاريع أملكها بالكامل — الكود متاح للاطلاع على GitHub."
       :ui="{
+        root: 'scroll-mt-20',
         container: '!pt-0',
         title: 'text-right',
         description: 'text-right'

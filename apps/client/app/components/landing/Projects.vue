@@ -51,7 +51,16 @@ const featuredProjects = computed(() => {
         description="نماذج حقيقية من شغلي في الويب — واجهات وتطبيقات بُنيت بإتقان."
         to="/projects"
         link-label="كل المشاريع"
-      />
+      >
+        <p class="mt-4 text-sm">
+          <NuxtLink
+            to="/projects#open-source"
+            class="text-primary hover:underline"
+          >
+            كمان عندي أدوات مفتوحة المصدر — كاتِب للإملاء الصوتي، وحزم عربية لـ RTL.
+          </NuxtLink>
+        </p>
+      </LandingSectionHeading>
 
       <div class="lg:col-span-8 space-y-4">
         <div
