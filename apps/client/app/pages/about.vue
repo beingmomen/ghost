@@ -20,7 +20,7 @@ const { data: experiences, error: expError, refresh: refreshExp } = await useAPI
 // (نفس الرسالة بنبرة أهدأ تناسب صفحة "عني" بدل ما يتكرر حرفياً).
 const heroDescription = `مهندس واجهات أمامية. بشتغل على الويب من ${IDENTITY.since}، ومعظم شغلي أنظمة أعمال عربية تشتغل في الإنتاج — توزيع وفوترة ولوحات تحكم بصلاحيات.`
 // وصف SEO فريد للصفحة (≤160) — مختلف عمداً عن meta description الهوم لتجنّب محتوى مكرر في نتايج البحث.
-const pageDescription = `عبدالمؤمن الشطوري — مهندس واجهات أمامية من ${IDENTITY.since}. خبرتي ومساري المهني والمشاريع اللي بنيتها: أنظمة توزيع وفوترة ولوحات تحكم عربية بـ Nuxt وVue.`
+const pageDescription = `عبدالمؤمن الشطوري — مهندس واجهات أمامية من ${IDENTITY.since}. خبرتي ومساري المهني والمشاريع اللي بنيتها: أنظمة توزيع وفوترة ولوحات تحكم عربية بـ Nuxt & Vue.`
 
 const resumeUrl = computed(() => infoData.value?.resumeUrl)
 

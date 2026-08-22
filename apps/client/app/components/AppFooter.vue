@@ -72,7 +72,7 @@ function scrollToTop() {
             <!-- leading-relaxed (1.625) violates the Arabic Baseline Rule (1.8 min);
                  let text-base's baked line-height apply instead. -->
             <p class="text-base text-muted">
-              أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt وVue.
+              أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue.
             </p>
             <a
               :href="`mailto:${global.email}`"
