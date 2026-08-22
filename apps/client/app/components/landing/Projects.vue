@@ -48,7 +48,7 @@ const featuredProjects = computed(() => {
         class="lg:col-span-4"
         eyebrow="المشاريع"
         title="أبرز المشاريع"
-        description="نماذج حقيقية من شغلي في الويب — واجهات وتطبيقات بُنيت بإتقان."
+        description="نماذج حقيقية من شغلي — أنظمة وواجهات بُنيت لعملاء وشركات."
         to="/projects"
         link-label="كل المشاريع"
       >

@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         {
           name: 'keywords',
           content:
-            'Frontend Engineer, مهندس واجهات أمامية, عبدالمؤمن الشطوري, Elshatory, beingmomen, تطوير تطبيقات ويب, واجهات أمامية, مشاريع برمجية, تقييم عملاء, تطوير ويب'
+            'Frontend Engineer, مهندس واجهات أمامية, عبدالمؤمن الشطوري, Elshatory, beingmomen, Nuxt, Vue, TypeScript, RTL, واجهات عربية, أنظمة أعمال, تطوير ويب'
         },
         {
           property: 'og:title',

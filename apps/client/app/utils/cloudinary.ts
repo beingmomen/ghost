@@ -38,8 +38,10 @@ export function isGif(url?: string | null): boolean {
 //
 // Cloudinary rejects animated GIFs above ~50 MP of total frame pixels (an upscale to
 // w_1152 pushes a real GIF to ~84 MP → HTTP 400 → broken image). So GIFs are capped at
-// w_800 and skip `f_auto`/`q_auto` (which would flatten the animation); static images
-// keep the full `f_auto,q_auto` pipeline. Feed the result to `optimizeCloudinary(url, …)`.
+// w_800. `f_auto`/`q_auto` alone would flatten the animation to a single frame — adding
+// `fl_animated` keeps it (Cloudinary picks an animated format, e.g. animated WebP, and
+// still applies quality/format optimization) instead of shipping the raw GIF bytes.
+// Feed the result to `optimizeCloudinary(url, …)`.
 export function cloudinaryTransformFor(
   url: string | null | undefined,
   size: 'full' | 'thumb'
@@ -47,8 +49,8 @@ export function cloudinaryTransformFor(
   const gif = isGif(url)
 
   if (size === 'thumb') {
-    return gif ? 'w_192,h_128,c_fill' : 'f_auto,q_auto,w_192,h_128,c_fill'
+    return gif ? 'f_auto,q_auto,fl_animated,w_192,h_128,c_fill' : 'f_auto,q_auto,w_192,h_128,c_fill'
   }
 
-  return gif ? 'w_800' : 'f_auto,q_auto,w_1152'
+  return gif ? 'f_auto,q_auto,fl_animated,w_800' : 'f_auto,q_auto,w_1152'
 }
