@@ -10,9 +10,9 @@ export default defineAppConfig({
       { label: 'تواصل معي', to: '/contact', color: 'neutral', variant: 'outline' }
     ],
     picture: {
-      dark: 'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
+      dark: 'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-02',
       light:
-        'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
+        'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-02',
       alt: 'عبدالمؤمن الشطوري'
     },
     meetingLink: 'https://cal.com/beingmomen',
