@@ -32,7 +32,8 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+    { rel: 'icon', href: '/favicon.webp', type: 'image/webp' }
   ],
   htmlAttrs: {
     lang,
