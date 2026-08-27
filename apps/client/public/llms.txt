@@ -1,39 +1,39 @@
-# عبدالمؤمن الشطوري - Abdelmomen Elshatory
+# عبدالمؤمن الشطوري — Abdelmomen Elshatory
 
-> Frontend Engineer يبني أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue منذ 2021
+> مهندس واجهات أمامية Senior. خمس سنوات في Vue و Nuxt منذ 2021، متخصص في بناء أنظمة الأعمال العربية (RTL) التي تعمل في الإنتاج — أنظمة توزيع وفوترة ولوحات تحكم متعددة الصلاحيات.
 
-## About
-Abdelmomen Elshatory (عبدالمؤمن الشطوري) is a frontend engineer building modern, high-performance web applications with a focus on user experience since 2021. Available for full-time roles and freelance projects.
+## المشاريع
 
-## Skills
-- Vue.js, Nuxt.js, React, TypeScript
-- Tailwind CSS, Nuxt UI
-- Node.js, Express.js, MongoDB
-- Cloudinary, REST APIs
-- RTL/Arabic UI development
+- [أعمال الإنتاج](https://beingmomen.com/projects): فهرس المشاريع الحقيقية المبنية لعملاء وشركات — أنظمة وواجهات في الإنتاج.
+- [كاتِب — Kateb](https://github.com/beingmomen/kateb): تطبيق سطح مكتب للإملاء الصوتي بالعربية والإنجليزية يعمل بدون إنترنت — Nuxt 4 و Tauri 2 و Rust، بإصدارات موقّعة لـ Linux و Windows و macOS.
+- [مشاريع مفتوحة المصدر](https://beingmomen.com/projects#open-source): أدوات مملوكة بالكامل وكودها متاح — ghost (الكود المصدري لهذا الموقع، مونوريبو pnpm)، pi-arabic-rtl (حزمة npm تصلّح عرض العربية في الطرفية)، claude-code-rtl-injector (إضافة VS Code لحقن دعم RTL).
 
-## Key Pages
-- Home: https://beingmomen.com/
-- Projects: https://beingmomen.com/projects
-- Blog: https://beingmomen.com/blog
-- About: https://beingmomen.com/about
-- Contact: https://beingmomen.com/contact
-- SDLC Guide (Arabic): https://beingmomen.com/sdlc-ar
-- SDLC Guide (English): https://beingmomen.com/sdlc
+## دراسات الحالة
 
-## Projects
-- Tiger Academy Dashboard (Nuxt 3, MongoDB, Prisma)
-- Golden Tiger Academy (Nuxt 3, Nuxt UI)
-- STREAMMAXY (JavaScript, jQuery, Bootstrap)
-- Dream TV Player (HTML, CSS, JavaScript)
-- Spider TV (HTML, CSS, JavaScript)
+- [ترابط — Tarabot](https://beingmomen.com/projects/tarabot): دراسة حالة لمنصة تربط المتطوعين والمنظمات والداعمين.
+- [ورّاق — Warraq](https://beingmomen.com/projects/warraq): دراسة حالة لنظام إدارة توزيع الكتب بالجملة متعدد الصلاحيات.
 
-## Contact
-- Email: abdelmomenelshatory@gmail.com
-- GitHub: https://github.com/beingmomen
-- LinkedIn: https://linkedin.com/in/beingmomen
-- Twitter: https://twitter.com/beingmomen
-- Website: https://beingmomen.com
+## قرارات معمارية (ADRs)
 
-## Blog
-The blog covers web development topics, JavaScript, frontend engineering, and software engineering best practices. Blog posts are available at https://beingmomen.com/blog
+- [إدارة البيانات العامة — useGlobal Composable](https://beingmomen.com/adr/global-data): نمط composable مركزي يوفّر وصولاً موحّداً لبيانات الجلسة (المستخدم + قوائم الـ lookup) دون نسخ البيانات أو مزامنة يدوية.
+- [نظام الأوضاع — Multi-Mode Architecture](https://beingmomen.com/adr/multi-mode-system): بنية تدعم وضعين (خاص وعام) يُحدَّدان وقت التشغيل، مع Keyed Remount للتبديل الآمن وuseModeVariant لعزل الفروقات الحقيقية.
+- [نشر المونوريبو — pnpm Workspace Monorepo](https://beingmomen.com/adr/monorepo-deployment): ثلاثة تطبيقات في workspace واحد لكلٍّ ديبلوي مستقل — الاستضافة الذاتية، والتقسيم حسب المسار، وحادثة إنتاج غيّرت طريقة كتابة متغيّرات البيئة.
+
+## الخبرة المهنية
+
+- مهندس واجهات أمامية Senior في شركة نانوسوفت ([nanosoft.ly](https://nanosoft.ly/)) منذ مارس 2024، ومهندس واجهات Mid-Senior فيها منذ مارس 2022.
+- مهندس الواجهات الوحيد لأربع سنوات عبر أنظمة أعمال في الإنتاج — موارد بشرية ومحاسبة ومخزون وإدارة مشاريع — تستخدمها أكثر من ٥٠ جهة.
+- اقترح معمارية multi-tenant تُحدِّد المستأجر من الـ subdomain، واعتمدتها الشركة، فحلّت محل أكثر من ٥٠ نشرة منفصلة بقاعدة كود واحدة.
+- يقود حاليًا ترحيل منصة الموارد البشرية من Vue 2 إلى Nuxt 4.
+
+## الحسابات
+
+- [GitHub](https://github.com/beingmomen): الكود المصدري والمشاريع مفتوحة المصدر.
+- [LinkedIn](https://www.linkedin.com/in/beingmomen/): السيرة المهنية والخبرة.
+- [البريد الإلكتروني](mailto:abdelmomenelshatory@gmail.com): abdelmomenelshatory@gmail.com
+
+## Optional
+
+- [المدوّنة](https://beingmomen.com/blog): مقالات عن تطوير الواجهات، وVue و Nuxt، وهندسة البرمجيات وممارساتها.
+- [دليل SDLC (عربي)](https://beingmomen.com/sdlc-ar): إطار بصري منهجي لدورة حياة تطوير البرمجيات — المراحل والأدوار وسير عمل OOA&D ومسارات القرار.
+- [SDLC Guide (English)](https://beingmomen.com/sdlc): a cognitive visual framework for the software development life cycle.
