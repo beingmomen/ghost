@@ -205,23 +205,24 @@ export default defineNuxtConfig({
   schemaOrg: {
     identity: {
       type: 'Person',
-      name: 'عبدالمؤمن الشطوري',
-      alternateName: ['Abdelmomen Elshatory', 'beingmomen'],
+      name: IDENTITY.fullName,
+      alternateName: IDENTITY.fullNameEn,
       url: process.env.SITE_URL,
       image:
         'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
       sameAs: [
-        'https://github.com/beingmomen',
-        'https://linkedin.com/in/beingmomen',
+        ...IDENTITY.sameAs,
         'https://twitter.com/beingmomen',
         'https://www.facebook.com/beingmomen/',
         'https://www.instagram.com/beingmomen/'
       ],
-      jobTitle: 'Frontend Engineer',
+      jobTitle: IDENTITY.jobTitle,
       worksFor: {
         type: 'Organization',
-        name: 'عمل حر'
+        name: 'Nanosoft',
+        url: 'https://nanosoft.ly/'
       },
+      knowsAbout: [...IDENTITY.knowsAbout],
       email: 'abdelmomenelshatory@gmail.com',
       knowsLanguage: ['ar', 'en']
     }

@@ -23,5 +23,25 @@ export const IDENTITY = {
   seoDescription: `مهندس واجهات أمامية أبني أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue وواجهات RTL منذ ${since}. اطّلع على أعمالي وتواصل معي.`,
   ogTitle: `${fullName} — ${title}`,
   ogDescription:
-    `مهندس واجهات أمامية أبني أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue وواجهات RTL منذ ${since}. اطّلع على أعمالي وتواصل معي.`
+    `مهندس واجهات أمامية أبني أنظمة أعمال عربية تشتغل في الإنتاج — Nuxt & Vue وواجهات RTL منذ ${since}. اطّلع على أعمالي وتواصل معي.`,
+  // اللقب الوظيفي المستخدم في structured data (Person schema) —
+  // أدقّ من `title` المختصر المخصّص لعناوين الصفحات.
+  jobTitle: 'Senior Frontend Engineer',
+  // الحسابات الموثّقة — تُغذّي `sameAs` في Person schema (تقوية ربط الهوية في نتائج البحث).
+  sameAs: [
+    'https://github.com/beingmomen',
+    'https://www.linkedin.com/in/beingmomen/'
+  ],
+  // مجالات الخبرة — تُغذّي `knowsAbout` في Person schema.
+  knowsAbout: [
+    'Vue.js',
+    'Nuxt',
+    'TypeScript',
+    'JavaScript',
+    'Tailwind CSS',
+    'Frontend Architecture',
+    'RTL Web Interfaces',
+    'Web Performance',
+    'Server-Side Rendering'
+  ]
 } as const

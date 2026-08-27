@@ -3,6 +3,7 @@ import { IDENTITY } from '#shared/identity'
 
 const config = useRuntimeConfig()
 
+const siteUrl = config.public.siteUrl
 const pageTitle = `${IDENTITY.fullName} | ${IDENTITY.title}`
 
 const { error: landingError, refresh: refreshLanding } = await useAPI('/landing', {
@@ -11,19 +12,49 @@ const { error: landingError, refresh: refreshLanding } = await useAPI('/landing'
   transform: response => response || {}
 })
 
+// JSON-LD — يُصدَّر داخل <head> من الخادم (useHead يُرندَر أثناء SSR)، مش بعد hydration.
+// نوعان: WebSite + Person. الـ Person يشارك نفس الـ @id مع الهوية العامة التي يحقنها
+// `@nuxtjs/seo` (schemaOrg.identity في nuxt.config) فيدمجهما Google في كيان واحد بدل تكرارهما.
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  'name': IDENTITY.fullName,
+  'alternateName': IDENTITY.fullNameEn,
+  'url': siteUrl,
+  'description': IDENTITY.seoDescription,
+  'inLanguage': 'ar'
+}
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#identity`,
+  'name': IDENTITY.fullName,
+  'alternateName': IDENTITY.fullNameEn,
+  'jobTitle': IDENTITY.jobTitle,
+  'url': siteUrl,
+  'image':
+    'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
+  'email': 'abdelmomenelshatory@gmail.com',
+  'sameAs': [...IDENTITY.sameAs],
+  'worksFor': {
+    '@type': 'Organization',
+    'name': 'Nanosoft',
+    'url': 'https://nanosoft.ly/'
+  },
+  'knowsAbout': [...IDENTITY.knowsAbout],
+  'knowsLanguage': ['ar', 'en']
+}
+
 useHead({
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        'name': IDENTITY.fullName,
-        'alternateName': IDENTITY.fullNameEn,
-        'url': config.public.siteUrl,
-        'description': IDENTITY.seoDescription,
-        'inLanguage': 'ar'
-      })
+      innerHTML: JSON.stringify(websiteLd)
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(personLd)
     }
   ]
 })
