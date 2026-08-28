@@ -29,9 +29,9 @@ const link = computed(() => projectLink(props.project))
     }"
   >
     <template #title>
-      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-balance">
+      <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-balance">
         {{ project.title }}
-      </h2>
+      </h3>
     </template>
     <template #leading>
       <span class="text-base text-muted">

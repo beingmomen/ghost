@@ -14,7 +14,7 @@ defineProps({
     target="_blank"
     rel="noopener noreferrer"
     :aria-label="`الموقع الخارجي لـ ${project.title}`"
-    class="relative z-10 inline-flex items-center justify-center text-dimmed transition-colors hover:text-primary"
+    class="relative z-10 inline-flex size-7 items-center justify-center text-dimmed transition-colors hover:text-primary"
   >
     <UIcon
       name="i-lucide-external-link"

@@ -35,9 +35,9 @@ const diagrams = [
               class="size-6"
             />
           </div>
-          <h4 class="text-base font-semibold">
+          <h3 class="text-base font-semibold">
             {{ diagram.name }}
-          </h4>
+          </h3>
         </div>
       </div>
     </div>
