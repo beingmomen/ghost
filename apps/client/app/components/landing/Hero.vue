@@ -62,23 +62,25 @@ const resumeUrl = computed(() => landing.value?.info?.resumeUrl)
             </UButton>
           </div>
 
-          <!-- Name -->
+          <!-- Name — no entrance animation: this + the title/description below are
+               the above-the-fold LCP cluster; keeping them at opacity:0 during the
+               fade delay pushes LCP back with no visual payoff. -->
           <h1
-            class="hero-name animate-fade-in animation-delay-100 font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mt-6 text-balance"
+            class="hero-name font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.15] mt-6 text-balance"
           >
             <span class="text-amber">{{ global.fullName }}</span>
           </h1>
 
           <!-- Title -->
           <p
-            class="animate-fade-in animation-delay-200 font-display text-2xl sm:text-3xl text-muted mt-3"
+            class="font-display text-2xl sm:text-3xl text-muted mt-3"
           >
             {{ global.title }}
           </p>
 
-          <!-- Description -->
+          <!-- Description (LCP element on mobile) -->
           <p
-            class="animate-fade-in animation-delay-300 text-base sm:text-lg text-muted leading-relaxed mt-6 max-w-xl mx-auto lg:mx-0"
+            class="text-base sm:text-lg text-muted leading-relaxed mt-6 max-w-xl mx-auto lg:mx-0"
           >
             {{ global.description }}
           </p>
