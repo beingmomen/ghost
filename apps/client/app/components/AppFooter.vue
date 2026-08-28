@@ -94,9 +94,9 @@ function scrollToTop() {
             v-for="group in footerGroups"
             :key="group.title"
           >
-            <h4 class="text-base font-semibold mb-4">
+            <h3 class="text-base font-semibold mb-4">
               {{ group.title }}
-            </h4>
+            </h3>
             <ul class="space-y-2.5">
               <li
                 v-for="link in group.links"
