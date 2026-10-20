@@ -32,7 +32,7 @@ export default defineNuxtConfig({
         {
           name: 'keywords',
           content:
-            'Frontend Engineer, مهندس واجهات أمامية, عبدالمؤمن الشطوري, Elshatory, beingmomen, Nuxt, Vue, TypeScript, RTL, واجهات عربية, أنظمة أعمال, تطوير ويب'
+            'Frontend Engineer, مهندس واجهات أمامية, عبدالمؤمن الشطوري, Elshatory, beingmomen, Nuxt, Vue, RTL, واجهات عربية, أنظمة أعمال, تطوير ويب'
         },
         {
           property: 'og:title',
@@ -212,14 +212,12 @@ export default defineNuxtConfig({
         'https://res.cloudinary.com/dyqfclwdk/image/upload/beingmomen/beingmomen-01_xczmdz',
       sameAs: [
         ...IDENTITY.sameAs,
-        'https://twitter.com/beingmomen',
-        'https://www.facebook.com/beingmomen/',
-        'https://www.instagram.com/beingmomen/'
+        'https://x.com/beingabdelmomen'
       ],
       jobTitle: IDENTITY.jobTitle,
       worksFor: {
         type: 'Organization',
-        name: 'Nanosoft',
+        name: 'NanoSoft LY',
         url: 'https://nanosoft.ly/'
       },
       knowsAbout: [...IDENTITY.knowsAbout],

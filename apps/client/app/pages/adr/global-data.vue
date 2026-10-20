@@ -283,7 +283,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'إدارة البيانات العامة — useGlobal',
   twitterDescription: 'نمط composable مركزي للوصول الموحد لبيانات الجلسة.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([

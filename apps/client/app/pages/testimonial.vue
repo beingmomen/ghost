@@ -15,16 +15,16 @@ const form = ref(null)
 
 useSeoMeta({
   title: 'آراء العملاء',
-  description: 'شارك تقييمك واطلع على تجارب العملاء السابقين مع عبدالمؤمن الشطوري. رأيك يساعدنا على التطور والنمو.',
+  description: 'شارك تقييمك واطلع على تجارب العملاء السابقين مع عبدالمؤمن الشطوري. رأيك يساعدني على التطور والنمو.',
   ogTitle: 'آراء العملاء | عبدالمؤمن الشطوري',
-  ogDescription: 'شارك تقييمك واطلع على تجارب العملاء السابقين مع عبدالمؤمن الشطوري. رأيك يساعدنا على التطور والنمو.',
+  ogDescription: 'شارك تقييمك واطلع على تجارب العملاء السابقين مع عبدالمؤمن الشطوري. رأيك يساعدني على التطور والنمو.',
   ogUrl: `${config.public.siteUrl}/testimonial`,
   ogType: 'website',
   ogLocale: 'ar_EG',
   twitterCard: 'summary_large_image',
   twitterTitle: 'آراء العملاء | عبدالمؤمن الشطوري',
-  twitterDescription: 'شارك تقييمك واطلع على آراء العملاء السابقين. رأيك يساعدنا على التطور.',
-  twitterSite: '@beingmomen',
+  twitterDescription: 'شارك تقييمك واطلع على آراء العملاء السابقين. رأيك يساعدني على التطور.',
+  twitterSite: '@beingabdelmomen',
   keywords: 'آراء العملاء, تقييمات, عبدالمؤمن الشطوري, تجارب العملاء'
 })
 
@@ -113,7 +113,7 @@ function resetForm() {
 
       <template #description>
         <span class="animate-fade-in animation-delay-400">
-          تجربتك تلهمنا وتقييمك يساعدنا على تقديم الأفضل دائماً
+          تجربتك تلهمني وتقييمك يساعدني على تقديم الأفضل دائماً
         </span>
       </template>
     </UPageHero>
@@ -121,8 +121,8 @@ function resetForm() {
     <!-- Section 2: Testimonials Carousel -->
     <UPageSection
       v-if="landingData?.testimonials?.length"
-      title="ماذا قال عملاؤنا"
-      description="تجارب حقيقية من عملاء وثقوا بنا وشاركونا آراءهم"
+      title="ماذا قال عملائي"
+      description="تجارب حقيقية من عملاء وثقوا فيّ وشاركوني آراءهم"
       :ui="{
         container: 'px-0 !pt-0',
         title: 'text-xl sm:text-xl lg:text-2xl font-medium',
@@ -150,7 +150,7 @@ function resetForm() {
             تم الإرسال بنجاح!
           </h2>
           <p class="text-muted text-base">
-            شكراً لثقتك ولمشاركتنا تجربتك. تقييمك يساعدنا على التطور والنمو.
+            شكراً لثقتك ولمشاركتي تجربتك. تقييمك يساعدني على التطور والنمو.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <UButton
@@ -180,7 +180,7 @@ function resetForm() {
             أضف تقييمك
           </p>
           <h2 class="text-xl sm:text-2xl font-bold text-highlighted mb-6">
-            شاركنا تجربتك
+            شاركني تجربتك
           </h2>
 
           <UForm
@@ -237,7 +237,7 @@ function resetForm() {
               >
                 <UTextarea
                   v-model="state.description"
-                  placeholder="أخبرنا عن تجربتك معنا... ما الذي أعجبك وما الذي يمكن تحسينه؟"
+                  placeholder="أخبرني عن تجربتك معي... ما الذي أعجبك وما الذي يمكن تحسينه؟"
                   class="w-full"
                   :rows="6"
                   :disabled="loading"

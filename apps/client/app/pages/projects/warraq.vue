@@ -21,7 +21,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'ورّاق — Warraq',
   twitterDescription: 'نظام إدارة توزيع الكتب بالجملة',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([
@@ -69,9 +69,9 @@ const heroLinks = [
 
 const quickFacts = [
   { label: 'الدور', value: 'مطوّر فردي — الواجهة والـ API وقاعدة البيانات' },
-  { label: 'المدة', value: 'شهر واحد' },
+  { label: 'السنة', value: '2025' },
   { label: 'الحالة', value: 'سُلّم للعميل ويعمل في الإنتاج' },
-  { label: 'التقنيات', value: 'Nuxt 3 · TypeScript · Pinia · Express · MongoDB · JWT' }
+  { label: 'التقنيات', value: 'Nuxt 3 · JavaScript (الـcomposables والـstore بـTypeScript) · Pinia · Express · MongoDB · JWT' }
 ]
 
 const problemItems = [
@@ -235,7 +235,7 @@ const screenshots = [
     >
       <div class="text-right space-y-3">
         <p class="text-base text-muted leading-relaxed">
-          نظام فول ستاك كامل — واجهة وAPI وقاعدة بيانات وصلاحيات وفوترة وتحصيلات — بناه مطوّر واحد في شهر، وسُلّم ويعمل في الإنتاج.
+          نظام فول ستاك كامل — واجهة وAPI وقاعدة بيانات وصلاحيات وفوترة وتحصيلات — بناه وسلّمه مطوّر واحد، ويعمل في الإنتاج.
         </p>
         <p class="text-base text-muted leading-relaxed">
           واجهة عربية RTL بالكامل مع دعم ثنائي اللغة، ووضع داكن، وتصميم متجاوب على الجوال والتابلت وسطح المكتب.

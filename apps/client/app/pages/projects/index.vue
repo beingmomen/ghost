@@ -27,7 +27,7 @@ const { data: projects, error: projectsError, refresh: refreshProjects } = await
 const openSourceProjects = [
   {
     title: 'كاتِب — Kateb',
-    description: 'تطبيق سطح مكتب للإملاء الصوتي بالعربية والإنجليزية، يعمل بدون إنترنت. مبني بـ Nuxt 4 وTauri 2 وRust، بإصدارات جاهزة لِـ Linux وWindows وmacOS.',
+    description: 'تطبيق سطح مكتب للإملاء الصوتي بالعربية والإنجليزية، يعمل بدون إنترنت، بواجهة Nuxt 4 وإصدارات جاهزة لِـ Linux وWindows وmacOS.',
     url: 'https://github.com/beingmomen/kateb'
   },
   {
@@ -60,7 +60,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'المشاريع | عبدالمؤمن الشطوري',
   twitterDescription: pageDescription,
-  twitterSite: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
   keywords: 'مشاريع, تطوير ويب, Frontend Engineer, عبدالمؤمن الشطوري, تطبيقات ويب'
 })
 

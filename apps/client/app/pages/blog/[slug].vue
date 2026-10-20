@@ -67,8 +67,8 @@ useSeoMeta({
   twitterTitle: blogTitle,
   twitterDescription: blogDescription,
   twitterImage: blogImage,
-  twitterSite: '@beingmomen',
-  twitterCreator: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
+  twitterCreator: '@beingabdelmomen',
   articleAuthor: 'عبدالمؤمن الشطوري',
   articlePublishedTime: () => singleBlog.value.createdAt,
   articleModifiedTime: () =>
@@ -100,7 +100,7 @@ useHead({
             'url': config.public.siteUrl,
             'sameAs': [
               'https://github.com/beingmomen',
-              'https://twitter.com/beingmomen'
+              'https://x.com/beingabdelmomen'
             ]
           },
           'publisher': {

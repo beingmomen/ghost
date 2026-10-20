@@ -319,7 +319,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'نظام الأوضاع — Mode System',
   twitterDescription: 'نظام بوضعين يُحدد runtime، مع Keyed Remount وuseModeVariant.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([

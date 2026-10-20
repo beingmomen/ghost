@@ -35,7 +35,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'دورة حياة تطوير البرمجيات',
   twitterDescription: 'المراحل، الأدوار، سير عمل OOA&D، ومسارات اتخاذ القرارات.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([{ name: 'دورة حياة تطوير البرمجيات', path: '/sdlc-ar' }])
