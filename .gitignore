@@ -71,3 +71,6 @@ audit-reports/
 *.review-log.md
 *.workspace.md
 handoff.md
+
+# Claude Code per-project memory (local only)
+.claude/projects/
