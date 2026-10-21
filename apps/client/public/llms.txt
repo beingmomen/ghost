@@ -18,6 +18,7 @@
 - [إدارة البيانات العامة — useGlobal Composable](https://beingmomen.com/adr/global-data): نمط composable مركزي يوفّر وصولاً موحّداً لبيانات الجلسة (المستخدم + قوائم الـ lookup) دون نسخ البيانات أو مزامنة يدوية.
 - [نظام الأوضاع — Multi-Mode Architecture](https://beingmomen.com/adr/multi-mode-system): بنية تدعم وضعين (خاص وعام) يُحدَّدان وقت التشغيل، مع Keyed Remount للتبديل الآمن وuseModeVariant لعزل الفروقات الحقيقية.
 - [نشر المونوريبو — pnpm Workspace Monorepo](https://beingmomen.com/adr/monorepo-deployment): ثلاثة تطبيقات في workspace واحد لكلٍّ ديبلوي مستقل — الاستضافة الذاتية، والتقسيم حسب المسار، وحادثة إنتاج غيّرت طريقة كتابة متغيّرات البيئة.
+- [تعدد العملاء — Subdomain Multi-Tenancy](https://beingmomen.com/adr/multi-tenant): قاعدة كود واحدة ونشر واحد لكل نظام بدل فرع وموقع لكل عميل — المستأجر يُحدَّد من الـ subdomain، والـ backend يختار قاعدة بياناته من header واحد.
 
 ## الخبرة المهنية
 

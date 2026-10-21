@@ -1,0 +1,18 @@
+flowchart TD
+    A([Request host]) --> B[Strip port: hostname]
+    B --> C{localhost<br/>or IP?}
+    C -- yes --> NULL[null]
+    C -- no --> D{Tunnel or<br/>platform<br/>domain?}
+    D -- yes --> NULL
+    D -- no --> E{label.<br/>example.com?}
+    E -- no --> NULL
+    E -- yes --> F{Reserved?<br/>www, demo}
+    F -- yes --> NULL
+    F -- no --> T[tenantId = label]
+
+    NULL --> NH[No tenantId header]
+    NH --> DDB[(Default DB)]
+    T --> TH[Header tenantId: label]
+    TH --> TDB[(Tenant DB)]
+
+    class T,TH,TDB accent

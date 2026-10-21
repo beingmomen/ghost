@@ -1,0 +1,37 @@
+sequenceDiagram
+    autonumber
+    participant B as Browser
+    participant DNS as DNS<br/>*.example.com
+    participant H as Hosting<br/>(single deploy)
+    participant N as Nuxt SSR
+    participant API as Backend API
+    participant DB as Tenant DBs
+
+    B->>B: User opens<br/>acme.example.com
+    B->>DNS: Resolve host
+    DNS-->>B: Wildcard record<br/>(same target)
+    B->>H: HTTPS<br/>(wildcard TLS)
+    H->>N: One app,<br/>all subdomains
+    N->>N: getTenantId(hostname)
+
+    alt Client subdomain
+        Note over N,API: tenantId = "acme"
+    else localhost, IP, tunnel,<br/>platform domain, demo
+        N->>N: null: no header
+    end
+
+    rect rgba(251, 191, 36, 0.14)
+        N->>API: $fetch plugin<br/>tenantId: acme<br/>+ auth token<br/>(host-only cookie)
+        API->>API: Read tenantId
+        API->>DB: Select acme DB<br/>(no header:<br/>default DB)
+        DB-->>API: Query rows
+    end
+
+    API-->>N: JSON
+    N-->>B: Rendered HTML (SSR)
+    B->>B: Hydrate
+
+    loop Later client-side requests
+        B->>API: $fetch, tenantId: acme<br/>(hostname read on the client)
+        API-->>B: JSON
+    end
