@@ -102,6 +102,7 @@ export default defineNuxtConfig({
     '/adr': { prerender: true },
     '/adr/global-data': { prerender: true },
     '/adr/multi-mode-system': { prerender: true },
+    '/adr/multi-tenant': { prerender: true },
     '/contact': { prerender: true }
     // /testimonial fetches /landing at request time → stays SSR (the global default)
   },

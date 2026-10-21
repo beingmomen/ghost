@@ -163,6 +163,16 @@ const adrs = [
     topics: ['pnpm Workspaces', 'CI/CD', 'Selective Deploy', 'حادثة إنتاج'],
     sections: 7,
     readTime: '6 دقائق قراءة'
+  },
+  {
+    slug: 'multi-tenant',
+    icon: 'i-lucide-building-2',
+    title: 'تعدد العملاء',
+    subtitle: 'Subdomain Multi-Tenancy',
+    description: 'قاعدة كود واحدة وdeployment واحد لكل نظام بدل فرع وموقع لكل عميل — العميل بيتحدد من الـ subdomain، والـ backend بيختار قاعدة بياناته من header واحد.',
+    topics: ['Multi-Tenancy', 'Subdomain Routing', 'Request Interceptor', 'Tenant Isolation'],
+    sections: 12,
+    readTime: '8 دقائق قراءة'
   }
 ]
 
