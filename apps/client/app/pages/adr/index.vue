@@ -126,7 +126,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'القرارات المعمارية',
   twitterDescription: 'توثيق القرارات المعمارية في مشاريع حقيقية.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([{ name: 'القرارات المعمارية', path: '/adr' }])

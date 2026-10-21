@@ -16,7 +16,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'تواصل معنا | عبدالمؤمن الشطوري',
   twitterDescription: 'تواصل معي لأي فرصة أو مشروع — عن بُعد، فريلانس أو دوام كامل.',
-  twitterSite: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
   keywords: 'تواصل, اتصل بنا, عبدالمؤمن الشطوري, مطور ويب, استشارة برمجية'
 })
 

@@ -50,7 +50,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'المدونة | عبدالمؤمن الشطوري',
   twitterDescription: pageDescription,
-  twitterSite: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
   keywords: 'مدونة, برمجة, تطوير الويب, جافا سكريبت, vue.js, nuxt.js, تقنية'
 })
 

@@ -33,7 +33,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'SDLC Visual Framework',
   twitterDescription: 'Phases, roles, OOA&D workflow, UML diagrams, and decision flows.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([{ name: 'SDLC Visual Framework', path: '/sdlc' }])

@@ -18,9 +18,9 @@ const { data: experiences, error: expError, refresh: refreshExp } = await useAPI
 
 // نبذة صفحة about (الهيرو) — المسودّة المعتمدة. نص مختلف عن هيرو الهوم عمداً
 // (نفس الرسالة بنبرة أهدأ تناسب صفحة "عني" بدل ما يتكرر حرفياً).
-const heroDescription = `مهندس واجهات أمامية. بشتغل على الويب من ${IDENTITY.since}، ومعظم شغلي أنظمة أعمال عربية تشتغل في الإنتاج — توزيع وفوترة ولوحات تحكم بصلاحيات.`
+const heroDescription = `مهندس واجهات أمامية، أسلّم مشاريع فول ستاك كاملة. بشتغل على الويب من ${IDENTITY.since}، ومعظم شغلي أنظمة أعمال عربية تشتغل في الإنتاج — توزيع وفوترة ولوحات تحكم بصلاحيات.`
 // وصف SEO فريد للصفحة (≤160) — مختلف عمداً عن meta description الهوم لتجنّب محتوى مكرر في نتايج البحث.
-const pageDescription = `عبدالمؤمن الشطوري — مهندس واجهات أمامية من ${IDENTITY.since}. خبرتي ومساري المهني والمشاريع اللي بنيتها: أنظمة توزيع وفوترة ولوحات تحكم عربية بـ Nuxt & Vue.`
+const pageDescription = `عبدالمؤمن الشطوري — مهندس واجهات أمامية من ${IDENTITY.since}، أسلّم مشاريع فول ستاك تشتغل في الإنتاج. خبرتي ومشاريعي: أنظمة توزيع وفوترة ولوحات تحكم عربية بـ Nuxt & Vue.`
 
 const resumeUrl = computed(() => infoData.value?.resumeUrl)
 
@@ -52,7 +52,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'نبذة عني | عبدالمؤمن الشطوري',
   twitterDescription: pageDescription,
-  twitterSite: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
   keywords: 'عبدالمؤمن الشطوري, Frontend Engineer, تطوير ويب, مطور واجهات أمامية'
 })
 

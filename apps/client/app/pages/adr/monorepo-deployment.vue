@@ -240,7 +240,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'نشر المونوريبو — Monorepo Deployment',
   twitterDescription: 'pnpm workspace بتلات تطبيقات، كل واحد بيتنشر لوحده حسب المسار المتغيّر.',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([

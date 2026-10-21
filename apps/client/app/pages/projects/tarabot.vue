@@ -21,7 +21,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'ترابط | Tarabot',
   twitterDescription: 'منصة تربط المتطوعين والمنظمات والداعمين',
-  twitterSite: '@beingmomen'
+  twitterSite: '@beingabdelmomen'
 })
 
 useBreadcrumbSchema([
@@ -69,7 +69,7 @@ const heroLinks = [
 
 const quickFacts = [
   { label: 'الدور', value: 'مطوّر فردي — الواجهة والـ API' },
-  { label: 'المدة', value: 'شهر واحد' },
+  { label: 'السنة', value: '2025' },
   { label: 'الحالة', value: 'مشروع عميل — سُلّم' },
   { label: 'التقنيات', value: 'Nuxt 3 · Nuxt UI · Express · MongoDB · JWT · pnpm monorepo' }
 ]

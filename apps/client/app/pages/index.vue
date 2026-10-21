@@ -39,7 +39,7 @@ const personLd = {
   'sameAs': [...IDENTITY.sameAs],
   'worksFor': {
     '@type': 'Organization',
-    'name': 'Nanosoft',
+    'name': 'NanoSoft LY',
     'url': 'https://nanosoft.ly/'
   },
   'knowsAbout': [...IDENTITY.knowsAbout],
@@ -70,8 +70,8 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: IDENTITY.ogTitle,
   twitterDescription: IDENTITY.ogDescription,
-  twitterSite: '@beingmomen',
-  twitterCreator: '@beingmomen',
+  twitterSite: '@beingabdelmomen',
+  twitterCreator: '@beingabdelmomen',
   author: IDENTITY.fullName
 })
 </script>
