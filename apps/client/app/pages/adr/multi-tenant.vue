@@ -155,13 +155,14 @@
             icon="i-lucide-route"
             description="دورة حياة طلب واحد — من فتح الـ subdomain لحد ما البيانات تترسم في الصفحة"
           >
-            <AdrRequestDiagram
-              :steps="requestSteps"
-              :branch="requestBranch"
-              label="مخطط دورة حياة طلب في نظام متعدد العملاء"
-              :summary="requestSummary"
-              caption="الشكل: المسار الأساسي لعميل اسمه acme. الفرع الجانبي هو الحالات اللي مابيتبعتش فيها header، وبيرجع لنفس الـ API في الآخر."
-              loop-note="الطلبات اللي بعد كده من المتصفح بتمشي في نفس المسار من الـ plugin لحد الرد — الـ hostname بيتقري على الكلاينت، ومفيش DNS أو hosting جديد في النص."
+            <AdrDiagramImage
+              light="/diagrams/multi-tenant/request-sequence.light.svg"
+              dark="/diagrams/multi-tenant/request-sequence.dark.svg"
+              alt="مخطط تسلسلي لدورة حياة طلب: المتصفح بيفتح acme.example.com، سجل DNS من نوع wildcard بيوجّه الطلب لنفس الـ deployment، Nuxt SSR بينادي getTenantId على الـ hostname، والنتيجة acme أو null. الـ $fetch plugin بيبعت header اسمه tenantId مع التوكن، والـ Backend API بيختار قاعدة acme، والرد JSON بيرجع لـ Nuxt اللي بيرسم الـ HTML والمتصفح بيعمل hydrate. الطلبات اللي بعد كده بتروح من المتصفح للـ API مباشرة بنفس الـ header."
+              :width="1108"
+              :height="1819"
+              :min-width="640"
+              caption="المسار الأساسي لعميل اسمه acme، والجزء المظلل خاص بالعميل."
             />
           </AdrSection>
 
@@ -183,6 +184,17 @@
                 >window.location.hostname</code>.)
               </p>
             </div>
+            <AdrDiagramImage
+              light="/diagrams/multi-tenant/tenant-resolution.light.svg"
+              dark="/diagrams/multi-tenant/tenant-resolution.dark.svg"
+              alt="مخطط قرار getTenantId: الـ host بيتشال منه البورت، ولو localhost أو IP أو tunnel host أو الدومين الافتراضي لمنصة الاستضافة النتيجة null. لو مش من الشكل label.example.com النتيجة null، ولو الـ label محجوز زي www أو demo النتيجة null. غير كده tenantId يساوي الـ label. null يعني مفيش header والقاعدة الافتراضية، والـ label يعني header اسمه tenantId وقاعدة العميل."
+              :width="418"
+              :height="1706"
+              :min-width="360"
+              :max-width="418"
+              caption="قرار getTenantId خطوة بخطوة."
+              class="mb-4"
+            />
             <AdrCodeBlock
               title="utils/tenant.js — مثال مبسّط"
               language="js"
@@ -458,84 +470,6 @@ const beforeAfterRows = [
   ['إصلاح لكل العملاء', 'حوالي 50 merge وpush يدوي', 'deployment واحد'],
   ['التكلفة', 'build minutes فوق الـ free tier + backend app لكل عميل', 'build minutes جوه الـ free tier + backend app واحد']
 ]
-
-const requestSteps = [
-  {
-    lane: 'Browser',
-    title: 'المستخدم بيفتح subdomain العميل',
-    icon: 'i-lucide-globe',
-    chips: [{ label: 'acme.example.com' }]
-  },
-  {
-    lane: 'DNS',
-    title: 'Wildcard record',
-    description: 'سجل واحد بيوجّه كل subdomains العملاء لنفس المكان، ومعاه شهادة SSL من نوع wildcard',
-    icon: 'i-lucide-signpost',
-    chips: [{ label: '*.example.com' }]
-  },
-  {
-    lane: 'Hosting',
-    title: 'deployment واحد لتطبيق Nuxt',
-    description: 'نفس الـ deployment بيخدم كل الـ subdomains — مفيش موقع لكل عميل',
-    icon: 'i-lucide-server'
-  },
-  {
-    lane: 'Nuxt SSR',
-    title: 'قراءة الـ hostname',
-    description: 'السيرفر بيقرا hostname الطلب ويبعته لـ getTenantId',
-    icon: 'i-lucide-scan',
-    chips: [{ label: 'getTenantId(host)' }]
-  },
-  {
-    lane: 'Decision',
-    kind: 'decision',
-    title: 'الـ host ده subdomain عميل؟',
-    arrowLabel: 'نعم — tenantId = acme'
-  },
-  {
-    lane: '$fetch plugin',
-    title: 'تجهيز الطلب',
-    description: 'بيضيف الـ header ومعاه التوكن من الـ auth cookie (host-only)',
-    icon: 'i-lucide-send',
-    chips: [{ label: 'tenantId: acme', accent: true }, { label: 'auth token' }]
-  },
-  {
-    lane: 'Backend API',
-    title: 'API واحد لكل العملاء',
-    description: 'بيقرا tenantId من الـ header',
-    icon: 'i-lucide-server-cog'
-  },
-  {
-    lane: 'Database',
-    kind: 'stores',
-    title: 'اختيار قاعدة بيانات العميل',
-    icon: 'i-lucide-database',
-    description: 'قاعدة بيانات لكل tenant — الـ backend بيختار قاعدة acme',
-    stores: [{ label: 'acme', active: true }, { label: 'tenant-b' }, { label: 'default' }]
-  },
-  {
-    lane: 'Response',
-    title: 'Query ثم JSON',
-    description: 'الاستعلام بيتنفذ على قاعدة acme بس، والرد بيرجع JSON لـ Nuxt',
-    icon: 'i-lucide-braces'
-  },
-  {
-    lane: 'Render',
-    title: 'Nuxt بيرسم الـ HTML',
-    description: 'الصفحة بتترسم على السيرفر (SSR)، والمتصفح بيعمل hydrate',
-    icon: 'i-lucide-monitor-check'
-  }
-]
-
-const requestBranch = {
-  fromStep: 4,
-  toStep: 6,
-  title: 'لا — النتيجة null',
-  items: ['localhost', 'عنوان IP', 'dev tunnel host', 'الدومين الافتراضي لمنصة الاستضافة', 'الديمو'],
-  footer: 'مفيش header بيتبعت، وبيكمل لنفس الـ API اللي بيرجع للقاعدة الافتراضية'
-}
-
-const requestSummary = 'المستخدم بيفتح acme.example.com. سجل DNS من نوع wildcard وشهادة SSL wildcard بيوجّهوا كل الـ subdomains لنفس الـ deployment بتاع Nuxt. السيرفر بيقرا الـ hostname وبينادي getTenantId. لو الـ host subdomain عميل النتيجة acme، والـ $fetch plugin بيضيف header اسمه tenantId بقيمة acme ومعاه التوكن من auth cookie من نوع host-only. لو الـ host هو localhost أو IP أو tunnel host أو الدومين الافتراضي لمنصة الاستضافة أو الديمو، النتيجة null ومفيش header، والطلب بيروح لنفس الـ API اللي بيستخدم القاعدة الافتراضية. الـ backend بيقرا tenantId ويختار قاعدة بيانات acme من بين قواعد العملاء، وبينفذ الاستعلام ويرجّع JSON لـ Nuxt، اللي بيرسم الـ HTML على السيرفر والمتصفح بيعمل hydrate. الطلبات اللي بعد كده من المتصفح بتمشي في نفس المسار من غير DNS أو hosting جديد.'
 
 const getTenantIdCode = `const BASE_DOMAIN = 'example.com'
 const RESERVED = ['www', 'demo']

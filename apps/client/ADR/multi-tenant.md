@@ -49,49 +49,76 @@
 
 ## مسار الطلب
 
-دورة حياة طلب واحد — من فتح الـ subdomain لحد ما البيانات تترسم في الصفحة:
+دورة حياة طلب واحد — من فتح الـ subdomain لحد ما البيانات تترسم في الصفحة. المصدر: [`diagrams/multi-tenant-sequence.mmd`](diagrams/multi-tenant-sequence.mmd) — الصورة: [فاتح](../public/diagrams/multi-tenant/request-sequence.light.svg) / [داكن](../public/diagrams/multi-tenant/request-sequence.dark.svg).
 
-```
-[Browser]      المستخدم بيفتح acme.example.com
-                    │
-                    ▼
-[DNS]          wildcard record *.example.com + شهادة SSL wildcard
-                    │
-                    ▼
-[Hosting]      deployment واحد لتطبيق Nuxt بيخدم كل الـ subdomains
-                    │
-                    ▼
-[Nuxt SSR]     بيقرا hostname الطلب → getTenantId(host)
-                    │
-                    ▼
-               ◇ الـ host ده subdomain عميل؟
-                    │                      └── لا → null
-                    │ نعم                        (localhost، IP، dev tunnel host،
-                    │ tenantId = acme             الدومين الافتراضي لمنصة الاستضافة، الديمو)
-                    ▼                             مفيش header
-[$fetch plugin] header: tenantId: acme                │
-               + التوكن من auth cookie (host-only)     │
-                    │                                 │
-                    ▼                                 │
-[Backend API]  API واحد — بيقرا tenantId  ◄───────────┘ (القاعدة الافتراضية)
-                    │
-                    ▼
-[Database]     قاعدة لكل tenant:  [acme] ←   [tenant-b]   [default]
-                    │
-                    ▼
-[Response]     Query على قاعدة acme → JSON لـ Nuxt
-                    │
-                    ▼
-[Render]       Nuxt بيرسم الـ HTML (SSR) → المتصفح بيعمل hydrate
-```
+```mermaid
+sequenceDiagram
+    autonumber
+    participant B as Browser
+    participant DNS as DNS<br/>*.example.com
+    participant H as Hosting<br/>(single deploy)
+    participant N as Nuxt SSR
+    participant API as Backend API
+    participant DB as Tenant DBs
 
-الطلبات اللي بعد كده من المتصفح بتمشي في نفس المسار من الـ `$fetch` plugin لحد الرد — الـ hostname بيتقري على الكلاينت، ومفيش DNS أو hosting جديد في النص.
+    B->>B: User opens<br/>acme.example.com
+    B->>DNS: Resolve host
+    DNS-->>B: Wildcard record<br/>(same target)
+    B->>H: HTTPS<br/>(wildcard TLS)
+    H->>N: One app,<br/>all subdomains
+    N->>N: getTenantId(hostname)
+
+    alt Client subdomain
+        Note over N,API: tenantId = "acme"
+    else localhost, IP, tunnel,<br/>platform domain, demo
+        N->>N: null: no header
+    end
+
+    rect rgba(251, 191, 36, 0.14)
+        N->>API: $fetch plugin<br/>tenantId: acme<br/>+ auth token<br/>(host-only cookie)
+        API->>API: Read tenantId
+        API->>DB: Select acme DB<br/>(no header:<br/>default DB)
+        DB-->>API: Query rows
+    end
+
+    API-->>N: JSON
+    N-->>B: Rendered HTML (SSR)
+    B->>B: Hydrate
+
+    loop Later client-side requests
+        B->>API: $fetch, tenantId: acme<br/>(hostname read on the client)
+        API-->>B: JSON
+    end
+```
 
 ---
 
 ## تحديد الـ tenant — `getTenantId`
 
 **الملف:** `utils/tenant.js`
+
+قرار الدالة خطوة بخطوة. المصدر: [`diagrams/multi-tenant-tenant-resolution.mmd`](diagrams/multi-tenant-tenant-resolution.mmd) — الصورة: [فاتح](../public/diagrams/multi-tenant/tenant-resolution.light.svg) / [داكن](../public/diagrams/multi-tenant/tenant-resolution.dark.svg).
+
+```mermaid
+flowchart TD
+    A([Request host]) --> B[Strip port: hostname]
+    B --> C{localhost<br/>or IP?}
+    C -- yes --> NULL[null]
+    C -- no --> D{Tunnel or<br/>platform<br/>domain?}
+    D -- yes --> NULL
+    D -- no --> E{label.<br/>example.com?}
+    E -- no --> NULL
+    E -- yes --> F{Reserved?<br/>www, demo}
+    F -- yes --> NULL
+    F -- no --> T[tenantId = label]
+
+    NULL --> NH[No tenantId header]
+    NH --> DDB[(Default DB)]
+    T --> TH[Header tenantId: label]
+    TH --> TDB[(Tenant DB)]
+
+    class T,TH,TDB accent
+```
 
 في نسخ Nuxt الحالية الـ hostname بييجي من `useRequestURL().hostname` — على السيرفر من الطلب نفسه (الـ host header)، وعلى الكلاينت من المتصفح. (النسخة القديمة الـ SPA كانت بتقراه من `window.location.hostname`.)
 

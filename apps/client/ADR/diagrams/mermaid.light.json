@@ -1,0 +1,52 @@
+{
+  "theme": "base",
+  "fontFamily": "Inter, 'Segoe UI', Arial, sans-serif",
+  "fontSize": 19,
+  "themeVariables": {
+    "fontFamily": "Inter, 'Segoe UI', Arial, sans-serif",
+    "fontSize": "15px",
+    "background": "transparent",
+    "primaryColor": "#f5f5f4",
+    "primaryBorderColor": "#a8a29e",
+    "primaryTextColor": "#1c1917",
+    "secondaryColor": "#fafaf9",
+    "tertiaryColor": "#ffffff",
+    "lineColor": "#78716c",
+    "textColor": "#1c1917",
+    "edgeLabelBackground": "#fafaf9",
+    "actorBkg": "#f5f5f4",
+    "actorBorder": "#a8a29e",
+    "actorTextColor": "#1c1917",
+    "actorLineColor": "#d6d3d1",
+    "signalColor": "#57534e",
+    "signalTextColor": "#1c1917",
+    "labelBoxBkgColor": "#f5f5f4",
+    "labelBoxBorderColor": "#a8a29e",
+    "labelTextColor": "#1c1917",
+    "loopTextColor": "#44403c",
+    "noteBkgColor": "#fef3c7",
+    "noteBorderColor": "#d97706",
+    "noteTextColor": "#1c1917",
+    "activationBkgColor": "#f5f5f4",
+    "activationBorderColor": "#a8a29e",
+    "sequenceNumberColor": "#fafaf9"
+  },
+  "themeCSS": ".accent rect, .accent polygon, .accent path { fill: #fef3c7 !important; stroke: #d97706 !important; stroke-width: 1.5px !important; } .accent .nodeLabel { color: #1c1917 !important; font-weight: 600; } .sequenceNumber { fill: #fafaf9 !important; } * { filter: none !important; }",
+  "sequence": {
+    "mirrorActors": false,
+    "showSequenceNumbers": true,
+    "actorMargin": 20,
+    "messageMargin": 32,
+    "noteMargin": 10,
+    "boxMargin": 8,
+    "wrap": false,
+    "width": 130
+  },
+  "flowchart": {
+    "curve": "basis",
+    "htmlLabels": true,
+    "nodeSpacing": 30,
+    "rankSpacing": 30,
+    "padding": 10
+  }
+}
