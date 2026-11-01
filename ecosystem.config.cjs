@@ -1,7 +1,8 @@
 // PM2 process definitions for the 3 apps on the VPS.
 // pm2 keeps them running and restores them after a reboot (see `pm2 startup`).
 // Ports here must match the CloudPanel reverse-proxy targets.
-const ROOT = '/root/ghost'
+const HOME = process.env.HOME || '/home/ghost-web'
+const ROOT = process.env.ROOT || `${HOME}/current`
 
 module.exports = {
   apps: [

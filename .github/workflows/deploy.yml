@@ -1,43 +1,90 @@
 name: Deploy to VPS
 
+# Deploys beingmomen.com, api.beingmomen.com, and db.beingmomen.com (ghost monorepo)
+# to vps-jeddah-1 (130.110.102.134) under site user ghost-web using the G5 release layout.
+# Code is synced over SSH with a scoped deploy key, Nuxt client and db built on ARM64 under nice,
+# current symlink flipped atomically, and PM2 reloaded. Last 3 releases kept.
+
 on:
   push:
     branches: [main]
   workflow_dispatch: {}
 
-# Never run two deploys at once — the VPS builds sequentially to protect RAM.
 concurrency:
-  group: deploy-vps
+  group: deploy-ghost
   cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - name: Sync repo on server
-        run: |
-          cd /root/ghost
-          git fetch origin main
-          git reset --hard origin/main
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Write env files from repository variables
-        env:
-          CLIENT_ENV: ${{ vars.CLIENT_ENV_PROD }}
-          SERVER_ENV: ${{ vars.SERVER_ENV_PROD }}
-          DB_ENV: ${{ vars.DB_ENV_PROD }}
+      - name: Set up SSH
         run: |
-          # Strip CR: the *_ENV_PROD repo variables may hold CRLF line endings,
-          # which would leave a trailing '\r' on every value (e.g. BASE_URL,
-          # SITE_URL). A '\r' in BASE_URL breaks server-side URL building — the
-          # /projects SSR fetch dropped its path and 404'd. `tr -d '\r'` yields
-          # clean LF .env files.
-          printf '%s' "$CLIENT_ENV" | tr -d '\r' > /root/ghost/apps/client/.env
-          printf '%s' "$SERVER_ENV" | tr -d '\r' > /root/ghost/apps/server/.env
-          printf '%s' "$DB_ENV"     | tr -d '\r' > /root/ghost/apps/db/.env
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" | tr -d '\r' | sed $'s/^\xEF\xBB\xBF//' > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          VPS_HOST=$(echo "${{ secrets.VPS_HOST }}" | tr -d '[:space:]' | sed $'s/^\xEF\xBB\xBF//')
+          VPS_USER=$(echo "${{ secrets.VPS_USER }}" | tr -d '[:space:]' | sed $'s/^\xEF\xBB\xBF//')
+          echo "VPS_HOST=$VPS_HOST" >> "$GITHUB_ENV"
+          echo "VPS_USER=$VPS_USER" >> "$GITHUB_ENV"
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
 
-      - name: Build & restart changed apps
-        env:
-          BEFORE: ${{ github.event.before }}
-          AFTER: ${{ github.sha }}
-          EVENT: ${{ github.event_name }}
-        run: bash /root/ghost/scripts/deploy.sh
+      - name: Rsync code to server
+        run: |
+          REL="releases/$(date +%Y%m%d%H%M%S)"
+          echo "REL=$REL" >> "$GITHUB_ENV"
+          ssh -i ~/.ssh/deploy_key "$VPS_USER@$VPS_HOST" "mkdir -p $REL"
+          rsync -az --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.output' \
+            --exclude='.nuxt' \
+            --exclude='apps/*/.env' \
+            --exclude='/.well-known/' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            ./ "$VPS_USER@$VPS_HOST:$REL/"
+
+      - name: Remote build and switch
+        run: |
+          ssh -i ~/.ssh/deploy_key "$VPS_USER@$VPS_HOST" "bash -s" <<REMOTE
+          set -euo pipefail
+          export PATH="\$HOME/.nvm/versions/node/v24.22.2/bin:\$PATH"
+          cd "\$HOME/$REL"
+          # Symlink shared env files
+          ln -sfn "\$HOME/shared/client.env" "\$HOME/$REL/apps/client/.env"
+          ln -sfn "\$HOME/shared/server.env" "\$HOME/$REL/apps/server/.env"
+          ln -sfn "\$HOME/shared/db.env" "\$HOME/$REL/apps/db/.env"
+          # Export GIGET_AUTH for apps/db base-layer fetch
+          set -a; . "\$HOME/shared/db.env"; set +a
+          # Install dependencies
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 pnpm install --frozen-lockfile
+          # Build client and db under nice sequentially (Express server has no build step)
+          cd "\$HOME/$REL/apps/client"
+          NODE_OPTIONS=--max-old-space-size=4096 nice -n 10 pnpm build
+          cd "\$HOME/$REL/apps/db"
+          NODE_OPTIONS=--max-old-space-size=4096 nice -n 10 pnpm build
+          # Switch current symlink atomically
+          ln -sfn "\$HOME/$REL" "\$HOME/current"
+          # Reload PM2 apps from the persistent ecosystem config
+          pm2 reload "\$HOME/ecosystem.config.cjs" --update-env
+          pm2 save
+          # Retain only last 3 releases
+          cd "\$HOME/releases"
+          ls -dt 20* | tail -n +4 | xargs -r rm -rf
+          REMOTE
+
+      - name: Smoke test
+        run: |
+          sleep 5
+          code=$(curl -s -o /dev/null -w '%{http_code}' -L https://beingmomen.com/)
+          api=$(curl -s -o /dev/null -w '%{http_code}' https://api.beingmomen.com/api/v1/landing)
+          db=$(curl -s -o /dev/null -w '%{http_code}' -L https://db.beingmomen.com/)
+          echo "site=$code api=$api db=$db"
+          test "$code" = "200"
+          test "$api" = "200"
+          test "$db" = "200"
