@@ -145,7 +145,7 @@ The workflow writes each app's `.env` from GitHub repository variables
 
 ## Design Context
 
-Visual system documented in [`DESIGN.md`](DESIGN.md) (full spec) and [`.impeccable/design.json`](.impeccable/design.json) (machine-readable tokens + component snippets).
+Visual system documented in [`DESIGN.md`](DESIGN.md) (full spec).
 
 **North Star:** "الحضور الهادئ" (The Quiet Presence) — trust through execution, not declaration.
 
@@ -155,3 +155,7 @@ Visual system documented in [`DESIGN.md`](DESIGN.md) (full spec) and [`.impeccab
 - Display: Rubik (`font-display` class). Two font families only.
 - Elevation: flat by default, shadow only for state (sticky nav, hover) or metaphor (polaroid).
 - **Absolute bans:** gradient text, side-stripe card borders, SaaS hero-metrics template, cream/warm-tinted body background.
+
+<!-- knowledge-pointer -->
+## معرفة المشروع
+اقرأ `docs/knowledge.md` قبل أي مراجعة أو تعديل: حقائق وقواعد عمل خاصة بالمشروع نُقلت من ذاكرة Claude الخاصة بتاريخ 2026-11-02 لتراها كل الأدوات.

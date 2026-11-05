@@ -1,10 +1,17 @@
 {
   "mcpServers": {
     "github": {
-      "command": "npx",
+      "command": "python",
       "args": [
+        "-I",
+        "F:/Code/personal/AI/ai-tools/cross-tool-setup/tools/launcher/acct-run.py",
+        "--",
+        "npx",
         "-y",
-        "@modelcontextprotocol/server-github"
+        "mcp-remote@0.15.2",
+        "https://api.githubcopilot.com/mcp/",
+        "--header",
+        "Authorization:{{$GITHUB_AUTH_HEADER}}"
       ]
     },
     "nuxt-remote": {
